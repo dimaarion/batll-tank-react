@@ -1,13 +1,746 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
+
+/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+    color: #c6bcbc;
+    font-size: 1em;
+    line-height: 1.4;
+    scrollbar-width: thin;
+    scrollbar-color: #ceb423 #1f2324;
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+div{
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    color: #c6bcbc;
 }
+
+.battle-play{
+    position: absolute;
+    top: 0;
+    right: 100px;
+    bottom: 0;
+    margin: auto;
+    width: 267.13px;
+    height: 80px;
+    border-radius: 25px;
+    background: #ffc107;
+    border: 4px  solid #71736f;
+    cursor: pointer;
+}
+
+.battle-level{
+    margin-left: 40px;
+}
+
+.battle-none{
+    top: 500px;
+    right: 0;
+    bottom: 0;
+    left: 200px;
+    margin: auto;
+}
+.battle-play-text{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 71px;
+    white-space: nowrap;
+    text-align: center;
+    align-items: center;
+    color: #1f2324;
+}
+.battle-restart{
+    position: absolute;
+    margin: auto;
+    right: 10px;
+    top: 80px;
+    cursor: pointer;
+}
+
+.battle-list{
+    position: relative;
+    height: 270px;
+    cursor: pointer;
+}
+.battle-list-bg{
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url("./img/gui/block-bg.png");
+}
+
+.battle-view-tank{
+    position: absolute;
+    width: 350px;
+    height: 262px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+
+.battle-options {
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    top: 20px;
+    bottom: 0;
+    right: 180px;
+}
+
+.battle-view-tank-window {
+    position: absolute;
+    width: 162px;
+    height: 262px;
+    background: url("./img/gui/tank-hangar-list-item.png");
+    background-size: cover;
+    right: 15px;
+}
+
+#battle-box-left {
+    position: absolute;
+    width: 400px;
+    height: 487px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%);
+    overflow-y: scroll;
+}
+
+#tank-battle{
+    background: url("./img/gui/batle.png");
+    position: relative;
+    width: 911px;
+    height: 621px;
+    top: 100px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+
+}
+
+.tank-hp{
+    position: absolute;
+    width: 176px;
+    height: 30px;
+    right: 0;
+    top: 50px;
+}
+.tank-hp-text{
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: center;
+    color: #c6bcbc;
+    position: absolute;
+    top: 55px;
+    left: 10px;
+}
+.hp-star{
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#tank-top-panel{
+    position: fixed;
+    padding: 0;
+    z-index: 3;
+    margin: auto;
+    width: 100%;
+    background: #000000b5;
+    top: 0;
+    left: 0;
+    text-align: center;
+}
+
+#tank-top-pause-mtn{
+    position: fixed;
+    padding: 0;
+    margin: auto;
+    width: 100%;
+    top: 20px;
+    right: 20px;
+    text-align: right;
+
+}
+#tank-top-pause-mtn svg{
+    cursor: pointer;
+}
+
+#tank-information-panel{
+    position: fixed;
+    top: 0;
+    text-align: center;
+    margin: auto;
+    right: 0;
+    left: 0;
+}
+
+#tank-live-base-bot{
+    position: absolute;
+    width: 50%;
+    margin: auto;
+    bottom: 0;
+    right: 0;
+}
+#tank-live-base-player{
+    position: absolute;
+    width: 50%;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+}
+
+
+
+.tank-hangar-top-menu {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.tank-hangar-top-menu-title {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 50%;
+    margin: auto;
+}
+
+.tank-hangar-top-menu-title-item {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    grid-column: auto;
+    background-position-x: center !important;
+    cursor: pointer;
+}
+.tank-hangar-top-menu-title-item div{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 35px;
+    white-space: nowrap;
+    color: #c6bcbc;
+}
+.tank-hangar-top-menu-title-item :hover{
+    color: #CEB423;
+}
+
+.tank-title-text {
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 44px;
+    white-space: nowrap;
+    text-align: center;
+    color: #c6bcbc;
+}
+
+.tank-hangar-top-coin {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+}
+
+.tank-hangar-top-coin-text {
+    position: absolute;
+    left: 40px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 21px;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: center;
+    color: #c6bcbc;
+}
+
+.tank-hangar-top-panel {
+    position: relative;
+    width: 100%;
+    height: 59px;
+    background: linear-gradient(270deg, rgba(31, 35, 36, 0.43) 8.59%, rgba(31, 35, 36, 0.8) 17.74%, rgba(31, 35, 36, 0.8) 84.05%, rgba(31, 35, 36, 0.45) 94.38%);
+}
+
+.view-tank {
+    position: absolute;
+    width: 350px;
+    height: 262px;
+    margin: auto;
+    top: -245px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.view-tank-window {
+    position: absolute;
+    width: 162px;
+    height: 262px;
+    background: url(./img/gui/tank-hangar-list-item.png) no-repeat;
+    background-size: cover;
+    right: 0;
+}
+
+.view-tank-window-item {
+    position: absolute;
+    width: 160px;
+    height: 220px;
+
+}
+
+.optionNum {
+    margin-left: 60px;
+    position: absolute;
+    margin-top: -28px;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    color: #bdbdbd;
+}
+
+.position-center-bg {
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position-y: center !important;
+    background-position-x: center !important;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+.tank-hangar-view-bg {
+    background: url(./img/gui/tank-hangar-list-item.png);
+    width: 80px;
+    height: 130.63px;
+    float: left;
+    padding-left: 8px;
+    position: relative;
+    cursor: pointer;
+
+}
+
+.tank-hangar-view {
+    width: 80px;
+    height: 110px;
+    position: absolute;
+
+}
+
+.options {
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    top: 20px;
+    bottom: 0;
+    right: 166px;
+}
+
+.optionItem {
+    width: 150px;
+    height: 35px;
+    border: solid 1px #808080;
+    margin-bottom: 2px;
+    position: relative;
+}
+
+.optionIcon {
+    width: 50px;
+    height: 100%;
+    border-right: solid 1px #808080;
+    text-align: center;
+    text-align-last: center;
+    display: flex;
+    align-items: center; /* Выравнивание по вертикали */
+    justify-content: center;
+}
+
+.tank-coin {
+    position: absolute;
+    width: 213px;
+    height: 30px;
+    left: 267px;
+    top: 50px;
+}
+
+.tank-coin-icon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #1f2324;
+    border: 1px solid #7e8081;
+    text-align: center;
+
+}
+
+.tank-coin-icon svg {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+#tank-coin-text {
+    position: absolute;
+    width: 133px;
+    height: 30px;
+    left: 40px;
+    top: 0px;
+    blend: Normal;
+}
+
+#tank-coin-text-bg {
+    position: absolute;
+    width: 133px;
+    height: 30px;
+    background: #1f2324;
+    border: 1px solid #7e8081;
+}
+
+.tank-coin-btn {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+#tank-coin-text-item {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    width: 26px;
+    height: 21px;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: center;
+    color: #c6bcbc;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px; /* Ширина вертикального скролла */
+    height: 10px; /* Высота горизонтального скролла */
+}
+
+/* Фон полосы прокрутки */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Сам ползунок */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+/* При наведении */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Hide visually and from screen readers
+ */
+
+.hidden,
+[hidden] {
+    display: none !important;
+}
+
+/*
+ * Hide only visually, but have it available for screen readers:
+ * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ *
+ * 1. For long content, line feeds are not interpreted as spaces and small width
+ *    causes content to wrap 1 word per line:
+ *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+ */
+
+.visually-hidden {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    /* 1 */
+}
+
+/*
+ * Extends the .visually-hidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
+ */
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    white-space: inherit;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screen readers, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * The use of `table` rather than `block` is only necessary if using
+ * `::before` to contain the top-margins of child elements.
+ */
+
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}
+
+
+canvas {
+    position: fixed !important;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 1.25dppx),
+(min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   https://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+@media print {
+    *,
+    *::before,
+    *::after {
+        background: #fff !important;
+        color: #000 !important;
+        /* Black prints faster */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]::after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]::after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links that are fragment identifiers,
+     * or use the `javascript:` pseudo protocol
+     */
+    a[href^="#"]::after,
+    a[href^="javascript:"]::after {
+        content: "";
+    }
+
+    pre {
+        white-space: pre-wrap !important;
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
