@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import GamePhaser from "./GamePhaser";
+import TopPanel from "./template/TopPanel";
+import Hangar from "./template/Hangar";
+import Shop from "./template/Shop";
+import {useSelector} from "react-redux";
+import Battle from "./template/Battle";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const selectMenu = useSelector((state) => state.selectMenu)
+    return (
+        <div className="App">
+            <header>
+                <TopPanel/>
+            </header>
+
+            {selectMenu.value === "Ангар"?<Hangar/>:selectMenu.value === "Магазин"?<Shop/>:selectMenu.value === "К бою"?<Battle/>:<GamePhaser/>}
+
+        </div>
+
+    );
 }
 
 export default App;

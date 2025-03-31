@@ -26,6 +26,7 @@ export default class Body {
     attack = 5
     radiusSensor = 300
     hpPlayer
+    scalePule = 0.6
     constraint = {
         main: null,
         head: null,
@@ -57,8 +58,9 @@ export default class Body {
     timer
     shield = 85
     live = 85
+    headerCorpus = {a:20,b:30}
     target
-    scaleTrack = {x:0.8,y:1}
+    scaleTrack = {x:1,y:1}
     worldXY = {x: 0, y: 0}
     action = new Action();
 
@@ -71,15 +73,34 @@ export default class Body {
         this.live = live * 10;
         this.shield = shield * 10;
         this.attack = attack;
-        this.speedPule = speedAttack * 100;
+        this.speedPule = 1000 - speedAttack;
         this.radiusSensor = radiusSensor * 10;
         this.speedTank = speed;
         this.speed = attack
+
+        if(this.corpusImg === "Hull_03"){
+            this.scaleTrack = {x:0.8,y:1}
+            this.scalePule = 0.5
+        }
+        if(this.corpusImg === "Hull_02"){
+            this.scalePule = 0.5
+        }
+        if(this.corpusImg === "Hull_04"){
+            this.scalePule = 0.5
+            this.scaleTrack = {x:0.6,y:0.8}
+        }
+        if(this.corpusImg === "Hull_06"){
+            this.headerCorpus = {a:10,b:20}
+            this.scalePule = 0.4
+        }
+        if(this.corpusImg === "Hull_07"){
+            this.scalePule = 0.8
+            this.scaleTrack = {x:0.8,y:1}
+        }
     }
 
 
     setup(scene) {
-
         this.countTanks += 1;
         this.scene = scene;
         this.healthBar = this.scene.add.graphics();
@@ -97,6 +118,7 @@ export default class Body {
 
         this.sensorHighlight = this.scene.add.graphics();
         this.sensorHighlight.lineStyle(4, 0x808080, 0.5);
+
 
 
         this.hpPlayer = this.scene.matter.add.sprite(this.x, this.y, "HP-player", 0, {
@@ -132,20 +154,17 @@ export default class Body {
         this.constraint.main = this.scene.matter.add.constraint(this.constraint.corpus, this.constraint.head, 0, 0, {
             pointA: {
                 x: 0,
-                y: 20,
+                y: this.headerCorpus.a,
             },
             pointB: {
                 x: 0,
-                y: 30,
+                y: this.headerCorpus.b,
             },
-            damping: 0.2,          // Чуть сглаживаем тряску
-            angularStiffness: 0    // Делаем вращение башни свободным
+            damping: 0.2,
+            angularStiffness: 0
         });
 
-// Сделаем корпус более устойчивым
-        // this.constraint.corpus.setMass(10); // Увеличиваем массу корпуса
-        // this.constraint.corpus.setInertia(Infinity); // Отключаем вращение корпуса
-        // this.constraint.head.setMass(1); // Лёгкая башня
+
 
         this.headSensor = this.scene.matter.add.constraint(this.constraint.head, this.constraint.sensor, 0, 1);
         this.scene.matter.add.constraint(this.constraint.corpus, this.constraint.burning, 0, 1);
@@ -163,11 +182,10 @@ export default class Body {
         this.control.space = scene.input.keyboard.addKey('SPACE');
 
         this.timer = this.scene.time.addEvent({
-            delay: this.speedPule,                // ms
+            delay: this.speedPule,
             callback: () => {
                 this.pule()
             },
-            //args: [],
             callbackScope: this,
             loop: true,
             paused: true
@@ -200,10 +218,7 @@ export default class Body {
         // Устанавливаем угловую скорость
         const angularSpeed = 0.1; // Подбери подходящее значение для скорости
         this.scene.matter.body.setAngularVelocity(this.constraint.corpus.body, angleDiff * angularSpeed);
-//    const length = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
-        //   const speed = 5; // Можно менять скорость
-        //   const velocity = {x: (this.dx / length) * speed, y: (this.dy / length) * speed};
-        // const distance = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
         this.moveTo(this.constraint.corpus.body, x, y)
         if (this.target) {
             const distance = Phaser.Math.Distance.Between(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, this.target.x, this.target.y);
@@ -307,7 +322,7 @@ export default class Body {
                 label: this.namePule,
                 attack: this.attack,
                 bot: this.bot
-            }).setScale(0.8)
+            }).setScale(this.scalePule)
             .setSensor(true).setDepth(2)
             .play("pule-departure-run").once('animationcomplete', () => {
                 if (this.constraint.pule) {
