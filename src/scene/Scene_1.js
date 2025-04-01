@@ -16,6 +16,7 @@ export default class Scene_1 extends Phaser.Scene {
     lastY
     velX = 0
     velY = 0
+    hp = 100
     countBot = 5
     countPlayer = 5
     control = {
@@ -44,20 +45,26 @@ export default class Scene_1 extends Phaser.Scene {
     constructor(props) {
         super("Scene_1");
         this.props = props;
-        this.body = props.battle.value.map((el) => new Body(100, 500, "tank_corpus_" + el.id,el.head,el.corpus,
-            this.action.getOption(el,"live"),
-            this.action.getOption(el,"shield"),
-            this.action.getOption(el,"attack"),
-            this.action.getOption(el,"attack_speed"),
-            this.action.getOption(el,"radius_attack"),
-            this.action.getOption(el,"speed")
-            )
+        this.body = props.battle.value.map((el) => {
+                let b = new Body(100, 500, "tank_corpus_" + el.id, el.head, el.corpus,
+                    this.action.getOption(el, "live"),
+                    this.action.getOption(el, "shield"),
+                    this.action.getOption(el, "attack"),
+                    this.action.getOption(el, "attack_speed"),
+                    this.action.getOption(el, "radius_attack"),
+                    this.action.getOption(el, "speed")
+                )
+                b.id = el.id
+                b.hp = el.hp
+
+                return b;
+            }
         )
     }
 
     create() {
 
-
+        console.log(this.body)
         this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("location_1", "tiles", 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
@@ -82,16 +89,16 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.map.objects.filter((el) => el.name === "tanks")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
-         //   console.log(el)
+            //   console.log(el)
             this.bodyBot[i] = new Bot(el.x, el.y, "bot_corpus_" + i,
-                this.action.getProperties(el,"head"),
-                this.action.getProperties(el,"corpus"),
-                this.action.getProperties(el,"live"),
-                this.action.getProperties(el,"shield"),
-                this.action.getProperties(el,"attack"),
-                this.action.getProperties(el,"attack_speed"),
-                this.action.getProperties(el,"radius_attack"),
-                this.action.getProperties(el,"speed")
+                this.action.getProperties(el, "head"),
+                this.action.getProperties(el, "corpus"),
+                this.action.getProperties(el, "live"),
+                this.action.getProperties(el, "shield"),
+                this.action.getProperties(el, "attack"),
+                this.action.getProperties(el, "attack_speed"),
+                this.action.getProperties(el, "radius_attack"),
+                this.action.getProperties(el, "speed")
             );
             this.bodyBot[i].setup(this)
         })
@@ -188,13 +195,14 @@ export default class Scene_1 extends Phaser.Scene {
         })
         this.matter.world.on("collisionactive", (event) => {
 
-            function rotateHeadPule(el, pair, name = "") {
+            function rotateHeadPule(el, pair, name = "",setHp) {
                 if (name !== "bot") {
                     if (el.constraint.corpus.body.health < 1 || pair.bodyA.healthBase < 1) {
                         el.timer.paused = true
                     } else {
                         if (pair.bodyB.health === 0 || pair.bodyA.healthBase === 0) {
                             el.timer.paused = true
+                            setHp({hp:el.hp += 100,id: el.id})
                         } else {
                             el.timer.paused = false
                             el.constraint.sensor.positionBot = pair.bodyB.position
@@ -226,7 +234,7 @@ export default class Scene_1 extends Phaser.Scene {
             event.pairs.forEach((pair) => {
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
-                        rotateHeadPule(el, pair, "")
+                        rotateHeadPule(el, pair, "",this.props.setHp)
 
                     })
                 }
@@ -269,7 +277,7 @@ export default class Scene_1 extends Phaser.Scene {
             })
 
 
-        })
+        },this)
 
         this.matter.world.on("collisionend", (event) => {
             event.pairs.forEach((pair) => {

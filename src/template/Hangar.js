@@ -14,6 +14,7 @@ export default function Hangar() {
     const [level, setLevel] = useState(getHangar.value[0].level)
     const [hp, setHp] = useState(getHangar.value[0].hp)
     const [id, setId] = useState(getHangar.value[0].id)
+    const [active, setActive] = useState(false)
     const dispatch = useDispatch();
 
     const styles = {
@@ -77,6 +78,14 @@ export default function Hangar() {
         }
     }
 
+    useEffect(() => {
+        const timer = setTimeout(()=>{
+            setActive(false)
+        },800)
+
+        return () => clearTimeout(timer);
+    }, [active])
+
     return <>
 
         <div style={styles.bg}>
@@ -115,14 +124,16 @@ export default function Hangar() {
                                     dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "attack_speed"}))
                                     dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "radius_attack"}))
                                     dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "speed"}))
-                                }} style={styles.plus}><Plus/></div>
+                                }} style={styles.plus}>
+                                    <Plus/>
+                                </div>
                             </div>))}
                         </div>
                     </div>
                     <div style={styles.listBox}>
                         <div style={styles.list}>
                             {getHangar.value.map((el, i) => <div key={i + "list"}
-                                                                 className={"tank-hangar-view-bg position-center-bg"}>
+                                                                 className={el.id === id? " tank-active position-center-bg ":" tank-hangar-view-bg position-center-bg"}>
                                 <div onClick={() => {
                                     setViewTank(el.name);
                                     setCoin(el.coin);

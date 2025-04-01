@@ -8,13 +8,14 @@ import {selectHangar} from "../redux/features/Hangar";
 import Plus from "./Plus";
 import {decrement} from "../redux/features/Money";
 
-export default function Shop(){
+export default function Shop() {
     const getHangar = useSelector((state) => state.hangar)
     const selectMoney = useSelector((state) => state.money);
     const [viewTank, setViewTank] = useState("Hull_01")
     const [options, setOptions] = useState(hangarDef[0].options)
     const [coin, setCoin] = useState(hangarDef[0].coin)
     const [object, setObject] = useState({})
+    const [active, setActive] = useState(false)
     const dispatch = useDispatch();
     const styles = {
         bg: {
@@ -29,9 +30,9 @@ export default function Shop(){
             background: "#3C4546",
             zIndex: 4
         },
-        panel:{
-            position:"relative",
-            top:"100px"
+        panel: {
+            position: "relative",
+            top: "100px"
         },
         box: {
             background: "url(./img/gui/hangar-title-bg.png) no-repeat",
@@ -69,8 +70,12 @@ export default function Shop(){
     }
 
     useEffect(() => {
-        console.log(getHangar)
-    }, [getHangar])
+        const timer = setTimeout(()=>{
+            setActive(false)
+        },800)
+
+        return () => clearTimeout(timer);
+    }, [active])
 
     return <>
 
@@ -88,14 +93,14 @@ export default function Shop(){
                             <div id={"tank-coin-text-item"}>{coin}</div>
                         </div>
                         <div onClick={() => {
-                            if(selectMoney.value >= coin){
+                            if (selectMoney.value >= coin && object.id) {
                                 const maxId = getHangar.value.length > 0
                                     ? Math.max(...getHangar.value.map(obj => obj.id))
                                     : 0;
-                                const updatedObject = { ...object, id: maxId + 1 };
+                                const updatedObject = {...object, id: maxId + 1};
                                 dispatch(selectHangar([...getHangar.value, updatedObject]))
                                 dispatch(decrement(coin))
-                                console.log(coin)
+                                setActive(true)
                             }
 
                         }} className={"tank-coin-btn"}>
@@ -117,7 +122,7 @@ export default function Shop(){
                     <div style={styles.listBox}>
                         <div style={styles.list}>
                             {hangarDef.map((el, i) => <div key={i + "list"}
-                                                           className={"tank-hangar-view-bg position-center-bg"}>
+                                                           className={el.id === object.id? " tank-active position-center-bg ":" tank-hangar-view-bg position-center-bg"}>
                                 <div onClick={() => {
                                     setViewTank(el.name);
                                     setOptions(el.options);
@@ -132,7 +137,9 @@ export default function Shop(){
 
                 </div>
             </div>
-
+            {active ? <div className={"tank-shop-ok"}>
+                Танк добавлен в ангар
+            </div> : ""}
         </div>
     </>
 }

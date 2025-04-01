@@ -25,7 +25,7 @@ export default class Body {
     rotations = 0.01;
     attack = 5
     radiusSensor = 300
-    hpPlayer
+    hpPlayer = 100
     scalePule = 0.6
     constraint = {
         main: null,
@@ -46,6 +46,7 @@ export default class Body {
     corpusImg
     healthBar
     cursorKeys
+    id = 0;
     scale = 0.5
     control = {
         left: false,

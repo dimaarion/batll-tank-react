@@ -14,6 +14,7 @@ import {count} from "./redux/features/CountPlayer";
 import {countBot} from "./redux/features/CounterBot";
 import {live} from "./redux/features/LibeBasePlayer";
 import {liveBot} from "./redux/features/LiveBaseBot";
+import {setHp} from "./redux/features/Hangar";
 
 
 export default function GamePhaser() {
@@ -26,7 +27,7 @@ export default function GamePhaser() {
     const [sec, setSec] = useState(0);
     const [min, setMin] = useState(0);
     const battle = useSelector((state) => state.battle)
-    const [hangar, setHangar] = useState({})
+    const [hps, setHps] = useState({hp:100,id:0})
 
     const props = {
         setSec: setSec,
@@ -35,11 +36,14 @@ export default function GamePhaser() {
         setCountBot:setCountB,
         setLiveBasePlayer:setLiveBasePlayer,
         setLiveBaseBot:setLiveBaseBot,
-        battle:battle
+        battle:battle,
+        setHp:setHps
     }
 
 
-
+    useEffect(() => {
+       console.log(hps)
+    }, [hps])
 
     useEffect(() => {
         dispatch(seconds(sec))

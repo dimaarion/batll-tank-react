@@ -1,11 +1,11 @@
 [
   {
-    "id": 0,
+    "id": 1,
     "name": "Hull_01",
     "corpus": "Hull_01",
     "head": "Gun_01",
-    "coin": 1000,
-    "hp": 100,
+    "coin": 500,
+    "hp": 1000,
     "level": 1,
     "options": [
       {
@@ -41,11 +41,11 @@
     ]
   },
   {
-  "id": 1,
+  "id": 2,
   "name": "Hull_02",
   "corpus": "Hull_02",
   "head": "Gun_02",
-  "coin": 1500,
+  "coin": 500,
     "hp": 100,
     "level": 1,
     "options": [
@@ -82,11 +82,11 @@
     ]
 },
   {
-  "id": 2,
+  "id": 3,
   "name": "Hull_03",
   "corpus": "Hull_03",
   "head": "Gun_03",
-    "coin": 1800,
+    "coin": 400,
     "hp": 100,
     "level": 1,
     "options": [
@@ -123,11 +123,11 @@
     ]
 },
   {
-  "id": 3,
+  "id": 4,
   "name": "Hull_04",
   "corpus": "Hull_04",
   "head": "Gun_04",
-    "coin": 2000,
+    "coin": 350,
     "hp": 100,
     "level": 1,
     "options": [
@@ -164,11 +164,11 @@
     ]
 },
   {
-  "id": 4,
+  "id": 5,
   "name": "Hull_05",
   "corpus": "Hull_05",
   "head": "Gun_05",
-    "coin": 1000,
+    "coin": 450,
     "hp": 100,
     "level": 1,
     "options": [
@@ -205,11 +205,11 @@
     ]
 },
   {
-  "id": 5,
+  "id": 6,
   "name": "Hull_06",
   "corpus": "Hull_06",
   "head": "Gun_06",
-    "coin": 1000,
+    "coin": 600,
     "hp": 100,
     "level": 1,
     "options": [
@@ -246,11 +246,11 @@
     ]
 },
   {
-  "id": 6,
+  "id": 7,
   "name": "Hull_07",
   "corpus": "Hull_07",
   "head": "Gun_07",
-    "coin": 1000,
+    "coin": 300,
     "hp": 100,
     "level": 1,
     "options": [
@@ -287,11 +287,11 @@
     ]
 },
   {
-  "id": 7,
+  "id": 8,
   "name": "Hull_08",
   "corpus": "Hull_08",
   "head": "Gun_08",
-    "coin": 400,
+    "coin": 300,
     "hp": 100,
     "level": 1,
     "options": [
