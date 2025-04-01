@@ -5,6 +5,12 @@ import Clock from "phaser3-rex-plugins/plugins/time/clock/Clock";
 import Bot from "../components/Bot";
 import Action from "../components/Action";
 import hangar from "../json/hangar.json"
+import {seconds} from "../redux/features/Sec";
+import {minute} from "../redux/features/Minutes";
+import {count} from "../redux/features/CountPlayer";
+import {countBot} from "../redux/features/CounterBot";
+import {live} from "../redux/features/LibeBasePlayer";
+import {liveBot} from "../redux/features/LiveBaseBot";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -41,6 +47,8 @@ sec = 0
 min = 0
     props
     bodyBot = []
+    state = {}
+    store = {}
 
     constructor(props) {
         super("Scene_1");
@@ -49,9 +57,9 @@ min = 0
     }
 
     create() {
-        const store = this.registry.get('store'); // Достаём Redux store
-        const state = store.getState();
-        this.body = state.battle.value.map((el) => {
+        this.store = this.registry.get('store'); // Достаём Redux store
+       this.state = this.store.getState();
+        this.body = this.state.battle.value.map((el) => {
                 let b = new Body(100, 500, "tank_corpus_" + el.id, el.head, el.corpus,
                     this.action.getOption(el, "live"),
                     this.action.getOption(el, "shield"),
@@ -66,17 +74,22 @@ min = 0
                 return b;
             }
         )
-        console.log(state);
-        store.subscribe(() => {
-            const newState = store.getState();
+        console.log(this.state);
+        this.store.subscribe(() => {
+            const newState = this.store.getState();
             if (newState.pause.value) {
+                if (this.scene.manager) {
                     this.scene.pause();
+                }
             } else {
+                if (this.scene.manager) {
                     this.scene.resume();
+                }
             }
 
         });
 
+        console.log(this.body)
         this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("location_1", "tiles", 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
@@ -377,7 +390,10 @@ min = 0
         this.time.addEvent({
             delay: 1000,                // ms
             callback: ()=>{
-                this.sec +=1
+                this.store.dispatch(seconds(this.sec += 1));
+                if(this.sec >= 59){
+                    this.sec = 0;
+                }
             },
             //args: [],
             callbackScope: this,
@@ -386,7 +402,10 @@ min = 0
        this.time.addEvent({
             delay: 60000,                // ms
             callback: ()=>{
-                this.min +=1
+                this.store.dispatch(minute(this.min += 1));
+                if(this.min >= 59){
+                    this.min = 0;
+                }
             },
             //args: [],
             callbackScope: this,
@@ -397,9 +416,6 @@ min = 0
 
 
     update(time, delta) {
-
-        this.props.setSec(this.sec >= 60?this.sec = 0:this.sec)
-        this.props.setMin(this.min >= 60?this.min = 0:this.min)
 
         let pointer = this.input.activePointer;
         let worldXY = pointer.positionToCamera(this.cam);
@@ -438,8 +454,9 @@ min = 0
 
         this.countBot = this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus/i)).length
         this.countPlayer = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_corpus/i)).length
-        this.props.setCountPlayer(this.countPlayer)
-        this.props.setCountBot(this.countBot)
+        this.store.dispatch(count(this.countPlayer))
+        this.store.dispatch(countBot(this.countBot))
+
 
 
         this.body.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
@@ -451,8 +468,9 @@ min = 0
         })
 
         this.base.liveDraw()
-        this.props.setLiveBasePlayer((this.base.health / this.base.liveDefault) * 100)
-        this.props.setLiveBaseBot((this.base.healthBot / this.base.liveDefault) * 100)
+        this.store.dispatch(live((this.base.health / this.base.liveDefault) * 100))
+        this.store.dispatch(liveBot((this.base.healthBot / this.base.liveDefault) * 100))
+
 
 
     }

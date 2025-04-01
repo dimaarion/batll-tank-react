@@ -50,33 +50,6 @@ export default function GamePhaser() {
     }, [hps])
 
 
-    useEffect(() => {
-        window.tankPause = selectPause.value;
-    }, [selectPause.value,dispatch])
-
-    useEffect(() => {
-        dispatch(seconds(sec))
-    }, [sec,dispatch])
-
-    useEffect(() => {
-        dispatch(minute(min))
-    }, [min,dispatch])
-
-    useEffect(() => {
-        dispatch(count(countPlayer))
-    }, [countPlayer,dispatch])
-
-    useEffect(() => {
-        dispatch(countBot(countB))
-    }, [countB,dispatch])
-
-    useEffect(() => {
-        dispatch(live(liveBasePlayer))
-    }, [liveBasePlayer,dispatch])
-
-    useEffect(() => {
-        dispatch(liveBot(liveBaseBot))
-    }, [liveBaseBot,dispatch])
 
     useEffect(() => {
         const config = {
