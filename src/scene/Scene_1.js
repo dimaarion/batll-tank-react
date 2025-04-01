@@ -37,15 +37,21 @@ export default class Scene_1 extends Phaser.Scene {
     cameraSpeed = 4;
     action = new Action();
     body = []
-
-
+sec = 0
+min = 0
     props
     bodyBot = []
 
     constructor(props) {
         super("Scene_1");
         this.props = props;
-        this.body = props.battle.value.map((el) => {
+
+    }
+
+    create() {
+        const store = this.registry.get('store'); // Достаём Redux store
+        const state = store.getState();
+        this.body = state.battle.value.map((el) => {
                 let b = new Body(100, 500, "tank_corpus_" + el.id, el.head, el.corpus,
                     this.action.getOption(el, "live"),
                     this.action.getOption(el, "shield"),
@@ -60,11 +66,17 @@ export default class Scene_1 extends Phaser.Scene {
                 return b;
             }
         )
-    }
+        console.log(state);
+        store.subscribe(() => {
+            const newState = store.getState();
+            if (newState.pause.value) {
+                    this.scene.pause();
+            } else {
+                    this.scene.resume();
+            }
 
-    create() {
+        });
 
-        console.log(this.body)
         this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("location_1", "tiles", 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
@@ -195,14 +207,14 @@ export default class Scene_1 extends Phaser.Scene {
         })
         this.matter.world.on("collisionactive", (event) => {
 
-            function rotateHeadPule(el, pair, name = "",setHp) {
+            function rotateHeadPule(el, pair, name = "", setHp) {
                 if (name !== "bot") {
                     if (el.constraint.corpus.body.health < 1 || pair.bodyA.healthBase < 1) {
                         el.timer.paused = true
                     } else {
                         if (pair.bodyB.health === 0 || pair.bodyA.healthBase === 0) {
                             el.timer.paused = true
-                            setHp({hp:el.hp += 100,id: el.id})
+                            setHp({hp: el.hp += 100, id: el.id})
                         } else {
                             el.timer.paused = false
                             el.constraint.sensor.positionBot = pair.bodyB.position
@@ -234,7 +246,7 @@ export default class Scene_1 extends Phaser.Scene {
             event.pairs.forEach((pair) => {
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
-                        rotateHeadPule(el, pair, "",this.props.setHp)
+                        rotateHeadPule(el, pair, "", this.props.setHp)
 
                     })
                 }
@@ -277,7 +289,7 @@ export default class Scene_1 extends Phaser.Scene {
             })
 
 
-        },this)
+        }, this)
 
         this.matter.world.on("collisionend", (event) => {
             event.pairs.forEach((pair) => {
@@ -340,7 +352,11 @@ export default class Scene_1 extends Phaser.Scene {
 
         })
 
+
+
+
         this.input.on('pointerdown', (pointer) => {
+
             let worldXY = pointer.positionToCamera(this.cam);
             if (!this.activePoint) {
                 this.tankName = this.activeObject
@@ -358,16 +374,33 @@ export default class Scene_1 extends Phaser.Scene {
             })
         });
 
+        this.time.addEvent({
+            delay: 1000,                // ms
+            callback: ()=>{
+                this.sec +=1
+            },
+            //args: [],
+            callbackScope: this,
+            loop: true
+        });
+       this.time.addEvent({
+            delay: 60000,                // ms
+            callback: ()=>{
+                this.min +=1
+            },
+            //args: [],
+            callbackScope: this,
+            loop: true
+        });
 
     }
 
 
     update(time, delta) {
-        // this.topPanel.getSec(Math.floor(this.clock.seek(time).now / 1000) % 60,this.clock)
-        //  this.topPanel.getMin(Math.floor(this.clock.seek(time).now / 60000))
-        this.props.setSec(this.action.seconds(time, this.clock))
-        this.props.setMin(Math.floor(this.clock.seek(time).now / 60000))
-        //  console.log()
+
+        this.props.setSec(this.sec >= 60?this.sec = 0:this.sec)
+        this.props.setMin(this.min >= 60?this.min = 0:this.min)
+
         let pointer = this.input.activePointer;
         let worldXY = pointer.positionToCamera(this.cam);
         if (this.control.space.isDown) {
@@ -407,8 +440,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.countPlayer = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_corpus/i)).length
         this.props.setCountPlayer(this.countPlayer)
         this.props.setCountBot(this.countBot)
-        //  this.topPanel.getCountBot(this.countBot);
-        //  this.topPanel.getCountPlayer(this.countPlayer);
+
 
         this.body.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
             el.draw();
@@ -421,8 +453,8 @@ export default class Scene_1 extends Phaser.Scene {
         this.base.liveDraw()
         this.props.setLiveBasePlayer((this.base.health / this.base.liveDefault) * 100)
         this.props.setLiveBaseBot((this.base.healthBot / this.base.liveDefault) * 100)
-        // this.topPanel.getBasePlayer((this.base.health / this.base.liveDefault) * 100)
-        // this.topPanel.getBaseBot((this.base.healthBot / this.base.liveDefault) * 100)
+
+
     }
 
 }

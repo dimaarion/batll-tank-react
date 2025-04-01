@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import {useEffect, useRef, useState} from "react";
+import store from "./redux/store";
 import VirtualJoystickPlugin from 'phaser3-rex-plugins/plugins/virtualjoystick-plugin.js';
 import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import BoardPlugin from "phaser3-rex-plugins/plugins/board-plugin";
@@ -26,7 +27,9 @@ export default function GamePhaser() {
     const [liveBaseBot, setLiveBaseBot] = useState(100);
     const [sec, setSec] = useState(0);
     const [min, setMin] = useState(0);
+    const [pause, setPause] = useState(false);
     const battle = useSelector((state) => state.battle)
+    const selectPause = useSelector((state) => state.pause)
     const [hps, setHps] = useState({hp:100,id:0})
 
     const props = {
@@ -37,13 +40,19 @@ export default function GamePhaser() {
         setLiveBasePlayer:setLiveBasePlayer,
         setLiveBaseBot:setLiveBaseBot,
         battle:battle,
-        setHp:setHps
+        setHp:setHps,
+
     }
+  //  window.tankBattle = []
+
+    useEffect(() => {
+        console.log(hps)
+    }, [hps])
 
 
     useEffect(() => {
-       console.log(hps)
-    }, [hps])
+        window.tankPause = selectPause.value;
+    }, [selectPause.value,dispatch])
 
     useEffect(() => {
         dispatch(seconds(sec))
@@ -155,6 +164,7 @@ export default function GamePhaser() {
         };
 
         const game = new Phaser.Game(config);
+        game.registry.set('store', store);
         window.addEventListener('resize', event => {
             game.scale.resize(window.innerWidth, window.innerHeight);
         }, false);

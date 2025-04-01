@@ -9,6 +9,7 @@ import {hangar} from "./features/Hangar";
 import {selectMenu} from "./features/SelectMenu";
 import {money} from "./features/Money";
 import {battle} from "./features/Battle";
+import {pause} from "./features/Pause";
 
 
 
@@ -26,6 +27,7 @@ export default configureStore({
         hangar:hangar.reducer,
         selectMenu:selectMenu.reducer,
         money:money.reducer,
-        battle:battle.reducer
+        battle:battle.reducer,
+        pause:pause.reducer
     },
 })

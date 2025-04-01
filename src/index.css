@@ -19,7 +19,195 @@ html {
     scrollbar-color: #ceb423 #1f2324;
 
 }
-.tank-active{
+
+
+.title-bg {
+    background: url("./img/gui/hangar-title.png");
+    position: absolute;
+    width: 295px;
+    height: 68px;
+    left: 155px;
+    top: 0;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.left-0 {
+    left: 0;
+}
+
+.right-0 {
+    right: 0;
+}
+
+.bottom-0 {
+    bottom: 0;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+.font-title {
+    font-size: 24pt;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.title-text {
+    height: 50px;
+    text-align: center;
+    width: 100%;
+    font-size: 24pt;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.w-50px {
+    width: 50px;
+}
+
+.h-50px {
+    height: 50px;
+}
+
+.b-100 {
+    bottom: 100px;
+}
+
+.b-130 {
+    bottom: 130px;
+}
+.tank-btn{
+    fill: #CEB423;
+}
+
+svg :hover .tank-btn{
+    fill: #61dafb;
+}
+.r-70{
+    right: 70px;
+}
+
+
+.left-50 {
+    left: 50px;
+}
+
+#tank-pause {
+    position: absolute;
+    width: 627px;
+    height: 469px;
+    top: 0;
+    z-index: 6;
+}
+
+.tank-pause-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    background: #1f2324;
+    opacity: 0.8;
+
+}
+
+.tank-sound-icon {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50px;
+    top: 200px;
+}
+
+.range::-webkit-slider-thumb {
+    width: 8px;
+    height: 14px;
+    background-color: #ceb423;
+    appearance: none;
+}
+
+
+.range::-moz-range-thumb {
+    width: 8px;
+    height: 14px;
+    border-radius: 3px;
+    background: #ceb423;
+    appearance: none;
+    border: 0;
+}
+
+
+.range {
+    left: 100px;
+    width: 359px;
+    height: 20px;
+    background: #1f2324;
+}
+
+.range-line {
+    width: 340px;
+    height: 2px;
+    background: #7E8081;
+    position: absolute;
+    margin: auto;
+    left: 110px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+
+.tank-music-icon {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50px;
+    top: 110px;
+}
+
+
+#tank-pause-close {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 582px;
+    top: 47px;
+}
+
+.tank-pause-box-bg {
+    position: absolute;
+    width: 608px;
+    height: 318px;
+    top: 71px;
+    background: url("./img/gui/pause-box-bg.png");
+}
+
+.tank-active {
     background: url("./img/gui/tank-hangar-list-item-active.png");
     width: 80px;
     height: 130.63px;
@@ -29,14 +217,14 @@ html {
     cursor: pointer;
 }
 
-div{
+div {
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 400;
     color: #c6bcbc;
 }
 
-.tank-shop-ok{
+.tank-shop-ok {
     position: absolute;
     top: 0;
     right: 0;
@@ -51,7 +239,7 @@ div{
     background: url("./img/gui/block-bg.png");
 }
 
-.battle-play{
+.battle-play {
     position: absolute;
     top: 0;
     right: 100px;
@@ -61,22 +249,23 @@ div{
     height: 80px;
     border-radius: 25px;
     background: #ffc107;
-    border: 4px  solid #71736f;
+    border: 4px solid #71736f;
     cursor: pointer;
 }
 
-.battle-level{
+.battle-level {
     margin-left: 40px;
 }
 
-.battle-none{
+.battle-none {
     top: 500px;
     right: 0;
     bottom: 0;
     left: 200px;
     margin: auto;
 }
-.battle-play-text{
+
+.battle-play-text {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -90,7 +279,8 @@ div{
     align-items: center;
     color: #1f2324;
 }
-.battle-restart{
+
+.battle-restart {
     position: absolute;
     margin: auto;
     right: 10px;
@@ -98,12 +288,13 @@ div{
     cursor: pointer;
 }
 
-.battle-list{
+.battle-list {
     position: relative;
     height: 270px;
     cursor: pointer;
 }
-.battle-list-bg{
+
+.battle-list-bg {
     position: absolute;
     height: 100px;
     width: 100%;
@@ -115,7 +306,7 @@ div{
     background: url("./img/gui/block-bg.png");
 }
 
-.battle-view-tank{
+.battle-view-tank {
     position: absolute;
     width: 350px;
     height: 262px;
@@ -156,7 +347,7 @@ div{
     overflow-y: scroll;
 }
 
-#tank-battle{
+#tank-battle {
     background: url("./img/gui/batle.png");
     position: relative;
     width: 911px;
@@ -169,14 +360,15 @@ div{
 
 }
 
-.tank-hp{
+.tank-hp {
     position: absolute;
     width: 176px;
     height: 30px;
     right: 0;
     top: 50px;
 }
-.tank-hp-text{
+
+.tank-hp-text {
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 400;
@@ -189,7 +381,8 @@ div{
     top: 55px;
     left: 10px;
 }
-.hp-star{
+
+.hp-star {
     margin: auto;
     left: 0;
     right: 0;
@@ -197,7 +390,7 @@ div{
     bottom: 0;
 }
 
-#tank-top-panel{
+#tank-top-panel {
     position: fixed;
     padding: 0;
     z-index: 3;
@@ -209,7 +402,7 @@ div{
     text-align: center;
 }
 
-#tank-top-pause-mtn{
+#tank-top-pause-mtn {
     position: fixed;
     padding: 0;
     margin: auto;
@@ -219,11 +412,12 @@ div{
     text-align: right;
 
 }
-#tank-top-pause-mtn svg{
+
+#tank-top-pause-mtn svg {
     cursor: pointer;
 }
 
-#tank-information-panel{
+#tank-information-panel {
     position: fixed;
     top: 0;
     text-align: center;
@@ -232,21 +426,21 @@ div{
     left: 0;
 }
 
-#tank-live-base-bot{
+#tank-live-base-bot {
     position: absolute;
     width: 50%;
     margin: auto;
     bottom: 0;
     right: 0;
 }
-#tank-live-base-player{
+
+#tank-live-base-player {
     position: absolute;
     width: 50%;
     margin: auto;
     bottom: 0;
     left: 0;
 }
-
 
 
 .tank-hangar-top-menu {
@@ -273,7 +467,8 @@ div{
     background-position-x: center !important;
     cursor: pointer;
 }
-.tank-hangar-top-menu-title-item div{
+
+.tank-hangar-top-menu-title-item div {
     position: absolute;
     left: 0;
     right: 0;
@@ -291,7 +486,8 @@ div{
     white-space: nowrap;
     color: #c6bcbc;
 }
-.tank-hangar-top-menu-title-item :hover{
+
+.tank-hangar-top-menu-title-item :hover {
     color: #CEB423;
 }
 

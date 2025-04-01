@@ -4,6 +4,7 @@ import {addBattle,removeBattle} from "../redux/features/Battle";
 import RestartBtn from "./RestartBtn";
 import PlayBattle from "./PlayBattle";
 import {setMenu} from "../redux/features/SelectMenu";
+import {increment} from "../redux/features/Pause";
 
 export default function Battle() {
     const dispatch = useDispatch();
@@ -51,12 +52,17 @@ export default function Battle() {
         <div style={styles.bg}>
             <Menu/>
             <div id={"tank-battle"}>
-                <div onClick={()=>dispatch(removeBattle())} className={"battle-restart"}>
+                <div onClick={()=> {
+                    dispatch(removeBattle())
+                }} className={"battle-restart"}>
                     <RestartBtn/>
                 </div>
                 {
                     battle.value.length > 0?<div className={"battle-play"}>
-                        <div onClick={()=>dispatch(setMenu(""))} className={"battle-play-text "}>В бой</div>
+                        <div onClick={()=> {
+                            dispatch(setMenu(""))
+                            window.tankStart = true;
+                        }} className={"battle-play-text "}>В бой</div>
                     </div>:<div className={"battle-play-text battle-none"}> Выбери минимум один танк </div>
                 }
                 <div id={"battle-box-left"}>

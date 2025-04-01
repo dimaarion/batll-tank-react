@@ -4,7 +4,7 @@ export default function RestartBtn(){
             <g transform="translate(1.5 0)">
                 <g fill="#1F2324" fillRule="evenodd">
                     <rect width="49.99" height="49.99" />
-                    <path d="M49.99 0L0 0L0 49.99L49.99 49.99L49.99 0ZM4 45.99L4 4L45.99 4L45.99 45.99L4 45.99Z" fill="#CEB423" fillRule="evenodd" />
+                    <path d="M49.99 0L0 0L0 49.99L49.99 49.99L49.99 0ZM4 45.99L4 4L45.99 4L45.99 45.99L4 45.99Z" className={"tank-btn"} fillRule="evenodd" />
                 </g>
                 <g transform="translate(0 13.122)">
                     <path d="M0 0L50 0" fill="#3C4546" fillRule="evenodd" strokeWidth="3" stroke="#1F2324" strokeLinecap="square" transform="translate(0 23.745)" />

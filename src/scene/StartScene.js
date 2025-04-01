@@ -5,6 +5,15 @@ export default class StartScene extends Phaser.Scene{
   }
 
 create(){
+
+
   this.scene.start("Scene_1");
+
 }
+
+update(time, delta) {
+
+
+}
+
 }
