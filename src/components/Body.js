@@ -356,12 +356,9 @@ export default class Body {
         if (healthWidth < 20) {
             this.healthBar.fillStyle(0xff0000, 1);
         }
-        if (healthWidth < 10) {
-
-        }
         if (healthWidth < 1) {
             this.scene.matter.world.remove(this.constraint.corpus);
-            this.constraint.burning.play("burning", true)
+            this.constraint.burning.play("burning", true);
 
         }
         this.healthBar.fillRect(this.constraint.corpus.body.position.x - 22, this.constraint.corpus.body.position.y - 92, healthWidth, 8);

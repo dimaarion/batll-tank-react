@@ -11,6 +11,7 @@ import {count} from "../redux/features/CountPlayer";
 import {countBot} from "../redux/features/CounterBot";
 import {live} from "../redux/features/LibeBasePlayer";
 import {liveBot} from "../redux/features/LiveBaseBot";
+import {setHp} from "../redux/features/Hangar";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -43,8 +44,8 @@ export default class Scene_1 extends Phaser.Scene {
     cameraSpeed = 4;
     action = new Action();
     body = []
-sec = 0
-min = 0
+    sec = 0
+    min = 0
     props
     bodyBot = []
     state = {}
@@ -58,7 +59,7 @@ min = 0
 
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
-       this.state = this.store.getState();
+        this.state = this.store.getState();
         this.body = this.state.battle.value.map((el) => {
                 let b = new Body(100, 500, "tank_corpus_" + el.id, el.head, el.corpus,
                     this.action.getOption(el, "live"),
@@ -220,18 +221,19 @@ min = 0
         })
         this.matter.world.on("collisionactive", (event) => {
 
-            function rotateHeadPule(el, pair, name = "", setHp) {
+            function rotateHeadPule(el, pair, name = "", store) {
                 if (name !== "bot") {
                     if (el.constraint.corpus.body.health < 1 || pair.bodyA.healthBase < 1) {
-                        el.timer.paused = true
+                        el.timer.paused = true;
                     } else {
                         if (pair.bodyB.health === 0 || pair.bodyA.healthBase === 0) {
-                            el.timer.paused = true
-                            setHp({hp: el.hp += 100, id: el.id})
+                            el.timer.paused = true;
+                            store.dispatch(setHp({id: el.id, hp: el.hp += 100}));
+                            //  setHp({hp: el.hp += 100, id: el.id})
                         } else {
-                            el.timer.paused = false
+                            el.timer.paused = false;
                             el.constraint.sensor.positionBot = pair.bodyB.position
-                            pair.bodyA.sensorActive = true
+                            pair.bodyA.sensorActive = true;
                             //  el.rotateHead(pair.bodyA.headObject.body, pair.bodyB.position.x, pair.bodyB.position.y, true)
                         }
 
@@ -259,7 +261,7 @@ min = 0
             event.pairs.forEach((pair) => {
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
-                        rotateHeadPule(el, pair, "", this.props.setHp)
+                        rotateHeadPule(el, pair, "", this.store)
 
                     })
                 }
@@ -366,8 +368,6 @@ min = 0
         })
 
 
-
-
         this.input.on('pointerdown', (pointer) => {
 
             let worldXY = pointer.positionToCamera(this.cam);
@@ -389,9 +389,9 @@ min = 0
 
         this.time.addEvent({
             delay: 1000,                // ms
-            callback: ()=>{
+            callback: () => {
                 this.store.dispatch(seconds(this.sec += 1));
-                if(this.sec >= 59){
+                if (this.sec >= 59) {
                     this.sec = 0;
                 }
             },
@@ -399,11 +399,11 @@ min = 0
             callbackScope: this,
             loop: true
         });
-       this.time.addEvent({
+        this.time.addEvent({
             delay: 60000,                // ms
-            callback: ()=>{
+            callback: () => {
                 this.store.dispatch(minute(this.min += 1));
-                if(this.min >= 59){
+                if (this.min >= 59) {
                     this.min = 0;
                 }
             },
@@ -458,7 +458,6 @@ min = 0
         this.store.dispatch(countBot(this.countBot))
 
 
-
         this.body.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
             el.draw();
         })
@@ -470,7 +469,6 @@ min = 0
         this.base.liveDraw()
         this.store.dispatch(live((this.base.health / this.base.liveDefault) * 100))
         this.store.dispatch(liveBot((this.base.healthBot / this.base.liveDefault) * 100))
-
 
 
     }
