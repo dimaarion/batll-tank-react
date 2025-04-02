@@ -25,7 +25,7 @@ export default class Base {
     this.bodyPlayer = this.bodyPlayer.map((el) => {
       this.HPBasePlayer = this.scene.matter.add.image(el.x, el.y - 150, "HPBasePlayer").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true})
       //  this.sensorPlayer = this.scene.matter.add.circle(el.x,el.y,500,{isSensor:true,label:"base-player-sensor"})
-      return this.scene.matter.add.gameObject(el, {label: "base_tank"}).setTexture('base-player').setRectangle(300, 300, {
+      return this.scene.matter.add.gameObject(el, {label: "tank_base"}).setTexture('base-player').setRectangle(300, 300, {
         isStatic: true,
         label: "tank_base",
         healthBase: this.health
@@ -79,9 +79,7 @@ export default class Base {
 
         }
         if (healthWidth < 1) {
-          // this.scene.matter.world.remove(this.constraint.corpus);
-          // this.constraint.burning.play("burning", true)
-
+           this.scene.matter.world.remove(obj);
         }
         graphic.fillRect(x, y, healthWidth, 10);
         live = healthWidth

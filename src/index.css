@@ -17,7 +17,9 @@ html {
     line-height: 1.4;
     scrollbar-width: thin;
     scrollbar-color: #ceb423 #1f2324;
-
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 
@@ -42,9 +44,34 @@ html {
     top: 0;
 }
 
+.top-30{
+    top: 30px;
+}
+
+.top-50 {
+    top: 50px;
+}
+
+.top-100{
+    top: 100px;
+}
+
+.top-120{
+    top: 120px;
+}
+
 .left-0 {
     left: 0;
 }
+
+.left-30{
+    left: 30px;
+}
+
+.left-60{
+    left: 60px;
+}
+
 
 .right-0 {
     right: 0;
@@ -73,8 +100,24 @@ html {
     font-size: 24pt;
 }
 
+.w-25{
+    width: 25px;
+}
+
 .w-100 {
     width: 100%;
+}
+
+.w-200{
+    width: 200px;
+}
+
+.h-25{
+    height: 25px;
+}
+
+.h-30{
+    height: 30px;
 }
 
 .h-100 {
@@ -110,6 +153,11 @@ svg :hover .tank-btn{
 
 .left-50 {
     left: 50px;
+}
+
+
+.tank-icon{
+    background: url("./img/gui/tank-icon.png");
 }
 
 #tank-pause {

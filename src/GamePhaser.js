@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import {useEffect, useRef, useState} from "react";
 import store from "./redux/store";
 import VirtualJoystickPlugin from 'phaser3-rex-plugins/plugins/virtualjoystick-plugin.js';
+import ScaleOuterPlugin from 'phaser3-rex-plugins/plugins/scaleouter-plugin.js';
 import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import BoardPlugin from "phaser3-rex-plugins/plugins/board-plugin";
 import SliderPlugin from "phaser3-rex-plugins/plugins/slider-plugin";
@@ -9,45 +10,21 @@ import Preload from "./scene/Preload";
 import StartScene from "./scene/StartScene";
 import Scene_1 from "./scene/Scene_1";
 import {useDispatch, useSelector} from "react-redux";
-import {seconds} from "./redux/features/Sec";
-import {minute} from "./redux/features/Minutes";
-import {count} from "./redux/features/CountPlayer";
-import {countBot} from "./redux/features/CounterBot";
-import {live} from "./redux/features/LibeBasePlayer";
-import {liveBot} from "./redux/features/LiveBaseBot";
-import {setHp} from "./redux/features/Hangar";
+
 
 
 export default function GamePhaser() {
     const dispatch = useDispatch();
     const phaserRef = useRef(null);
-    const [countPlayer, setCountPlayer] = useState(0);
-    const [countB, setCountB] = useState(0);
-    const [liveBasePlayer, setLiveBasePlayer] = useState(100);
-    const [liveBaseBot, setLiveBaseBot] = useState(100);
-    const [sec, setSec] = useState(0);
-    const [min, setMin] = useState(0);
-    const [pause, setPause] = useState(false);
     const battle = useSelector((state) => state.battle)
-    const selectPause = useSelector((state) => state.pause)
-    const [hps, setHps] = useState({hp:100,id:0})
 
-    const props = {
-        setSec: setSec,
-        setMin: setMin,
-        setCountPlayer:setCountPlayer,
-        setCountBot:setCountB,
-        setLiveBasePlayer:setLiveBasePlayer,
-        setLiveBaseBot:setLiveBaseBot,
-        battle:battle,
-        setHp:setHps,
 
-    }
+
   //  window.tankBattle = []
 
     useEffect(() => {
-        console.log(hps)
-    }, [hps])
+        console.log(battle)
+    }, [battle])
 
 
 
@@ -57,6 +34,12 @@ export default function GamePhaser() {
             width: window.innerWidth,
             height: window.innerHeight,
             backgroundColor: "#000",
+            scale: {
+                mode: Phaser.Scale.RESIZE,
+                autoCenter: Phaser.Scale.NONE,
+                width: 1920,    // Default game window width
+                height: 900,
+            },
             plugins: {
                 global: [{
                     key: 'rexvirtualjoystickplugin',
@@ -67,7 +50,6 @@ export default function GamePhaser() {
                     plugin: SliderPlugin,
                     start: true
                 }
-
                 ],
                 scene: [
                     {
@@ -88,6 +70,10 @@ export default function GamePhaser() {
                         plugin: VirtualJoystickPlugin,
                         mapping: 'rexvirtualjoystickplugin',
                         start: true
+                    },{
+                        key: 'rexScaleOuter',
+                        plugin: ScaleOuterPlugin,
+                        mapping: 'rexScaleOuter'
                     }
                 ]
             },
@@ -132,15 +118,19 @@ export default function GamePhaser() {
             scene: [
                 Preload,
                 StartScene,
-                new Scene_1(props)
+                Scene_1
             ],
         };
 
         const game = new Phaser.Game(config);
         game.registry.set('store', store);
-        window.addEventListener('resize', event => {
-            game.scale.resize(window.innerWidth, window.innerHeight);
-        }, false);
+       // game.scale.on('resize', function(gameSize, baseSize, displaySize, previousWidth, previousHeight) {
+          //  game.scale.resize(previousWidth, previousHeight);
+          //  console.log(gameSize)
+       // });
+       // window.addEventListener('resize', event => {
+           // game.scale.resize(window.innerWidth, window.innerHeight);
+      //  }, false);
         if (game.sound.context.state !== "closed") {
             game.sound.context.resume().catch(err => console.error(err));
         }

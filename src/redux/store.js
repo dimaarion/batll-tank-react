@@ -10,6 +10,7 @@ import {selectMenu} from "./features/SelectMenu";
 import {money} from "./features/Money";
 import {battle} from "./features/Battle";
 import {pause} from "./features/Pause";
+import {gameOver} from "./features/GameOver";
 
 
 
@@ -28,6 +29,7 @@ export default configureStore({
         selectMenu:selectMenu.reducer,
         money:money.reducer,
         battle:battle.reducer,
-        pause:pause.reducer
+        pause:pause.reducer,
+        gameOver:gameOver.reducer
     },
 })

@@ -216,8 +216,8 @@
                         }, 
                         {
                          "name":"level",
-                         "type":"string",
-                         "value":"1"
+                         "type":"int",
+                         "value":1
                         }, 
                         {
                          "name":"live",
@@ -273,8 +273,8 @@
                         }, 
                         {
                          "name":"level",
-                         "type":"string",
-                         "value":"1"
+                         "type":"int",
+                         "value":1
                         }, 
                         {
                          "name":"live",
@@ -330,8 +330,8 @@
                         }, 
                         {
                          "name":"level",
-                         "type":"string",
-                         "value":"1"
+                         "type":"int",
+                         "value":2
                         }, 
                         {
                          "name":"live",

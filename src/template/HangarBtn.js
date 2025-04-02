@@ -1,14 +1,15 @@
 import {useDispatch} from "react-redux";
 import {setMenu} from "../redux/features/SelectMenu";
 import {decrement, increment} from "../redux/features/Pause";
+import {gameOverClose} from "../redux/features/GameOver";
 
 export default function HangarBtn(){
     const dispatch = useDispatch();
     return <>
         <svg onClick={()=> {
-            dispatch(setMenu("К бою"))
-            dispatch(decrement())
-            window.tankStart = false;
+            dispatch(setMenu("К бою"));
+            dispatch(decrement());
+            dispatch(gameOverClose())
         }} width="53" height="49.99" viewBox="0 0 53 49.99" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(1.5 0)">
                 <g>

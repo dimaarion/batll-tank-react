@@ -29,8 +29,9 @@ export const hangar = createSlice({
             }
         },
         setHp:(state, action)=>{
+
             state.value = state.value.map(el => {
-                if (el.id === action.payload.id) {return {...el, hp: action.payload.hp};}
+                if (el.id === action.payload.id) {return {...el, hp: el.hp += action.payload.hp};}
                 return el; // Остальные элементы возвращаем без изменений
             });
 

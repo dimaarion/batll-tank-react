@@ -12,6 +12,7 @@ import {countBot} from "../redux/features/CounterBot";
 import {live} from "../redux/features/LibeBasePlayer";
 import {liveBot} from "../redux/features/LiveBaseBot";
 import {setHp} from "../redux/features/Hangar";
+import {gameOverOpen} from "../redux/features/GameOver";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -26,6 +27,7 @@ export default class Scene_1 extends Phaser.Scene {
     hp = 100
     countBot = 5
     countPlayer = 5
+    countPlayerBase = 0
     control = {
         left: false,
         right: false,
@@ -46,14 +48,13 @@ export default class Scene_1 extends Phaser.Scene {
     body = []
     sec = 0
     min = 0
-    props
     bodyBot = []
     state = {}
     store = {}
 
-    constructor(props) {
+    constructor() {
         super("Scene_1");
-        this.props = props;
+
 
     }
 
@@ -78,7 +79,7 @@ export default class Scene_1 extends Phaser.Scene {
         console.log(this.state);
         this.store.subscribe(() => {
             const newState = this.store.getState();
-            if (newState.pause.value) {
+            if (newState.pause.value || newState.gameOver.value) {
                 if (this.scene.manager) {
                     this.scene.pause();
                 }
@@ -101,9 +102,12 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.createDebugGraphic();
         this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
-        this.cameras.main.zoom = 1;
+        this.cameras.main.setZoom(1);
         this.matter.world.setBounds(0, -100, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, -100, this.map.widthInPixels, this.map.heightInPixels);
+        this.rexScaleOuter.add(this.cam);
+console.log(this.cam)
+
         this.base.setup();
 
         //this.cameras.main.roundPixels = true;
@@ -126,9 +130,10 @@ export default class Scene_1 extends Phaser.Scene {
                 this.action.getProperties(el, "radius_attack"),
                 this.action.getProperties(el, "speed")
             );
+            this.bodyBot[i].level = this.action.getProperties(el, "level")
             this.bodyBot[i].setup(this)
         })
-
+console.log(this.bodyBot)
 
         this.clock = new Clock(this);
         this.clock.start()
@@ -222,19 +227,19 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.on("collisionactive", (event) => {
 
             function rotateHeadPule(el, pair, name = "", store) {
+
                 if (name !== "bot") {
                     if (el.constraint.corpus.body.health < 1 || pair.bodyA.healthBase < 1) {
                         el.timer.paused = true;
                     } else {
                         if (pair.bodyB.health === 0 || pair.bodyA.healthBase === 0) {
+                            store.dispatch(setHp({id: el.id, hp: 100}));
                             el.timer.paused = true;
-                            store.dispatch(setHp({id: el.id, hp: el.hp += 100}));
-                            //  setHp({hp: el.hp += 100, id: el.id})
                         } else {
                             el.timer.paused = false;
                             el.constraint.sensor.positionBot = pair.bodyB.position
                             pair.bodyA.sensorActive = true;
-                            //  el.rotateHead(pair.bodyA.headObject.body, pair.bodyB.position.x, pair.bodyB.position.y, true)
+
                         }
 
                     }
@@ -248,7 +253,7 @@ export default class Scene_1 extends Phaser.Scene {
                             el.timer.paused = false
                             el.constraint.sensor.positionBot = pair.bodyA.position
                             pair.bodyB.sensorActive = true
-                            //   el.rotateHead(pair.bodyB.headObject.body, pair.bodyA.position.x, pair.bodyA.position.y, true)
+
                         }
 
                     }
@@ -454,6 +459,11 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.countBot = this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus/i)).length
         this.countPlayer = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_corpus/i)).length
+        this.countPlayerBase = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_base/i)).length
+
+        if(this.countPlayer === 0 || this.countPlayerBase === 0){
+            this.store.dispatch(gameOverOpen())
+        }
         this.store.dispatch(count(this.countPlayer))
         this.store.dispatch(countBot(this.countBot))
 
@@ -467,10 +477,13 @@ export default class Scene_1 extends Phaser.Scene {
         })
 
         this.base.liveDraw()
+
         this.store.dispatch(live((this.base.health / this.base.liveDefault) * 100))
         this.store.dispatch(liveBot((this.base.healthBot / this.base.liveDefault) * 100))
 
 
     }
+
+
 
 }
