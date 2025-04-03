@@ -57,6 +57,7 @@ export default function Battle() {
                 }} className={"battle-restart"}>
                     <RestartBtn/>
                 </div>
+                <div className={"absolute left-0"}>Ур. 1</div>
                 {
                     battle.value.length > 0?<div className={"battle-play"}>
                         <div onClick={()=> {

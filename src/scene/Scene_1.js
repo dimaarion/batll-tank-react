@@ -4,7 +4,7 @@ import Base from "../components/Base";
 import Clock from "phaser3-rex-plugins/plugins/time/clock/Clock";
 import Bot from "../components/Bot";
 import Action from "../components/Action";
-import hangar from "../json/hangar.json"
+
 import {seconds} from "../redux/features/Sec";
 import {minute} from "../redux/features/Minutes";
 import {count} from "../redux/features/CountPlayer";
@@ -13,6 +13,7 @@ import {live} from "../redux/features/LibeBasePlayer";
 import {liveBot} from "../redux/features/LiveBaseBot";
 import {setHp} from "../redux/features/Hangar";
 import {gameOverOpen} from "../redux/features/GameOver";
+import {none,one,two,three} from "../redux/features/Stsr";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -24,10 +25,13 @@ export default class Scene_1 extends Phaser.Scene {
     lastY
     velX = 0
     velY = 0
-    hp = 100
+    hp = 0
+    arrHp = []
+    defaultHp = 0;
     countBot = 5
     countPlayer = 5
     countPlayerBase = 0
+    countBotBase = 0
     control = {
         left: false,
         right: false,
@@ -51,6 +55,8 @@ export default class Scene_1 extends Phaser.Scene {
     bodyBot = []
     state = {}
     store = {}
+    killedBot = 0;
+    killedPlayer = 0;
 
     constructor() {
         super("Scene_1");
@@ -76,10 +82,10 @@ export default class Scene_1 extends Phaser.Scene {
                 return b;
             }
         )
-        console.log(this.state);
+
         this.store.subscribe(() => {
             const newState = this.store.getState();
-            if (newState.pause.value || newState.gameOver.value) {
+            if (newState.pause.value || newState.gameOver.value.active) {
                 if (this.scene.manager) {
                     this.scene.pause();
                 }
@@ -91,7 +97,7 @@ export default class Scene_1 extends Phaser.Scene {
 
         });
 
-        console.log(this.body)
+
         this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("location_1", "tiles", 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
@@ -106,11 +112,11 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.setBounds(0, -100, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, -100, this.map.widthInPixels, this.map.heightInPixels);
         this.rexScaleOuter.add(this.cam);
-console.log(this.cam)
+
 
         this.base.setup();
 
-        //this.cameras.main.roundPixels = true;
+
         this.body.forEach((el, i) => {
             el.x = (800 + i * 300)
             el.y = 200
@@ -119,7 +125,7 @@ console.log(this.cam)
 
 
         this.map.objects.filter((el) => el.name === "tanks")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
-            //   console.log(el)
+
             this.bodyBot[i] = new Bot(el.x, el.y, "bot_corpus_" + i,
                 this.action.getProperties(el, "head"),
                 this.action.getProperties(el, "corpus"),
@@ -130,10 +136,14 @@ console.log(this.cam)
                 this.action.getProperties(el, "radius_attack"),
                 this.action.getProperties(el, "speed")
             );
-            this.bodyBot[i].level = this.action.getProperties(el, "level")
-            this.bodyBot[i].setup(this)
+            this.bodyBot[i].hp = this.action.getProperties(el, "hp");
+            this.bodyBot[i].level = this.action.getProperties(el, "level");
+            this.bodyBot[i].setup(this);
+            this.arrHp[i] = this.bodyBot[i].hp;
         })
-console.log(this.bodyBot)
+        this.arrHp = this.arrHp.concat(this.base.arrBaseBot)
+        this.defaultHp = this.arrHp.reduce((acc, num) => acc + num, 0);
+
 
         this.clock = new Clock(this);
         this.clock.start()
@@ -154,6 +164,8 @@ console.log(this.bodyBot)
             label: 'cursor-state'
         }).play("runPoint")
         this.pointM = this.matter.add.sprite(worldXY.x, worldXY.y, "point-move", 0, {label: 'cursor-move'}).setCircle(50, {label: "cursor-move"}).setSensor(true).setName("cursor");
+
+        // collisionstart
 
         this.matter.world.on("collisionstart", (event) => {
             function pule(scene, pair) {
@@ -205,6 +217,9 @@ console.log(this.bodyBot)
                         el.shieldDamageBot(pair.bodyA, pair.bodyB.attack)
                         if (pair.bodyA.gameObject.body.shield === 0) {
                             el.takeDamageBot(pair.bodyA, pair.bodyB.attack)
+                        }
+                        if (el.constraint.corpus.body.health === 0) {
+                            this.hp += el.hp
                         }
 
                     })
@@ -460,12 +475,40 @@ console.log(this.bodyBot)
         this.countBot = this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus/i)).length
         this.countPlayer = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_corpus/i)).length
         this.countPlayerBase = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_base/i)).length
+        this.countBotBase = this.matter.world.getAllBodies().filter((el) => el.label.match(/base-bot/i)).length
 
-        if(this.countPlayer === 0 || this.countPlayerBase === 0){
-            this.store.dispatch(gameOverOpen())
+        if (this.countPlayer === 0 || this.countPlayerBase === 0) {
+            this.store.dispatch(none())
+            this.store.dispatch(gameOverOpen({
+                active: true,
+                hp: this.hp,
+                bot: this.bodyBot.length - this.countBot,
+                title: "Поражение"
+            }))
         }
-        this.store.dispatch(count(this.countPlayer))
-        this.store.dispatch(countBot(this.countBot))
+
+        if (this.countBotBase === 0 || this.countBot === 0) {
+           if(this.hp >= this.defaultHp){
+               this.store.dispatch(three())
+
+           }else if(this.hp >= this.defaultHp / 2){
+               this.store.dispatch(two())
+
+           }else if(this.hp >= this.defaultHp / 3){
+               this.store.dispatch(one())
+               
+           }
+            this.store.dispatch(gameOverOpen({
+                active: true,
+                hp: this.hp,
+                bot: this.bodyBot.length - this.countBot,
+                title: "Победа"
+            }))
+        }
+
+
+        this.store.dispatch(count(this.countPlayer));
+        this.store.dispatch(countBot(this.countBot));
 
 
         this.body.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
@@ -483,7 +526,6 @@ console.log(this.bodyBot)
 
 
     }
-
 
 
 }

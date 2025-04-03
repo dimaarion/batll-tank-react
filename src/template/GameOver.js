@@ -6,22 +6,29 @@ import SettingsBtn from "./SettingsBtn";
 import RestartBtn from "./RestartBtn";
 import HangarBtn from "./HangarBtn";
 import LevelBtn from "./LevelBtn";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PlayBtn from "./PlayBtn";
 import HpStarIcon from "./HpStarIcon";
 import Ok from "./Ok";
 import None from "./None";
 import {gameOverClose} from "../redux/features/GameOver";
 import {setMenu} from "../redux/features/SelectMenu";
+import StarGameOver from "./StarGameOver";
 
 export default function GameOver() {
+    const selectGameOver = useSelector((state) => state.gameOver)
+    const selectStar = useSelector((state) => state.star)
     const dispatch = useDispatch();
+
     return <>
         <div id={"tank-pause"} className={"margin-auto bottom-0 left-0 right-0 "}>
             <div className={"title-bg"}>
-                <div className={"absolute margin-auto top-0 right-0 left-0 bottom-0 title-text"}>Поражение</div>
+                <div className={"absolute margin-auto top-0 right-0 left-0 bottom-0 title-text"}>{selectGameOver.value.title}</div>
             </div>
             <div className={"tank-pause-box-bg"}>
+                <div className={"absolute right-0 margin-auto top-50 left-0 text-center w-200 h-50px"}>
+                    <StarGameOver count={selectStar.value} size={100} />
+                </div>
                 <div style={{width: "508px"}} className={"absolute top-0 left-50 top-50"}>
                     <div className={"absolute left-0 w-200 h-30"}>
                         <div className={"tank-coin-icon"}>
@@ -29,16 +36,16 @@ export default function GameOver() {
                         </div>
                         <div id={"tank-coin-text"}>
                             <div id={"tank-coin-text-bg"}/>
-                            <div id={"tank-coin-text-item"}>{10}</div>
+                            <div id={"tank-coin-text-item"}>{selectGameOver.value.hp}</div>
                         </div>
                     </div>
-                    <div className={"absolute right-0 w-200 h-30"}>
+                    <div  className={"absolute right-0 w-175 h-30"}>
                         <div className={"tank-coin-icon"}>
                             <div className={"tank-icon absolute w-25 h-25"}/>
                         </div>
                         <div id={"tank-coin-text"}>
                             <div id={"tank-coin-text-bg"}/>
-                            <div id={"tank-coin-text-item"}>{10}</div>
+                            <div id={"tank-coin-text-item"}>{selectGameOver.value.bot}</div>
                         </div>
                     </div>
                 </div>

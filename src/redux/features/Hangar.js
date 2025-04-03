@@ -32,13 +32,19 @@ export const hangar = createSlice({
 
             state.value = state.value.map(el => {
                 if (el.id === action.payload.id) {return {...el, hp: el.hp += action.payload.hp};}
-                return el; // Остальные элементы возвращаем без изменений
+                return el;
             });
 
+        },
+        selectLevel:(state, action) =>{
+            state.value = state.value.map(el => {
+                if (el.id === action.payload.id) {return {...el, level: el.level += 1};}
+                return el;
+            });
         }
     },
 })
 
-export const {selectHangar,selectOptions,setHp} = hangar.actions
+export const {selectHangar,selectOptions,setHp,selectLevel} = hangar.actions
 
 export default hangar.reducer

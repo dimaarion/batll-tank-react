@@ -11,6 +11,7 @@ import {money} from "./features/Money";
 import {battle} from "./features/Battle";
 import {pause} from "./features/Pause";
 import {gameOver} from "./features/GameOver";
+import {star} from "./features/Stsr";
 
 
 
@@ -30,6 +31,7 @@ export default configureStore({
         money:money.reducer,
         battle:battle.reducer,
         pause:pause.reducer,
-        gameOver:gameOver.reducer
+        gameOver:gameOver.reducer,
+        star:star.reducer
     },
 })

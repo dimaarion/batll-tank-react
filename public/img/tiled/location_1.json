@@ -215,6 +215,11 @@
                          "value":"Gun_01"
                         }, 
                         {
+                         "name":"hp",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
                          "name":"level",
                          "type":"int",
                          "value":1
@@ -237,7 +242,7 @@
                         {
                          "name":"speed",
                          "type":"int",
-                         "value":10
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"bot",
@@ -272,6 +277,11 @@
                          "value":"Gun_01"
                         }, 
                         {
+                         "name":"hp",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
                          "name":"level",
                          "type":"int",
                          "value":1
@@ -294,7 +304,7 @@
                         {
                          "name":"speed",
                          "type":"int",
-                         "value":10
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"bot",
@@ -329,9 +339,14 @@
                          "value":"Gun_01"
                         }, 
                         {
+                         "name":"hp",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
                          "name":"level",
                          "type":"int",
-                         "value":2
+                         "value":1
                         }, 
                         {
                          "name":"live",
@@ -397,6 +412,12 @@
                  "height":100,
                  "id":2,
                  "name":"bot",
+                 "properties":[
+                        {
+                         "name":"hp",
+                         "type":"int",
+                         "value":300
+                        }],
                  "rotation":0,
                  "type":"bot",
                  "visible":true,

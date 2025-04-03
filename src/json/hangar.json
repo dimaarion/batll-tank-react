@@ -5,7 +5,7 @@
     "corpus": "Hull_01",
     "head": "Gun_01",
     "coin": 500,
-    "hp": 1000,
+    "hp": 100,
     "level": 1,
     "options": [
       {

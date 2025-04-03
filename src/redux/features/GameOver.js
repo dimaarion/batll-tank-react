@@ -3,15 +3,15 @@ import { createSlice } from '@reduxjs/toolkit'
 export const gameOver = createSlice({
     name: 'game-over',
     initialState: {
-        value: false,
+        value: {active:false,hp:0,bot:0,title:""},
     },
     reducers: {
 
-        gameOverOpen: (state) => {
-            state.value = true;
+        gameOverOpen: (state,action) => {
+            state.value = {... state.value, active:true,hp:action.payload.hp,bot:action.payload.bot,title:action.payload.title};
         },
         gameOverClose: (state) => {
-            state.value = false;
+            state.value = {... state.value, active:false,hp:state.value.hp,bot:state.value.bot,title:state.value.title};
         },
     },
 })

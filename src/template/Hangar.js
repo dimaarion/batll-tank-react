@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import Menu from "./Menu";
 import HpStarIcon from "./HpStarIcon";
 import Plus from "./Plus";
-import {selectOptions} from "../redux/features/Hangar";
+import {selectOptions, selectLevel, hangar} from "../redux/features/Hangar";
 
 export default function Hangar() {
     const getHangar = useSelector((state) => state.hangar)
@@ -15,7 +15,10 @@ export default function Hangar() {
     const [hp, setHp] = useState(getHangar.value[0].hp)
     const [id, setId] = useState(getHangar.value[0].id)
     const [active, setActive] = useState(false)
+    const [countSkills, setCountSkills] = useState(0)
     const dispatch = useDispatch();
+
+    const levelStep = 1000
 
     const styles = {
         bg: {
@@ -86,6 +89,14 @@ export default function Hangar() {
         return () => clearTimeout(timer);
     }, [active])
 
+    useEffect(()=>{
+        if(countSkills >= 6){
+            dispatch(selectLevel({id:id}));
+            setLevel(getHangar.value.filter((el)=>el.id === id)[0].level)
+         //   setCountSkills(0);
+        }
+    },[countSkills])
+
     return <>
 
         <div style={styles.bg}>
@@ -94,7 +105,7 @@ export default function Hangar() {
                 <TitleHangar/>
                 <div style={styles.box}>
                     <div className={"tank-hp-text"}>
-                        <span>Ур. {level}</span>
+                        <span>Ур. {getHangar.value.filter((el)=>el.id === id)[0].level}</span>
                     </div>
                     <div className={"tank-hp"}>
                         <div className={"tank-coin-icon"}>
@@ -102,7 +113,7 @@ export default function Hangar() {
                         </div>
                         <div id={"tank-coin-text"}>
                             <div id={"tank-coin-text-bg"}/>
-                            <div id={"tank-coin-text-item"}>{hp} / {level * 500}</div>
+                            <div id={"tank-coin-text-item"}>{hp} / {level * levelStep}</div>
                         </div>
                     </div>
                     <div className={"view-tank"}>
@@ -111,22 +122,44 @@ export default function Hangar() {
                                  style={{background: "url(../img/gui/list/" + viewTank + ".png) no-repeat"}}/>
                         </div>
                         <div className={"options"}>
+                            {hp >= level * levelStep?<span className={"absolute top--25 right-0"}> {6 - countSkills} очк.</span>:""}
                             {getHangar.value.filter((el) => el.id === id).map((el, i) => el.options.map((opt, j) => <div
                                 className={"optionItem"} key={j + "options"}>
                                 <div className={"optionIcon"} dangerouslySetInnerHTML={{__html: opt.icon}}/>
                                 <div className={"optionNum"}>
                                     {opt.num}
                                 </div>
-                                <div onClick={() => {
+                                {hp >= level * levelStep && countSkills < 6?<div onClick={() => {
+                                    setCountSkills(countSkills + 1)
                                     dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "live"}))
-                                    dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "shield"}))
-                                    dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "attack"}))
-                                    dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "attack_speed"}))
-                                    dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "radius_attack"}))
+                                    dispatch(selectOptions({
+                                        hangar: getHangar,
+                                        id: id,
+                                        name: opt.name,
+                                        label: "shield"
+                                    }))
+                                    dispatch(selectOptions({
+                                        hangar: getHangar,
+                                        id: id,
+                                        name: opt.name,
+                                        label: "attack"
+                                    }))
+                                    dispatch(selectOptions({
+                                        hangar: getHangar,
+                                        id: id,
+                                        name: opt.name,
+                                        label: "attack_speed"
+                                    }))
+                                    dispatch(selectOptions({
+                                        hangar: getHangar,
+                                        id: id,
+                                        name: opt.name,
+                                        label: "radius_attack"
+                                    }))
                                     dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "speed"}))
                                 }} style={styles.plus}>
                                     <Plus/>
-                                </div>
+                                </div>:""}
                             </div>))}
                         </div>
                     </div>

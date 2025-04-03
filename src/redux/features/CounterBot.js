@@ -3,10 +3,9 @@ import { createSlice } from '@reduxjs/toolkit'
 export const counterBot = createSlice({
     name: 'countBot',
     initialState: {
-        value: "0",
+        value: 0,
     },
     reducers: {
-
         countBot: (state, action) => {
             state.value = action.payload
         },

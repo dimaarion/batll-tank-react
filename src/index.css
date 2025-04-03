@@ -40,6 +40,14 @@ html {
     position: fixed;
 }
 
+.text-center{
+    text-align: center;
+}
+
+.top--25{
+    top: -25px;
+}
+
 .top-0 {
     top: 0;
 }
@@ -100,6 +108,10 @@ html {
     font-size: 24pt;
 }
 
+.z-8{
+    z-index: 8;
+}
+
 .w-25{
     width: 25px;
 }
@@ -107,9 +119,15 @@ html {
 .w-100 {
     width: 100%;
 }
-
+.w-175{
+    width: 175px;
+}
 .w-200{
     width: 200px;
+}
+
+.w-500{
+    width: 500px;
 }
 
 .h-25{

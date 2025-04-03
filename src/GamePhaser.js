@@ -19,15 +19,6 @@ export default function GamePhaser() {
     const battle = useSelector((state) => state.battle)
 
 
-
-  //  window.tankBattle = []
-
-    useEffect(() => {
-        console.log(battle)
-    }, [battle])
-
-
-
     useEffect(() => {
         const config = {
             type: Phaser.AUTO,
@@ -124,13 +115,7 @@ export default function GamePhaser() {
 
         const game = new Phaser.Game(config);
         game.registry.set('store', store);
-       // game.scale.on('resize', function(gameSize, baseSize, displaySize, previousWidth, previousHeight) {
-          //  game.scale.resize(previousWidth, previousHeight);
-          //  console.log(gameSize)
-       // });
-       // window.addEventListener('resize', event => {
-           // game.scale.resize(window.innerWidth, window.innerHeight);
-      //  }, false);
+
         if (game.sound.context.state !== "closed") {
             game.sound.context.resume().catch(err => console.error(err));
         }
