@@ -9,7 +9,7 @@ export default class Preload extends Phaser.Scene{
 
     this.load.image('tiles', './img/sprites/location_1.png');
     this.load.tilemapTiledJSON('map', './img/tiled/location_1.json');
-
+    this.load.tilemapTiledJSON('map2', './img/tiled/location_2.json');
 
     this.load.image("base-player", './img/sprites/base.png');
     this.load.image("HPBasePlayer", './img/sprites/HPBasePlayer.png');

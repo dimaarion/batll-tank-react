@@ -1,7 +1,17 @@
+import {useDispatch} from "react-redux";
+import {setMenu} from "../redux/features/SelectMenu";
+import {decrement} from "../redux/features/Pause";
+import {gameOverClose} from "../redux/features/GameOver";
+
 export default function LevelBtn(){
+    const dispatch = useDispatch();
     return <>
 
-        <svg width="52.998" height="49.979" viewBox="0 0 52.998 49.979" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg onClick={()=> {
+            dispatch(setMenu("Уровни"));
+            dispatch(decrement());
+            dispatch(gameOverClose())
+        }} width="52.998" height="49.979" viewBox="0 0 52.998 49.979" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(1.5 0)">
                 <g fill="#1F2324" fillRule="evenodd">
                     <rect width="49.988" height="49.979" />

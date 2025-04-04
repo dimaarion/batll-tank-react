@@ -8,6 +8,7 @@ import {selectOptions, selectLevel, hangar} from "../redux/features/Hangar";
 
 export default function Hangar() {
     const getHangar = useSelector((state) => state.hangar)
+
     const [viewTank, setViewTank] = useState("Hull_01")
 
     const [coin, setCoin] = useState(getHangar.value[0].coin)

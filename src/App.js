@@ -19,10 +19,16 @@ function App() {
             <header>
                 <TopPanel/>
             </header>
-            <Levels/>
+
             {selectGameOver.value.active?<GameOver />:""}
             {selectPause.value?<Pause/>:""}
-            {selectMenu.value === "Ангар"?<Hangar/>:selectMenu.value === "Магазин"?<Shop/>:selectMenu.value === "К бою"?<Battle/>:<GamePhaser/>}
+            {
+                selectMenu.value === "Ангар"?
+                    <Hangar/>:selectMenu.value === "Магазин"?
+                    <Shop/>:selectMenu.value === "К бою"?
+                        <Battle/>:selectMenu.value === "Уровни"?
+                            <Levels/>:<GamePhaser/>
+            }
 
         </div>
 

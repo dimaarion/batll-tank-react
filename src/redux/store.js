@@ -12,6 +12,8 @@ import {battle} from "./features/Battle";
 import {pause} from "./features/Pause";
 import {gameOver} from "./features/GameOver";
 import {star} from "./features/Stsr";
+import {level} from "./features/Level";
+import {levelCount} from "./features/LevelCount";
 
 
 
@@ -32,6 +34,8 @@ export default configureStore({
         battle:battle.reducer,
         pause:pause.reducer,
         gameOver:gameOver.reducer,
-        star:star.reducer
+        star:star.reducer,
+        level:level.reducer,
+        levelCount:levelCount.reducer
     },
 })

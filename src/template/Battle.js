@@ -10,6 +10,8 @@ export default function Battle() {
     const dispatch = useDispatch();
     const getHangar = useSelector((state) => state.hangar)
     const battle = useSelector((state) => state.battle)
+    const selectLevelCount = useSelector((state) => state.levelCount);
+
     const styles = {
         bg: {
             position: "fixed",
@@ -57,7 +59,7 @@ export default function Battle() {
                 }} className={"battle-restart"}>
                     <RestartBtn/>
                 </div>
-                <div className={"absolute left-0"}>Ур. 1</div>
+                <div className={"absolute left-0"}>Ур. {selectLevelCount.value.id}</div>
                 {
                     battle.value.length > 0?<div className={"battle-play"}>
                         <div onClick={()=> {

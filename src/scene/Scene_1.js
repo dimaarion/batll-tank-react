@@ -98,7 +98,7 @@ export default class Scene_1 extends Phaser.Scene {
         });
 
 
-        this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight: 32});
+        this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("location_1", "tiles", 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
         this.block = this.map.createLayer("block", tiles, 0, 0);

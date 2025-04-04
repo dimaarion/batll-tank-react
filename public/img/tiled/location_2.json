@@ -310,8 +310,8 @@
                  "type":"bot",
                  "visible":true,
                  "width":100,
-                 "x":1022.72727272727,
-                 "y":731.81818181818
+                 "x":1453.47907149221,
+                 "y":727.467153547827
                 }, 
                 {
                  "height":100,
@@ -374,6 +374,130 @@
                  "width":100,
                  "x":186.363636363633,
                  "y":925.757575757576
+                }, 
+                {
+                 "height":100,
+                 "id":6,
+                 "name":"bot",
+                 "properties":[
+                        {
+                         "name":"attack",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"attack_speed",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"corpus",
+                         "type":"string",
+                         "value":"Hull_01"
+                        }, 
+                        {
+                         "name":"head",
+                         "type":"string",
+                         "value":"Gun_01"
+                        }, 
+                        {
+                         "name":"hp",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
+                         "name":"level",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"live",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"radius_attack",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
+                         "name":"shield",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"speed",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"bot",
+                 "visible":true,
+                 "width":100,
+                 "x":1046.45912412894,
+                 "y":711.429947311767
+                }, 
+                {
+                 "height":100,
+                 "id":7,
+                 "name":"bot",
+                 "properties":[
+                        {
+                         "name":"attack",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"attack_speed",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"corpus",
+                         "type":"string",
+                         "value":"Hull_01"
+                        }, 
+                        {
+                         "name":"head",
+                         "type":"string",
+                         "value":"Gun_01"
+                        }, 
+                        {
+                         "name":"hp",
+                         "type":"int",
+                         "value":100
+                        }, 
+                        {
+                         "name":"level",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"live",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"radius_attack",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
+                         "name":"shield",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"speed",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"bot",
+                 "visible":true,
+                 "width":100,
+                 "x":1990.63225879554,
+                 "y":572.197042660473
                 }],
          "opacity":1,
          "type":"objectgroup",

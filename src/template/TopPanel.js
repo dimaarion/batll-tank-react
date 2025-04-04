@@ -1,5 +1,6 @@
 import {useSelector} from "react-redux";
 import PauseBtn from "./PauseBtn";
+import CoinIcon from "./CoinIcon";
 
 export default function TopPanel(){
     const seconds = useSelector((state) => state.sec)
@@ -11,7 +12,12 @@ export default function TopPanel(){
     const selectMoney = useSelector((state) => state.money);
     return <>
         <div id="tank-top-panel">
-            <svg width="100%" height="100" viewBox="0 0 1280 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className={"absolute left-30 top-10 w-500 h-30 text-left z-8  margin-auto"}>
+               <div className={"tank-top-panel-level"}>1 Уровень</div>
+                <div className={"tank-top-panel-money"}><span><CoinIcon/></span><span> {selectMoney.value} </span></div>
+
+            </div>
+            <svg width="100%" height="80" viewBox="0 0 1280 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="gradient_1" gradientUnits="userSpaceOnUse" x1="1295.77" y1="49.814" x2="32.049" y2="50">
                         <stop offset="0.086" stopColor="#1F2324" stopOpacity="0.431" />
@@ -20,7 +26,7 @@ export default function TopPanel(){
                         <stop offset="0.944" stopColor="#1F2324" stopOpacity="0.451" />
                     </linearGradient>
                 </defs>
-                <rect width="1280" height="100" fill="url(#gradient_1)" fillRule="evenodd" />
+                <rect width="1280" height="80" fill="url(#gradient_1)" fillRule="evenodd" />
             </svg>
             <svg id="tank-live-base-player" height="11"  fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x={100 - liveBasePlayer.value + "%"}  width={liveBasePlayer.value + "%"} height="11" fill="#3949AB" fillRule="evenodd" />
@@ -29,7 +35,7 @@ export default function TopPanel(){
                 <rect  width={liveBaseBot.value + "%"} height="11" fill="#AB3939" fillRule="evenodd" />
             </svg>
             <div id="tank-information-panel">
-                <svg width="181" height="96" viewBox="0 0 181 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="120"  viewBox="0 0 181 96" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <clipPath id="clip_path_1">
                             <rect width="40" height="34" />
