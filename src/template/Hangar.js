@@ -102,9 +102,9 @@ export default function Hangar() {
 
         <div style={styles.bg}>
             <Menu/>
-            <div style={styles.panel}>
+            <div className={"tank-panel"}>
                 <TitleHangar/>
-                <div style={styles.box}>
+                <div  className={"tank-panel-box"}>
                     <div className={"tank-hp-text"}>
                         <span>Ур. {getHangar.value.filter((el)=>el.id === id)[0].level}</span>
                     </div>
@@ -164,8 +164,8 @@ export default function Hangar() {
                             </div>))}
                         </div>
                     </div>
-                    <div style={styles.listBox}>
-                        <div style={styles.list}>
+                    <div className={"tank-panel-list-box"}>
+                        <div className={"tank-panel-list"}>
                             {getHangar.value.map((el, i) => <div key={i + "list"}
                                                                  className={el.id === id? " tank-active position-center-bg ":" tank-hangar-view-bg position-center-bg"}>
                                 <div onClick={() => {

@@ -28,9 +28,26 @@ html {
     position: absolute;
     width: 295px;
     height: 68px;
-    left: 155px;
+    left: 0;
     top: 0;
+    right: 0;
+    margin: auto;
 }
+
+.tank-menu-btn{
+    position: absolute;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 30px;
+    height: 30px;
+}
+
+.display{
+    visibility: visible;
+}
+
 
 .p-5 {
     padding: 5px;
@@ -128,8 +145,25 @@ html {
     background: url("./img/gui/hangar-title-bg.png") no-repeat;
 }
 
+.tank-level-active{
+    fill: #61dafb!important;
+}
+
 .level-bg{
     background: url("./img/gui/level-bg.png") no-repeat;
+    position: relative;
+    top: 80px;
+    background-size: contain;
+    width: 400px;
+    height: 500px;
+}
+
+.tank-level-btn{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 80px;
+    top: 80px;
 }
 
 .color-bg{
@@ -141,6 +175,10 @@ html {
     text-align: center;
     width: 100%;
     font-size: 24pt;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
 }
 
 .z-7{
@@ -165,6 +203,10 @@ html {
 
 .w-200 {
     width: 200px;
+}
+
+.w-210{
+    width: 210px;
 }
 
 .w-500 {
@@ -228,6 +270,32 @@ svg :hover .tank-btn {
 .tank-top-panel-money{
     position: absolute;
     left: 80px;
+}
+
+.tank-level{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 8;
+}
+
+.tank-level-box{
+    position: relative;
+    width: 400px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.tank-pause-star-box{
+    margin-top: 50px;
+    width: 500px;
+    margin-left: 50px;
+    position: relative;
 }
 
 #tank-pause {
@@ -562,6 +630,57 @@ div {
     left: 0;
 }
 
+.tank-battle-list-box{
+    width: 500px;
+    height: 160px;
+    position: absolute;
+    overflow-x: auto;
+    top: 400px;
+    right: 0;
+    margin: auto;
+}
+
+.tank-panel-box{
+    background: url("./img/gui/hangar-title-bg.png") no-repeat;
+    top: 70px;
+    left: 0;
+    right: 0;
+    width: 487px;
+    height: 700px;
+    position: absolute;
+    margin: auto;
+}
+
+.tank-panel-list-box{
+    width: 448px;
+    height: 160px;
+    position: absolute;
+    overflow-x: auto;
+    top: 375px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.tank-panel-list{
+    width: max-content;
+    height: 137px;
+}
+
+.tank-panel{
+    position: relative;
+    top: 100px;
+}
+
+.tank-battle-list{
+    top: 15px;
+    width: max-content;
+    height: 138px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
 
 .tank-hangar-top-menu {
     position: absolute;
@@ -1009,13 +1128,6 @@ canvas {
 @media only screen and (min-width: 35em) {
 
     /* Style adjustments for viewports that meet the condition */
-}
-
-@media screen and (max-width: 600px) {
-    .tank-top-panel-money{
-        left: 0;
-        top: 25px;
-    }
 }
 
 @media print,

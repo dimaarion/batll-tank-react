@@ -67,8 +67,27 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
+
+
+
+        this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
+        let tiles = this.map.addTilesetImage("level_1", "tiles", 32, 32, 0, 0);
+        this.layer = this.map.createLayer("ground", tiles, 0, 0);
+        this.block = this.map.createLayer("block", tiles, 0, 0);
+        this.layer.setCollisionByProperty({collides: true});
+        this.map.setCollisionByExclusion(-1, true);
+        this.matter.world.convertTilemapLayer(this.block);
+        this.matter.world.createDebugGraphic();
+        this.matter.world.drawDebug = false;
+        this.cam = this.cameras.main;
+        this.cameras.main.setZoom(1);
+        this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.rexScaleOuter.add(this.cam);
+
+        this.base.setup();
         this.body = this.state.battle.value.map((el) => {
-                let b = new Body(100, 500, "tank_corpus_" + el.id, el.head, el.corpus,
+                let b = new Body(this.base.bodyPlayer[0].x, this.base.bodyPlayer[0].y, "tank_corpus_" + el.id, el.head, el.corpus,
                     this.action.getOption(el, "live"),
                     this.action.getOption(el, "shield"),
                     this.action.getOption(el, "attack"),
@@ -82,6 +101,9 @@ export default class Scene_1 extends Phaser.Scene {
                 return b;
             }
         )
+        this.cameras.main.setScroll(this.base.bodyPlayer[0].x - window.innerWidth / 2, this.base.bodyPlayer[0].y - window.innerHeight / 2);
+
+
 
         this.store.subscribe(() => {
             const newState = this.store.getState();
@@ -98,28 +120,10 @@ export default class Scene_1 extends Phaser.Scene {
         });
 
 
-        this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
-        let tiles = this.map.addTilesetImage("location_1", "tiles", 32, 32, 0, 0);
-        this.layer = this.map.createLayer("ground", tiles, 0, 0);
-        this.block = this.map.createLayer("block", tiles, 0, 0);
-        this.layer.setCollisionByProperty({collides: true});
-        this.map.setCollisionByExclusion(-1, true);
-        this.matter.world.convertTilemapLayer(this.block);
-        this.matter.world.createDebugGraphic();
-        this.matter.world.drawDebug = false;
-        this.cam = this.cameras.main;
-        this.cameras.main.setZoom(1);
-        this.matter.world.setBounds(0, -100, this.map.widthInPixels, this.map.heightInPixels);
-        this.cameras.main.setBounds(0, -100, this.map.widthInPixels, this.map.heightInPixels);
-        this.rexScaleOuter.add(this.cam);
-
-
-        this.base.setup();
-
 
         this.body.forEach((el, i) => {
-            el.x = (800 + i * 300)
-            el.y = 200
+            el.x = (this.base.bodyPlayer[0].x + i * 120)
+            el.y = (this.base.bodyPlayer[0].y + this.base.bodyPlayer[0].height * 2)
             el.setup(this);
         })
 
@@ -402,7 +406,7 @@ export default class Scene_1 extends Phaser.Scene {
             }
             this.body.forEach((el) => {
                 if (el.constraint.corpus.body.label === this.activeObject) {
-                    //  this.cam.startFollow(el.constraint.corpus, true);
+                    //
                 }
             })
         });

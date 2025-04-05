@@ -21,15 +21,18 @@ export default function GamePhaser() {
 
     useEffect(() => {
         const config = {
-            type: Phaser.AUTO,
+            type: Phaser.CANVAS,
             width: window.innerWidth,
             height: window.innerHeight,
-            backgroundColor: "#000",
+            backgroundColor: "#fff",
+            render: {
+                antialias: false      // Также важно
+            },
             scale: {
                 mode: Phaser.Scale.RESIZE,
                 autoCenter: Phaser.Scale.NONE,
                 width: 1920,    // Default game window width
-                height: 900,
+                height: 896,
             },
             plugins: {
                 global: [{
@@ -94,9 +97,6 @@ export default function GamePhaser() {
                         timeScale: 1,
                     },
                     correction: 1,
-                    getDelta: (function () {
-                        return 1000 / 60;
-                    }),
                     autoUpdate: true,
                     debug: {
                         //  hullColor: '#ffffff'

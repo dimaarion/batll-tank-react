@@ -10,10 +10,11 @@ export default function TopPanel(){
     const liveBasePlayer = useSelector((state) => state.liveBasePlayer)
     const liveBaseBot = useSelector((state) => state.liveBaseBot)
     const selectMoney = useSelector((state) => state.money);
+    const selectLevelCount = useSelector((state) => state.levelCount);
     return <>
         <div id="tank-top-panel">
             <div className={"absolute left-30 top-10 w-500 h-30 text-left z-8  margin-auto"}>
-               <div className={"tank-top-panel-level"}>1 Уровень</div>
+               <div className={"tank-top-panel-level"}>{selectLevelCount.value.id} Уровень</div>
                 <div className={"tank-top-panel-money"}><span><CoinIcon/></span><span> {selectMoney.value} </span></div>
 
             </div>

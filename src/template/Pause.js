@@ -42,7 +42,7 @@ export default function Pause() {
                 <div className={"absolute left-50 b-130 pointer"}>
                     <SettingsBtn />
                 </div>
-                <div style={{width:"210px"}} className={"absolute b-130 h-50px right-0 left-0 margin-auto"} >
+                <div className={"w-210 absolute b-130 h-50px right-0 left-0 margin-auto"} >
                     <div className={"absolute left-0 margin-auto w-50px pointer tank-btn"}>
                         <RestartBtn />
                     </div>

@@ -81,9 +81,9 @@ export default function Shop() {
 
         <div style={styles.bg}>
             <Menu/>
-            <div style={styles.panel}>
+            <div className={"tank-panel"}>
                 <TitleHangar/>
-                <div style={styles.box}>
+                <div className={"tank-panel-box"}>
                     <div className={"tank-coin"}>
                         <div className={"tank-coin-icon"}>
                             <CoinIcon/>
@@ -119,8 +119,8 @@ export default function Shop() {
                             </div>)}
                         </div>
                     </div>
-                    <div style={styles.listBox}>
-                        <div style={styles.list}>
+                    <div className={"tank-panel-list-box"}>
+                        <div className={"tank-panel-list"}>
                             {hangarDef.map((el, i) => <div key={i + "list"}
                                                            className={el.id === object.id? " tank-active position-center-bg ":" tank-hangar-view-bg position-center-bg"}>
                                 <div onClick={() => {

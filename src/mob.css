@@ -1,0 +1,299 @@
+@media screen and (max-width: 800px) {
+    .tank-top-panel-money {
+        left: 0;
+        top: 25px;
+    }
+
+    .display {
+        visibility: hidden;
+    }
+
+    .tank-hangar-top-menu-title{
+        grid-template-columns: 1fr;
+        z-index: 8;
+        position: absolute;
+        background: #1f2324;
+        margin: auto;
+        left: 0;
+        right: 0;
+
+    }
+
+    #tank-battle {
+        background: url("./img/gui/level-bg.png") no-repeat;
+        position: relative;
+        width: 400px;
+        height: 621px;
+        top: 10px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin:auto;
+        background-size: contain;
+
+    }
+
+    #battle-box-left {
+        position: absolute;
+        width: 172px;
+        height: 320px;
+        top: -250px;
+        bottom: 0;
+        margin: auto;
+        background: linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%);
+        overflow-y: scroll;
+        z-index: 7;
+    }
+
+    .battle-view-tank {
+        position: absolute;
+        width: 160px;
+        height: 262px;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .battle-view-tank-window {
+        position: absolute;
+        width: 85px;
+        height: 140px;
+        background: url(data:image/png;base64,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);
+        background-size: cover;
+        right: 0;
+    }
+
+    .view-tank-window-item {
+        position: absolute;
+        width: 85px;
+        height: 140px;
+    }
+    .battle-options {
+        position: absolute;
+        width: 72px;
+        height: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    .optionNum {
+        margin-left: 30px;
+        position: absolute;
+        margin-top: -22px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        white-space: nowrap;
+        color: #bdbdbd;
+    }
+    .optionIcon {
+        width: 23px;
+        height: 23px;
+        border-right: solid 1px #808080;
+        text-align: center;
+        text-align-last: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .optionItem {
+        width: 72px;
+        height: 20px;
+        border: solid 1px #808080;
+        margin-bottom: 2px;
+        position: relative;
+    }
+
+    .battle-level {
+        position: absolute;
+        top: -50px;
+        margin: auto;
+
+    }
+
+    .battle-list {
+        position: relative;
+        height: 170px;
+        cursor: pointer;
+        margin-top: 50px;
+        margin-bottom: -50px;
+    }
+
+    .battle-play-text {
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        white-space: nowrap;
+        text-align: center;
+        align-items: center;
+        top: -18px;
+        margin: auto;
+        left: auto;
+        z-index: 7;
+    }
+
+    .battle-play {
+        position: absolute;
+        top: -290px;
+        right: 50px;
+        bottom: 0;
+        margin: auto;
+        width: 115px;
+        height: 34px;
+        border-radius: 25px;
+        background: #ffc107;
+        border: 4px solid #71736f;
+        cursor: pointer;
+    }
+
+    .tank-battle-list-box {
+        width: 250px;
+        height: 70px;
+        position: absolute;
+        overflow-x: auto;
+        top: 260px;
+        left: 165px;
+        margin: auto;
+        right: 0;
+        z-index: 6;
+    }
+
+    .tank-battle-list {
+        top: 5px;
+    }
+
+    .battle-restart {
+        top: 35px;
+    }
+
+    .tank-hangar-view {
+        width: 50px;
+        height: auto;
+        position: absolute;
+    }
+
+    .tank-hangar-view-bg{
+        width: 50px;
+        height: 60px;
+        float: left;
+        padding-left: 0px;
+        position: relative;
+        cursor: pointer;
+    }
+    .battle-none{
+        top: -300px !important;
+        left: 80px;
+    }
+
+    .tank-panel {
+        top: 0;
+    }
+
+    .tank-panel-box {
+        width: 400px;
+        background-size: contain;
+    }
+
+    .tank-coin {
+        left: 170px;
+        top: 35px;
+    }
+
+    .view-tank-window {
+        width: 127px;
+        height: 207px;
+        right: 65px;
+    }
+
+    .view-tank {
+        top: -280px;
+    }
+
+    .options {
+        right: 120px;
+    }
+
+    .tank-panel-list-box {
+        top: 325px;
+    }
+
+    .tank-active{
+        width: 50px;
+        height: 60px;
+        padding-left: 0px;
+    }
+
+    .tank-hp {
+        top: 35px;
+    }
+
+    #tank-pause {
+        width: 400px;
+        position: relative;
+    }
+
+    .tank-pause-box-bg {
+        width: 400px;
+    }
+    #tank-pause-close {
+        left: 350px;
+        top: 15px;
+    }
+
+    .w-210 {
+        width: 130px;
+    }
+
+    .r-70 {
+        right: 50px;
+    }
+
+    .tank-pause-box-bg {
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .tank-pause-star-box {
+        margin-top: 10px;
+        width: 360px;
+        margin-left: 22px;
+    }
+
+    .range {
+        left: 65px;
+        width: 260px;
+        height: 20px;
+        background: #1f2324;
+    }
+
+    .tank-level-btn{
+        top: 35px;
+    }
+
+
+}
+
+@media screen and (max-height: 800px) {
+    .tank-panel {
+        top: 0;
+    }
+    #tank-battle {
+        top: 0;
+    }
+
+    #tank-pause {
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .tank-menu-btn{
+        display: none;
+    }
+
+}

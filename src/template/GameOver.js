@@ -29,7 +29,7 @@ export default function GameOver() {
                 <div className={"absolute right-0 margin-auto top-50 left-0 text-center w-200 h-50px"}>
                     <StarGameOver count={selectStar.value} size={100} />
                 </div>
-                <div style={{width: "508px"}} className={"absolute top-0 left-50 top-50"}>
+                <div  className={"tank-pause-star-box"}>
                     <div className={"absolute left-0 w-200 h-30"}>
                         <div className={"tank-coin-icon"}>
                             <HpStarIcon/>
@@ -73,7 +73,7 @@ export default function GameOver() {
             <div className={"absolute left-50 b-130 pointer"}>
                 <RestartBtn/>
             </div>
-            <div style={{width: "210px"}} className={"absolute b-130 h-50px right-0 left-0 margin-auto"}>
+            <div  className={"absolute b-130 h-50px right-0 left-0 margin-auto w-210"}>
                 <div className={"absolute left-0 margin-auto w-50px pointer tank-btn"}>
                     <LevelBtn/>
                 </div>
