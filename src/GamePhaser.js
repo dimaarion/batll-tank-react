@@ -21,18 +21,16 @@ export default function GamePhaser() {
 
     useEffect(() => {
         const config = {
-            type: Phaser.CANVAS,
+            type: Phaser.AUTO,
             width: window.innerWidth,
             height: window.innerHeight,
             backgroundColor: "#fff",
             render: {
-                antialias: false      // Также важно
+                antialias: false
             },
             scale: {
                 mode: Phaser.Scale.RESIZE,
                 autoCenter: Phaser.Scale.NONE,
-                width: 1920,    // Default game window width
-                height: 896,
             },
             plugins: {
                 global: [{
@@ -64,10 +62,6 @@ export default function GamePhaser() {
                         plugin: VirtualJoystickPlugin,
                         mapping: 'rexvirtualjoystickplugin',
                         start: true
-                    },{
-                        key: 'rexScaleOuter',
-                        plugin: ScaleOuterPlugin,
-                        mapping: 'rexScaleOuter'
                     }
                 ]
             },

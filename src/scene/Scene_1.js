@@ -13,7 +13,7 @@ import {live} from "../redux/features/LibeBasePlayer";
 import {liveBot} from "../redux/features/LiveBaseBot";
 import {setHp} from "../redux/features/Hangar";
 import {gameOverOpen} from "../redux/features/GameOver";
-import {none,one,two,three} from "../redux/features/Stsr";
+import {none, one, two, three} from "../redux/features/Stsr";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -69,7 +69,6 @@ export default class Scene_1 extends Phaser.Scene {
         this.state = this.store.getState();
 
 
-
         this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("level_1", "tiles", 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
@@ -80,10 +79,15 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.createDebugGraphic();
         this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
-        this.cameras.main.setZoom(1);
+
         this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        this.rexScaleOuter.add(this.cam);
+        if (this.sys.game.device.os.android) {
+            this.cameras.main.setZoom(0.5);
+        }else {
+            this.cameras.main.setZoom(0.8);
+        }
+
 
         this.base.setup();
         this.body = this.state.battle.value.map((el) => {
@@ -104,7 +108,6 @@ export default class Scene_1 extends Phaser.Scene {
         this.cameras.main.setScroll(this.base.bodyPlayer[0].x - window.innerWidth / 2, this.base.bodyPlayer[0].y - window.innerHeight / 2);
 
 
-
         this.store.subscribe(() => {
             const newState = this.store.getState();
             if (newState.pause.value || newState.gameOver.value.active) {
@@ -118,7 +121,6 @@ export default class Scene_1 extends Phaser.Scene {
             }
 
         });
-
 
 
         this.body.forEach((el, i) => {
@@ -491,17 +493,20 @@ export default class Scene_1 extends Phaser.Scene {
             }))
         }
 
-        if (this.countBotBase === 0 || this.countBot === 0) {
-           if(this.hp >= this.defaultHp){
-               this.store.dispatch(three())
+        if (this.countBotBase === 0) {
+            if (this.hp >= this.defaultHp) {
+                this.store.dispatch(three())
 
-           }else if(this.hp >= this.defaultHp / 2){
-               this.store.dispatch(two())
+            } else if (this.hp >= this.defaultHp / 2) {
+                this.store.dispatch(two())
 
-           }else if(this.hp >= this.defaultHp / 3){
-               this.store.dispatch(one())
-               
-           }
+            } else if (this.hp >= this.defaultHp / 3) {
+                this.store.dispatch(one())
+            }
+            if(this.countBotBase === 0 && this.countBot === 0){
+                this.store.dispatch(three())
+            }
+
             this.store.dispatch(gameOverOpen({
                 active: true,
                 hp: this.hp,

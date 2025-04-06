@@ -217,7 +217,7 @@ export default class Body {
         // Нормализуем разницу углов для корректного направления вращения
         angleDiff = Phaser.Math.Angle.Wrap(angleDiff);
         // Устанавливаем угловую скорость
-        const angularSpeed = 0.1; // Подбери подходящее значение для скорости
+        const angularSpeed = this.speedTank / 100000; // Подбери подходящее значение для скорости
         this.scene.matter.body.setAngularVelocity(this.constraint.corpus.body, angleDiff * angularSpeed);
 
         this.moveTo(this.constraint.corpus.body, x, y)
