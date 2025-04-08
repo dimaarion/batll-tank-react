@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const star = createSlice({
     name: 'star',
     initialState: {
-        value: 3,
+        value: 0,
     },
     reducers: {
 

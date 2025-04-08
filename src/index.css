@@ -149,6 +149,22 @@ html {
     fill: #61dafb!important;
 }
 
+.tank-battle-add{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    margin: auto;
+    z-index: 10;
+    background: #1f2324;
+    opacity: 0.8;
+
+}
+
+.tank-text-active div{
+    color: #CEB423;
+}
+
 .level-bg{
     background: url("./img/gui/level-bg.png") no-repeat;
     position: relative;
@@ -396,7 +412,7 @@ svg :hover .tank-btn {
 .tank-active {
     background: url("./img/gui/tank-hangar-list-item-active.png");
     width: 80px;
-    height: 130.63px;
+    height: 131px;
     float: left;
     padding-left: 8px;
     position: relative;
@@ -723,7 +739,6 @@ div {
     font-size: 24px;
     line-height: 35px;
     white-space: nowrap;
-    color: #c6bcbc;
 }
 
 .tank-hangar-top-menu-title-item :hover {

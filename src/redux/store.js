@@ -14,6 +14,9 @@ import {gameOver} from "./features/GameOver";
 import {star} from "./features/Stsr";
 import {level} from "./features/Level";
 import {levelCount} from "./features/LevelCount";
+import {restart} from "./features/Restart";
+import {music} from "./features/Music";
+import {effect} from "./features/Effect";
 
 
 
@@ -36,6 +39,9 @@ export default configureStore({
         gameOver:gameOver.reducer,
         star:star.reducer,
         level:level.reducer,
-        levelCount:levelCount.reducer
+        levelCount:levelCount.reducer,
+        restart:restart.reducer,
+        music:music.reducer,
+        effect:effect.reducer
     },
 })

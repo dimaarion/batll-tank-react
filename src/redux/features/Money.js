@@ -3,10 +3,13 @@ import { createSlice } from '@reduxjs/toolkit'
 export const money = createSlice({
     name: 'money',
     initialState: {
-        value: 50000,
+        value: 1000,
     },
     reducers: {
 
+        setMoney:(state, action) => {
+            state.value = action.payload
+        },
         increment: (state, action) => {
             state.value += action.payload
         },
@@ -17,6 +20,6 @@ export const money = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {increment,decrement} = money.actions
+export const {increment,decrement,setMoney} = money.actions
 
 export default money.reducer

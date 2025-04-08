@@ -2,10 +2,7 @@ import Menu from "./Menu";
 import {useDispatch, useSelector} from "react-redux";
 import {addBattle, removeBattle} from "../redux/features/Battle";
 import RestartBtn from "./RestartBtn";
-import PlayBattle from "./PlayBattle";
 import {setMenu} from "../redux/features/SelectMenu";
-import {increment} from "../redux/features/Pause";
-import Levels from "./Levels";
 import LevelBtn from "./LevelBtn";
 
 export default function Battle() {
@@ -77,6 +74,7 @@ export default function Battle() {
                             dispatch(addBattle(el))
                         }
                     }} className={"battle-list"} key={el.id}>
+                        {battle.value.some(tank => tank.id === el.id)?<div className={"tank-battle-add"}/>:""}
                         <div className={"battle-level"}> Ур. {el.level}</div>
                         <div className={"battle-view-tank"}>
                             <div className={"battle-view-tank-window"}>

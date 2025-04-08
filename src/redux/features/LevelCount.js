@@ -4,11 +4,11 @@ import { createSlice } from '@reduxjs/toolkit'
 export const levelCount = createSlice({
     name: "levelCount",
     initialState: {
-        value: {id:1,name:"map"},
+        value: {id:1,name:"map",tiles:"tiles"},
     },
     reducers: {
         getLevel:(state, action)=>{
-            state.value = {... state.value, id:action.payload.id, name:action.payload.name}
+            state.value = {... state.value, id:action.payload.id, name:action.payload.name,tiles:action.payload.tiles}
 
         }
     },

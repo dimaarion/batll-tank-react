@@ -24,7 +24,7 @@ export default function GamePhaser() {
             type: Phaser.AUTO,
             width: window.innerWidth,
             height: window.innerHeight,
-            backgroundColor: "#fff",
+            backgroundColor: "#000",
             render: {
                 antialias: false
             },

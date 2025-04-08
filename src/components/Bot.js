@@ -9,6 +9,7 @@ export default class Bot extends Body {
     super(x, y, name, head, corpus, live, shield, attack, speedAttack, radiusSensor, speed);
     this.bot = 1;
     this.namePule = "pule_bot";
+    this.icon = "HP-bot";
   }
 
   setup(scene) {
@@ -18,7 +19,7 @@ export default class Bot extends Body {
     this.targetBot = { x: Phaser.Math.Between(0, this.scene.map.heightInPixels), y: Phaser.Math.Between(0, this.scene.map.heightInPixels) };
 
       this.scene.time.addEvent({
-        delay: Phaser.Math.Between(1000,20000),
+        delay: Phaser.Math.Between(5000,20000),
         loop: true,
         callback: () => {
           this.targetBot = { x: Phaser.Math.Between(0, this.scene.map.heightInPixels), y: Phaser.Math.Between(0, this.scene.map.heightInPixels) };
@@ -29,7 +30,8 @@ export default class Bot extends Body {
       delay: 10000,
       loop: true,
       callback: () => {
-        this.targetBot = { x: 0, y: 0};
+        this.targetBot = this.playerBasePosition;
+
       }
     });
 
@@ -54,11 +56,14 @@ export default class Bot extends Body {
 
     this.trackAngle()
     this.liveDraw()
-    this.movePule();
     this.shieldDraw();
-    this.rotateHead(this.constraint.head.body,this.constraint.sensor.positionBot.x,this.constraint.sensor.positionBot.y,true)
     if(this.constraint.corpus.body.health !== 0){
+      this.movePule();
       this.rotateTank(this.targetBot.x,this.targetBot.y)
+      this.rotateHead(this.constraint.head.body,this.constraint.sensor.positionBot.x,this.constraint.sensor.positionBot.y)
+      if (this.targetBot) {
+       // this.rotateHead(this.constraint.head.body, this.targetBot.x, this.targetBot.y)
+      }
     }else {
       this.constraint.track.stop()
     }

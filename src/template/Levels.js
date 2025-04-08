@@ -21,7 +21,7 @@ export default function Levels() {
                     <div className={"absolute top-50 left-30"}>
                         {selectLevel.value.map((el,i) => <div onClick={()=>{
                             dispatch(setMenu("К бою"));
-                            dispatch(getLevel({id:el.id,name:el.name}))
+                            dispatch(getLevel({id:el.id,name:el.name,tiles:el.tiles}))
                         }
                         } key={i + "levels"} className={"float-left p-5 pointer"}>
                             <LevelCount num = {el.id} />

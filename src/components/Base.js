@@ -15,7 +15,10 @@ export default class Base {
     healthBar
     healthBarBot
     sensorPlayer
+    level = 1
     action = new Action();
+    x = 0
+    y = 0
 
     constructor(scene) {
         this.scene = scene
@@ -38,7 +41,8 @@ export default class Base {
             return this.scene.matter.add.gameObject(el, {label: "tank_base"}).setTexture('base-player').setRectangle(300, 300, {
                 isStatic: true,
                 label: "tank_base",
-                healthBase: this.health
+                healthBase: this.health,
+                level:this.level
             }).setScale(this.scale)
         })
 
@@ -48,7 +52,9 @@ export default class Base {
             return this.scene.matter.add.gameObject(el, {label: "base_bot"}).setTexture('base-bot').setRectangle(300, 300, {
                 isStatic: true,
                 label: "base-bot",
-                healthBase: this.health
+                healthBase: this.health,
+                hpBot:this.arrBaseBot[i],
+                level:this.level
             }).setScale(this.scale)
 
         })

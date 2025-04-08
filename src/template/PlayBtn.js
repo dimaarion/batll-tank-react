@@ -1,7 +1,27 @@
+import {useDispatch, useSelector} from "react-redux";
+import {getLevel} from "../redux/features/LevelCount";
+import {setRestart} from "../redux/features/Restart";
+import {decrement} from "../redux/features/Pause";
+import {gameOverClose} from "../redux/features/GameOver";
+
 export default function PlayBtn(){
+    const dispatch = useDispatch();
+    const selectLevel = useSelector((state) => state.level);
+    const selectLevelCount = useSelector((state) => state.levelCount);
+    let levelPlay = selectLevel.value.filter((el)=>el.id === selectLevelCount.value.id + 1)[0]
     return <>
 
-        <svg width="53" height="50" viewBox="0 0 53 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg onMouseDown={()=> {
+            if(levelPlay?.id){
+                dispatch(getLevel({id: levelPlay.id, name: levelPlay.name, tiles: levelPlay.tiles}))
+            }
+            dispatch(setRestart(true))
+
+        }} onMouseUp={()=> {
+            dispatch(setRestart(false))
+            dispatch(decrement())
+            dispatch(gameOverClose());
+        }} width="53" height="50" viewBox="0 0 53 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(1.5 0)">
                 <g fill="#1F2324" fillRule="evenodd">
                     <rect width="49.99" height="50" />

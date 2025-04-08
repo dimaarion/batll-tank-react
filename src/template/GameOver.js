@@ -14,6 +14,7 @@ import None from "./None";
 import {gameOverClose} from "../redux/features/GameOver";
 import {setMenu} from "../redux/features/SelectMenu";
 import StarGameOver from "./StarGameOver";
+import {setRestart} from "../redux/features/Restart";
 
 export default function GameOver() {
     const selectGameOver = useSelector((state) => state.gameOver)
@@ -70,7 +71,13 @@ export default function GameOver() {
             }} className={"pointer"} id={"tank-pause-close"}>
                 <CloseBtn/>
             </div>
-            <div className={"absolute left-50 b-130 pointer"}>
+            <div onMouseDown={()=> {
+                dispatch(setRestart(true))
+            }} onMouseUp={()=> {
+                dispatch(setRestart(false))
+                dispatch(decrement())
+                dispatch(gameOverClose());
+            }} className={"absolute left-50 b-130 pointer"}>
                 <RestartBtn/>
             </div>
             <div  className={"absolute b-130 h-50px right-0 left-0 margin-auto w-210"}>

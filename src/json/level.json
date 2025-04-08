@@ -2,47 +2,58 @@
   {
     "id": 1,
     "star": 0,
-    "name": "map"
+    "name": "map",
+    "tiles": "tiles"
 
   },
   {
     "id": 2,
     "star": 0,
-    "name": "map2"
+    "name": "map2",
+    "tiles": "tiles_2"
+  },
+  {
+    "id": 3,
+    "star": 0,
+    "name": "",
+    "tiles": "tiles"
+
   },
   {
     "id": 4,
     "star": 0,
-    "name": ""
+    "name": "",
+    "tiles": "tiles"
   },
   {
     "id": 5,
     "star": 0,
-    "name": ""
+    "name": "",
+    "tiles": "tiles"
   },
   {
     "id": 6,
     "star": 0,
-    "name": ""
+    "name": "",
+    "tiles": "tiles"
   },
   {
     "id": 7,
     "star": 0,
-    "name": ""
+    "name": "",
+    "tiles": "tiles"
   },
   {
     "id": 8,
     "star": 0,
-    "name": ""
+    "name": "",
+    "tiles": "tiles"
   },
   {
     "id": 9,
     "star": 0,
-    "name": ""
-  },
-  {
-    "id": 10,
-    "star": 0,
-    "name": ""
+    "name": "",
+    "tiles": "tiles"
+
   }
 ]

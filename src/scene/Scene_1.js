@@ -14,6 +14,10 @@ import {liveBot} from "../redux/features/LiveBaseBot";
 import {setHp} from "../redux/features/Hangar";
 import {gameOverOpen} from "../redux/features/GameOver";
 import {none, one, two, three} from "../redux/features/Stsr";
+import Hallway from "../components/Hallway";
+import store from "../redux/store";
+import {increment} from "../redux/features/Money";
+import Walls from "../components/Walls";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -26,6 +30,7 @@ export default class Scene_1 extends Phaser.Scene {
     velX = 0
     velY = 0
     hp = 0
+    hpBaseBot = 0;
     arrHp = []
     defaultHp = 0;
     countBot = 5
@@ -41,6 +46,7 @@ export default class Scene_1 extends Phaser.Scene {
     }
 
     base = new Base(this);
+    hallway = new Hallway(this);
     clock
     cursorKeys
     tankName = ''
@@ -57,11 +63,12 @@ export default class Scene_1 extends Phaser.Scene {
     store = {}
     killedBot = 0;
     killedPlayer = 0;
+    timerGameOver;
+    walls = new Walls(this)
+
 
     constructor() {
         super("Scene_1");
-
-
     }
 
     create() {
@@ -70,12 +77,10 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
-        let tiles = this.map.addTilesetImage("level_1", "tiles", 32, 32, 0, 0);
+        let tiles = this.map.addTilesetImage("level_" + this.state.levelCount.value.id, this.state.levelCount.value.tiles, 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
-        this.block = this.map.createLayer("block", tiles, 0, 0);
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
-        this.matter.world.convertTilemapLayer(this.block);
         this.matter.world.createDebugGraphic();
         this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
@@ -88,8 +93,14 @@ export default class Scene_1 extends Phaser.Scene {
             this.cameras.main.setZoom(0.8);
         }
 
+        this.walls.rect("walls")
+        this.walls.circle("walls-circle")
 
+        this.base.level = this.state.levelCount.value.id
         this.base.setup();
+        this.hallway.setup()
+
+
         this.body = this.state.battle.value.map((el) => {
                 let b = new Body(this.base.bodyPlayer[0].x, this.base.bodyPlayer[0].y, "tank_corpus_" + el.id, el.head, el.corpus,
                     this.action.getOption(el, "live"),
@@ -105,6 +116,7 @@ export default class Scene_1 extends Phaser.Scene {
                 return b;
             }
         )
+
         this.cameras.main.setScroll(this.base.bodyPlayer[0].x - window.innerWidth / 2, this.base.bodyPlayer[0].y - window.innerHeight / 2);
 
 
@@ -121,6 +133,7 @@ export default class Scene_1 extends Phaser.Scene {
             }
 
         });
+
 
 
         this.body.forEach((el, i) => {
@@ -143,9 +156,11 @@ export default class Scene_1 extends Phaser.Scene {
                 this.action.getProperties(el, "speed")
             );
             this.bodyBot[i].hp = this.action.getProperties(el, "hp");
-            this.bodyBot[i].level = this.action.getProperties(el, "level");
+            this.bodyBot[i].level = this.state.levelCount.value.id;
+            this.bodyBot[i].playerBasePosition = {x:this.base.bodyPlayer[0].x,y:this.base.bodyPlayer[0].y}
             this.bodyBot[i].setup(this);
             this.arrHp[i] = this.bodyBot[i].hp;
+
         })
         this.arrHp = this.arrHp.concat(this.base.arrBaseBot)
         this.defaultHp = this.arrHp.reduce((acc, num) => acc + num, 0);
@@ -185,23 +200,24 @@ export default class Scene_1 extends Phaser.Scene {
             }
 
             event.pairs.forEach((pair) => {
-                if (pair.bodyA.label.match(/bot/i) && pair.bodyB.label === "pule") {
+
+                if ((pair.bodyA.label.match(/bot/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule") {
                     pule(this, pair)
                 }
-                if (pair.bodyA.label.match(/tank/i) && pair.bodyB.label === "pule_bot") {
+                if ((pair.bodyA.label.match(/tank/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule_bot") {
                     pule(this, pair)
                 }
 
                 if (pair.bodyA.label.match(/tank_corpus/i) && pair.bodyB.label === "cursor-move") {
                     this.activePoint = true
                     this.input.on('pointerdown', (pointer) => {
-                        this.activeObject = pair.bodyA.label
+                      //  this.activeObject = pair.bodyA.label
 
                         this.body.forEach((el) => {
                             if (el.constraint.corpus.body === pair.bodyA) {
-                                el.constraint.corpus.body.highlight = true;
+                            //    el.constraint.corpus.body.highlight = true;
                             } else {
-                                el.constraint.corpus.body.highlight = false;
+                             //   el.constraint.corpus.body.highlight = false;
                             }
 
                         })
@@ -212,7 +228,7 @@ export default class Scene_1 extends Phaser.Scene {
                 if (pair.bodyB.label.match(/tank_corpus/i) && pair.bodyA.label === "cursor-move") {
                     this.activePoint = true
                     this.input.on('pointerdown', (pointer) => {
-                        this.activeObject = pair.bodyB.label
+                     //   this.activeObject = pair.bodyB.label
                     });
 
 
@@ -226,6 +242,8 @@ export default class Scene_1 extends Phaser.Scene {
                         }
                         if (el.constraint.corpus.body.health === 0) {
                             this.hp += el.hp
+                            this.store.dispatch(increment(el.level * 50))
+                            this.store.dispatch(setHp({id:pair.bodyB.bodyId,hp:el.hp}))
                         }
 
                     })
@@ -247,69 +265,60 @@ export default class Scene_1 extends Phaser.Scene {
         })
         this.matter.world.on("collisionactive", (event) => {
 
-            function rotateHeadPule(el, pair, name = "", store) {
-
-                if (name !== "bot") {
-                    if (el.constraint.corpus.body.health < 1 || pair.bodyA.healthBase < 1) {
-                        el.timer.paused = true;
-                    } else {
-                        if (pair.bodyB.health === 0 || pair.bodyA.healthBase === 0) {
-                            store.dispatch(setHp({id: el.id, hp: 100}));
-                            el.timer.paused = true;
-                        } else {
-                            el.timer.paused = false;
-                            el.constraint.sensor.positionBot = pair.bodyB.position
-                            pair.bodyA.sensorActive = true;
-
-                        }
-
-                    }
-                } else {
-                    if (el.constraint.corpus.body.health < 1 || pair.bodyA.healthBase < 1) {
-                        el.timer.paused = true
-                    } else {
-                        if (pair.bodyA.health === 0 || pair.bodyA.healthBase === 0) {
-                            el.timer.paused = true
-                        } else {
-                            el.timer.paused = false
-                            el.constraint.sensor.positionBot = pair.bodyA.position
-                            pair.bodyB.sensorActive = true
-
-                        }
-
-                    }
-
-                }
-
-
-            }
-
             event.pairs.forEach((pair) => {
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
-                        rotateHeadPule(el, pair, "", this.store)
+                        if(pair.bodyB.health === 0 || el.constraint.corpus.body.health === 0){
+                            el.timer.paused = true
+                        }else {
+                            el.constraint.sensor.positionBot = pair.bodyB.position
+                            el.constraint.sensor.sensorActive = true
+                            el.timer.paused = false
+                        }
+//console.log(el)
 
                     })
                 }
 
                 if (/sensor/i.test(pair.bodyB.label) && pair.bodyA.label.match(/base-bot/i)) {
-                    // pair.bodyB.sensorActive = true
                     this.body.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
-                        //   el.constraint.sensor.positionBot = pair.bodyA.position
-                        rotateHeadPule(el, pair, "bot")
+                        if(el.constraint.corpus.body.health === 0){
+                            el.timer.paused = true
+                        }
+                        if(pair.bodyA.healthBase < 1){
+                            el.timer.paused = true
+                            this.hp += pair.bodyA.hpBot
+                            this.store.dispatch(increment(this.state.levelCount.value.id * 100))
+                            this.store.dispatch(setHp({id:el.id,hp:this.state.levelCount.value.id * 100}))
+                        }else {
+                            el.constraint.sensor.positionBot = pair.bodyA.position
+                            el.constraint.sensor.sensorActive = true
+                            el.timer.paused = false
+                        }
+
                     })
                 }
-                if (pair.bodyA.label.match(/base/i) || pair.bodyB.label.match(/base/i)) {
-                    // pair.bodyB.sensorActive = true
+                if (pair.bodyA.label.match(/tank_base/i) || pair.bodyB.label.match(/bot/i)) {
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
-                        ///   el.constraint.sensor.positionBot = pair.bodyA.position
-                        rotateHeadPule(el, pair, "bot")
+                        if(pair.bodyA.healthBase === 0){
+                            el.timer.paused = true
+                        }else {
+                            el.constraint.sensor.positionBot = pair.bodyA.position
+                            el.constraint.sensor.sensorActive = true
+                            el.timer.paused = false
+                        }
                     })
                 }
 
                 if (/sensor/i.test(pair.bodyB.label) && pair.bodyA.label.match(/tank_corpus/i)) {
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
-                        rotateHeadPule(el, pair, "bot")
+                        if(pair.bodyA.health === 0 || el.constraint.corpus.body.health === 0){
+                            el.timer.paused = true
+                        }else {
+                            el.constraint.sensor.positionBot = pair.bodyA.position
+                            el.constraint.sensor.sensorActive = true
+                            el.timer.paused = false
+                        }
                     })
 
                 }
@@ -336,7 +345,7 @@ export default class Scene_1 extends Phaser.Scene {
             event.pairs.forEach((pair) => {
                 if ((pair.bodyA.label.match(/tank_corpus/i) && pair.bodyB.label === "cursor-move") || (pair.bodyB.label.match(/tank_corpus/i) && pair.bodyA.label === "cursor-move")) {
                     // this.activePoint = true
-                    this.activePoint = false
+                   this.activePoint = false
                 }
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
 
@@ -374,15 +383,15 @@ export default class Scene_1 extends Phaser.Scene {
                 }
                 if (pair.bodyA.label.match(/base-bot/i)) {
 
-                    pair.bodyB.sensorActive = false
+                  //  pair.bodyB.sensorActive = false
                     this.body.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         el.timer.paused = true
                     })
 
                 }
-                if (pair.bodyA.label.match(/base-player/i)) {
+                if (pair.bodyA.label.match(/tank_base/i)) {
 
-                    pair.bodyB.sensorActive = false
+                  //  pair.bodyB.sensorActive = false
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         el.timer.paused = true
                     })
@@ -397,15 +406,24 @@ export default class Scene_1 extends Phaser.Scene {
         this.input.on('pointerdown', (pointer) => {
 
             let worldXY = pointer.positionToCamera(this.cam);
-            if (!this.activePoint) {
+
                 this.tankName = this.activeObject
-                this.body.filter((el) => el.constraint.corpus.body.label === this.activeObject && el.constraint.corpus.body.health > 1).forEach((el) => {
-                    el.constraint.corpus.body.pX = worldXY.x;
-                    el.constraint.corpus.body.pY = worldXY.y;
+                this.body.filter((f) =>f.constraint.corpus.body.health > 1).forEach((el) => {
+
+
+
+                    if(this.matter.containsPoint(el.constraint.corpus,worldXY.x,worldXY.y)){
+                      //  console.log(el)
+                      this.activeObject = el.constraint.corpus.body
+                        el.constraint.corpus.body.highlight = true;
+                       // console.log(el)
+                    }else {
+                        el.constraint.corpus.body.highlight = false;
+                    }
 
 
                 })
-            }
+
             this.body.forEach((el) => {
                 if (el.constraint.corpus.body.label === this.activeObject) {
                     //
@@ -425,6 +443,7 @@ export default class Scene_1 extends Phaser.Scene {
             callbackScope: this,
             loop: true
         });
+
         this.time.addEvent({
             delay: 60000,                // ms
             callback: () => {
@@ -438,10 +457,27 @@ export default class Scene_1 extends Phaser.Scene {
             loop: true
         });
 
+        this.timerGameOver = this.time.addEvent({
+            delay: 1000,                // ms
+            callback: ()=>{
+
+            },
+            //args: [],
+            callbackScope: ()=>{
+
+            },
+            loop: true,
+            paused:true
+        });
+
     }
 
 
     update(time, delta) {
+        if(this.state.restart.value){
+
+        }
+
 
         let pointer = this.input.activePointer;
         let worldXY = pointer.positionToCamera(this.cam);
@@ -474,7 +510,10 @@ export default class Scene_1 extends Phaser.Scene {
         }
 
         if (pointer.isDown && !this.activePoint) {
+            this.activeObject.pX = worldXY.x;
+            this.activeObject.pY = worldXY.y;
             this.pointT.setPosition(worldXY.x, worldXY.y)
+            this.activeObject.highlight = true;
         }
         this.pointM.setPosition(worldXY.x, worldXY.y)
 
@@ -492,6 +531,8 @@ export default class Scene_1 extends Phaser.Scene {
                 title: "Поражение"
             }))
         }
+
+
 
         if (this.countBotBase === 0) {
             if (this.hp >= this.defaultHp) {

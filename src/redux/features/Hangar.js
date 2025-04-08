@@ -3,7 +3,7 @@ import getHangar from "../../json/hangar.json"
 export const hangar = createSlice({
     name: 'hangar',
     initialState: {
-        value: getHangar.slice(0,3),
+        value: getHangar.slice(0,1),
     },
     reducers: {
         selectHangar: (state, action) => {
@@ -29,7 +29,6 @@ export const hangar = createSlice({
             }
         },
         setHp:(state, action)=>{
-
             state.value = state.value.map(el => {
                 if (el.id === action.payload.id) {return {...el, hp: el.hp += action.payload.hp};}
                 return el;

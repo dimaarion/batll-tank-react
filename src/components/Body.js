@@ -27,6 +27,8 @@ export default class Body {
     radiusSensor = 300
     hpPlayer = 100
     scalePule = 0.6
+    hp = 100;
+    level = 1;
     constraint = {
         main: null,
         head: null,
@@ -63,6 +65,8 @@ export default class Body {
     target
     scaleTrack = {x:1,y:1}
     worldXY = {x: 0, y: 0}
+    playerBasePosition = {x:0,y:0}
+    icon = "HP-player"
     action = new Action();
 
     constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
@@ -122,7 +126,7 @@ export default class Body {
 
 
 
-        this.hpPlayer = this.scene.matter.add.sprite(this.x, this.y, "HP-player", 0, {
+        this.hpPlayer = this.scene.matter.add.sprite(this.x, this.y, this.icon, 0, {
             isSensor: true,
         }).setScale(1).setFixedRotation().setDepth(99)
         this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", "run-track", {
@@ -137,6 +141,7 @@ export default class Body {
             health: this.live,
             shield: this.shield,
             defaultHealth: this.live,
+            hp:this.hp,
             mass: 5,
             frictionAir: 0,
         }).setScale(this.scale).setDepth(1).setName(this.name)
@@ -217,7 +222,7 @@ export default class Body {
         // Нормализуем разницу углов для корректного направления вращения
         angleDiff = Phaser.Math.Angle.Wrap(angleDiff);
         // Устанавливаем угловую скорость
-        const angularSpeed = this.speedTank / 100000; // Подбери подходящее значение для скорости
+        const angularSpeed = 0.05; // Подбери подходящее значение для скорости
         this.scene.matter.body.setAngularVelocity(this.constraint.corpus.body, angleDiff * angularSpeed);
 
         this.moveTo(this.constraint.corpus.body, x, y)
@@ -258,7 +263,7 @@ export default class Body {
             this.sensorHighlight.clear()
 
         }
-
+        this.movePule()
         if (this.constraint.sensor.sensorActive) {
             this.rotateHead(this.constraint.head.body, this.constraint.sensor.positionBot.x, this.constraint.sensor.positionBot.y)
         } else {
@@ -268,7 +273,7 @@ export default class Body {
 
         }
 
-        this.movePule()
+
         this.liveDraw()
         this.shieldDraw()
     }
@@ -322,7 +327,9 @@ export default class Body {
             .sprite(this.constraint.sensor.headObject.body.position.x, this.constraint.sensor.headObject.body.position.y, 'pule', "pule", {
                 label: this.namePule,
                 attack: this.attack,
-                bot: this.bot
+                bot: this.bot,
+                bodyId:this.id
+
             }).setScale(this.scalePule)
             .setSensor(true).setDepth(2)
             .play("pule-departure-run").once('animationcomplete', () => {

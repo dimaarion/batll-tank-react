@@ -8,6 +8,7 @@ export default class Preload extends Phaser.Scene{
   preload() {
 
     this.load.image('tiles', './img/tiled/1.png');
+    this.load.image('tiles_2', './img/tiled/2.png');
     this.load.tilemapTiledJSON('map', './img/tiled/location_1.json');
     this.load.tilemapTiledJSON('map2', './img/tiled/location_2.json');
 
@@ -15,8 +16,8 @@ export default class Preload extends Phaser.Scene{
     this.load.image("HPBasePlayer", './img/sprites/HPBasePlayer.png');
 
     this.load.image("base-bot", './img/sprites/base-bot.png');
-    this.load.image("HP-bot", './img/sprites/HP-bot.png');
 
+    this.load.image("HP-bot", './img/sprites/HP-bot.png');
     this.load.image("HP-player", './img/sprites/HP-player.png');
 
     this.load.image("Hull_01", './img/sprites/PNG/Hulls_Color_A/Hull_01.png');
@@ -27,6 +28,9 @@ export default class Preload extends Phaser.Scene{
 
     this.load.image("pule", './img/sprites/pule.png');
     this.load.image("point-move", './img/sprites/pointNone.png');
+
+    this.load.image("hallway", './img/sprites/hallway.png');
+
     this.load.spritesheet('pule-blast', './img/sprites/pule-blast.png', {
       frameWidth: 64,
       frameHeight: 64
