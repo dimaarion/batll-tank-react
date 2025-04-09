@@ -38,8 +38,13 @@ export default class Body {
         live: null,
         sensor: null,
         track: [],
-        burning: null
+        burning: null,
+        rocket: []
+
     }
+
+    timerRocket
+
     targetBot = {x: 0, y: 0}
     highlightShield
     highlight
@@ -61,11 +66,11 @@ export default class Body {
     timer
     shield = 85
     live = 85
-    headerCorpus = {a:20,b:30}
+    headerCorpus = {a: 20, b: 30}
     target
-    scaleTrack = {x:1,y:1}
+    scaleTrack = {x: 1, y: 1}
     worldXY = {x: 0, y: 0}
-    playerBasePosition = {x:0,y:0}
+    playerBasePosition = {x: 0, y: 0}
     icon = "HP-player"
     action = new Action();
 
@@ -81,26 +86,30 @@ export default class Body {
         this.speedPule = 1000 - speedAttack;
         this.radiusSensor = radiusSensor * 10;
         this.speedTank = speed;
-        this.speed = attack
+        this.speed = radiusSensor > attack?radiusSensor / attack: attack / radiusSensor
 
-        if(this.corpusImg === "Hull_03"){
-            this.scaleTrack = {x:0.8,y:1}
+        if (this.corpusImg === "Hull_03") {
+            this.scaleTrack = {x: 0.8, y: 1}
             this.scalePule = 0.5
         }
-        if(this.corpusImg === "Hull_02"){
+        if (this.corpusImg === "Hull_02") {
             this.scalePule = 0.5
         }
-        if(this.corpusImg === "Hull_04"){
+        if (this.corpusImg === "Hull_04") {
             this.scalePule = 0.5
-            this.scaleTrack = {x:0.6,y:0.8}
+            this.scaleTrack = {x: 0.6, y: 0.8}
         }
-        if(this.corpusImg === "Hull_06"){
-            this.headerCorpus = {a:10,b:20}
+        if (this.corpusImg === "Hull_06") {
+            this.headerCorpus = {a: 10, b: 20}
             this.scalePule = 0.4
         }
-        if(this.corpusImg === "Hull_07"){
+        if (this.corpusImg === "Hull_07") {
             this.scalePule = 0.8
-            this.scaleTrack = {x:0.8,y:1}
+            this.scaleTrack = {x: 0.8, y: 1}
+        }
+        if (this.corpusImg === "Hull_rocket") {
+            this.scalePule = 0.8
+            this.headerCorpus = {a: 0, b: 0}
         }
     }
 
@@ -125,14 +134,16 @@ export default class Body {
         this.sensorHighlight.lineStyle(4, 0x808080, 0.5);
 
 
-
         this.hpPlayer = this.scene.matter.add.sprite(this.x, this.y, this.icon, 0, {
             isSensor: true,
         }).setScale(1).setFixedRotation().setDepth(99)
+
         this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", "run-track", {
             isSensor: true,
             cP: {x: 40, y: 0}
-        }).play("run-track").stop().setFixedRotation().setScale(this.scaleTrack.x,this.scaleTrack.y)
+        }).play("run-track").stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+
+
         this.constraint.corpus = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.corpusImg, {label: this.name}).setRectangle(200, 200, {
             label: this.name,
             pX: this.x,
@@ -141,10 +152,13 @@ export default class Body {
             health: this.live,
             shield: this.shield,
             defaultHealth: this.live,
-            hp:this.hp,
+            hp: this.hp,
             mass: 5,
             frictionAir: 0,
+            corpusImg: this.corpusImg
         }).setScale(this.scale).setDepth(1).setName(this.name)
+
+
         this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.headImg, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2);
         this.constraint.sensor = this.scene.matter.add.circle(this.x, this.y, this.radiusSensor, {
             isSensor: true,
@@ -171,7 +185,6 @@ export default class Body {
         });
 
 
-
         this.headSensor = this.scene.matter.add.constraint(this.constraint.head, this.constraint.sensor, 0, 1);
         this.scene.matter.add.constraint(this.constraint.corpus, this.constraint.burning, 0, 1);
 
@@ -190,18 +203,23 @@ export default class Body {
         this.timer = this.scene.time.addEvent({
             delay: this.speedPule,
             callback: () => {
-                this.pule()
+                if (this.corpusImg.match(/[0-9]/i)) {
+                    this.pule()
+                }
+
             },
             callbackScope: this,
             loop: true,
             paused: true
         });
 
+        if (this.corpusImg.match(/[rocket]/i)) {
+            this.rocket(4)
+        }
     }
 
 
     trackAngle() {
-        this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
         this.constraint.track.setPosition(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y)
         this.constraint.track.setRotation(this.constraint.corpus.body.angle)
         //this.constraint.head.setPosition(this.constraint.corpus.body.position.x,this.constraint.corpus.body.position.y)
@@ -248,9 +266,12 @@ export default class Body {
 
 
     draw() {
-        this.trackAngle()
-        this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY)
 
+        this.trackAngle();
+        this.movePule();
+        this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
+        this.rocketMove()
+        this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
         if (this.constraint.corpus.body.highlight) {
             this.highlight.clear()
             this.sensorHighlight.clear()
@@ -263,7 +284,7 @@ export default class Body {
             this.sensorHighlight.clear()
 
         }
-        this.movePule()
+
         if (this.constraint.sensor.sensorActive) {
             this.rotateHead(this.constraint.head.body, this.constraint.sensor.positionBot.x, this.constraint.sensor.positionBot.y)
         } else {
@@ -323,12 +344,13 @@ export default class Body {
     }
 
     pule() {
+
         this.constraint.pule = this.scene.matter.add
             .sprite(this.constraint.sensor.headObject.body.position.x, this.constraint.sensor.headObject.body.position.y, 'pule', "pule", {
                 label: this.namePule,
                 attack: this.attack,
                 bot: this.bot,
-                bodyId:this.id
+                bodyId: this.id
 
             }).setScale(this.scalePule)
             .setSensor(true).setDepth(2)
@@ -336,9 +358,8 @@ export default class Body {
                 if (this.constraint.pule) {
                     this.constraint.pule.setTexture("pule");
                 }
-                // Останавливаем анимацию
-
             });
+
         const dx = this.constraint.sensor.positionBot.x - this.constraint.sensor.headObject.body.position.x;
         const dy = this.constraint.sensor.positionBot.y - this.constraint.sensor.headObject.body.position.y;
         const angle = Math.atan2(dy, dx) + Math.PI / 2;
@@ -351,6 +372,76 @@ export default class Body {
         const moveY = this.constraint.sensor.headObject.body.position.y + (dy / distance) * 50;
         this.constraint.pule.setPosition(moveX, moveY)
         this.scene.matter.setVelocity(this.constraint.pule.body, velocity.x, velocity.y);
+    }
+
+    rocket(n = 4) {
+        this.constraint.rocket = this.action.createArray(n);
+        this.constraint.rocket = this.constraint.rocket.map((el) => {
+            return {
+                body: this.scene.matter.add.sprite(this.constraint.head.body.position.x + (el * 20), this.constraint.head.body.position.y, "rocket-static", 0, {
+                    label: this.namePule,
+                    attack: this.attack,
+                    bot: this.bot,
+                    bodyId: this.id
+
+                })
+                    .setSensor(true)
+                    .setDepth(2)
+                    .setScale(0.4)
+                    .setFixedRotation(),
+                constraint: null
+            }
+
+        })
+        this.constraint.rocket.map((el, i) => {
+            el.constraint = this.scene.matter.add.constraint(this.constraint.head, el.body, 0, 0.1, {
+                pointA: {
+                    x: 0,
+                    y: 0,
+                },
+                pointB: {
+                    x: (i * 20) - 25,
+                    y: 0,
+                },
+                damping: 0.2,
+                angularStiffness: 0
+            })
+        })
+
+
+    }
+
+    rocketMove() {
+
+        this.constraint.rocket.forEach((el) => {
+
+            if (el.body.body) {
+                el.body.setRotation(this.constraint.head.body.angle)
+                if (this.constraint.sensor.sensorActive) {
+                    this.scene.matter.world.removeConstraint(el.constraint)
+                    const dx = this.constraint.sensor.positionBot.x - this.constraint.sensor.headObject.body.position.x;
+                    const dy = this.constraint.sensor.positionBot.y - this.constraint.sensor.headObject.body.position.y;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const speed = this.speed; // Можно менять скорость
+                    const velocity = {x: (dx / length) * speed, y: (dy / length) * speed};
+                    this.scene.matter.setVelocity(el.body.body, velocity.x, velocity.y)
+
+                } else {
+
+                }
+                if (el.speed < 1.5) {
+                    el.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
+                        if (el.gameObject) {
+                            el.gameObject.destroy()
+                        }
+                        this.scene.matter.world.remove(el);
+
+                    });
+                }
+            }
+
+        })
+
     }
 
     liveDraw() {

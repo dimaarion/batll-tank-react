@@ -29,7 +29,9 @@ export default class Preload extends Phaser.Scene{
     this.load.image("pule", './img/sprites/pule.png');
     this.load.image("point-move", './img/sprites/pointNone.png');
 
-    this.load.image("hallway", './img/sprites/hallway.png');
+    this.load.image("hallway", './img/sprites/hallway2.png');
+
+    this.load.image("rocket-static", './img/sprites/rocket-static.png');
 
     this.load.spritesheet('pule-blast', './img/sprites/pule-blast.png', {
       frameWidth: 64,
@@ -51,7 +53,10 @@ export default class Preload extends Phaser.Scene{
       frameWidth: 100,
       frameHeight: 100
     });
-
+    this.load.spritesheet('rocket', './img/sprites/rocket.png', {
+      frameWidth: 64,
+      frameHeight: 228
+    });
 
 
 
@@ -90,6 +95,13 @@ export default class Preload extends Phaser.Scene{
     this.anims.create({
       key: 'run-track',
       frames:'track',
+      frameRate: 5,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'rocket-run',
+      frames:'rocket',
       frameRate: 5,
       repeat: -1
     });

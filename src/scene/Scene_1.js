@@ -31,6 +31,7 @@ export default class Scene_1 extends Phaser.Scene {
     velY = 0
     hp = 0
     hpBaseBot = 0;
+    activeObjectHead
     arrHp = []
     defaultHp = 0;
     countBot = 5
@@ -199,6 +200,16 @@ export default class Scene_1 extends Phaser.Scene {
                 });
             }
 
+            function puleA(scene, pair) {
+                pair.bodyA.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
+                    if (pair.bodyA.gameObject) {
+                        pair.bodyA.gameObject.destroy()
+                    }
+                    scene.matter.world.remove(pair.bodyA);
+
+                });
+            }
+
             event.pairs.forEach((pair) => {
 
                 if ((pair.bodyA.label.match(/bot/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule") {
@@ -206,6 +217,13 @@ export default class Scene_1 extends Phaser.Scene {
                 }
                 if ((pair.bodyA.label.match(/tank/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule_bot") {
                     pule(this, pair)
+                }
+
+                if ((pair.bodyB.label.match(/bot/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule") {
+                    puleA(this, pair)
+                }
+                if ((pair.bodyB.label.match(/tank/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule_bot") {
+                    puleA(this, pair)
                 }
 
                 if (pair.bodyA.label.match(/tank_corpus/i) && pair.bodyB.label === "cursor-move") {
@@ -239,6 +257,23 @@ export default class Scene_1 extends Phaser.Scene {
                         el.shieldDamageBot(pair.bodyA, pair.bodyB.attack)
                         if (pair.bodyA.gameObject.body.shield === 0) {
                             el.takeDamageBot(pair.bodyA, pair.bodyB.attack)
+                        }
+                        if (el.constraint.corpus.body.health === 0) {
+                            this.hp += el.hp
+                            this.store.dispatch(increment(el.level * 50))
+                            this.store.dispatch(setHp({id:pair.bodyB.bodyId,hp:el.hp}))
+                        }
+
+                    })
+                    this.base.takeDamageBot(pair.bodyA, pair.bodyB.attack)
+                }
+
+                if (/pule/i.test(pair.bodyA.label) && pair.bodyA.bot === 0 && pair.bodyB.label.match(/bot/i)) {
+
+                    this.bodyBot.filter((el) => el.constraint.corpus.body === pair.bodyB).forEach((el) => {
+                        el.shieldDamageBot(pair.bodyB, pair.bodyA.attack)
+                        if (pair.bodyB.gameObject.body.shield === 0) {
+                            el.takeDamageBot(pair.bodyB, pair.bodyA.attack)
                         }
                         if (el.constraint.corpus.body.health === 0) {
                             this.hp += el.hp
@@ -409,12 +444,10 @@ export default class Scene_1 extends Phaser.Scene {
 
                 this.tankName = this.activeObject
                 this.body.filter((f) =>f.constraint.corpus.body.health > 1).forEach((el) => {
-
-
-
                     if(this.matter.containsPoint(el.constraint.corpus,worldXY.x,worldXY.y)){
                       //  console.log(el)
-                      this.activeObject = el.constraint.corpus.body
+                      this.activeObject = el.constraint.corpus
+                        this.activeObjectHead = el.constraint.head
                         el.constraint.corpus.body.highlight = true;
                        // console.log(el)
                     }else {
@@ -497,6 +530,7 @@ export default class Scene_1 extends Phaser.Scene {
         }
 
         if (this.control.up.isDown) {
+
             this.cam.scrollY -= this.cameraSpeed;
         }
         if (this.control.down.isDown) {
@@ -509,11 +543,15 @@ export default class Scene_1 extends Phaser.Scene {
             this.cam.scrollX += this.cameraSpeed;
         }
 
-        if (pointer.isDown && !this.activePoint) {
-            this.activeObject.pX = worldXY.x;
-            this.activeObject.pY = worldXY.y;
+        if (pointer.isDown && !this.activePoint && this.activeObject) {
+            this.activeObject.body.pX = worldXY.x;
+            this.activeObject.body.pY = worldXY.y;
             this.pointT.setPosition(worldXY.x, worldXY.y)
-            this.activeObject.highlight = true;
+            this.activeObject.body.highlight = true;
+            if(!this.activeObject.body.corpusImg.match(/[0-9]/i)){
+                //this.activeObject.setPosition(worldXY.x, worldXY.y)
+              //  this.activeObjectHead.setPosition(worldXY.x, worldXY.y)
+            }
         }
         this.pointM.setPosition(worldXY.x, worldXY.y)
 

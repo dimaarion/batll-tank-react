@@ -48,7 +48,7 @@ export default function Battle() {
 
 
     return <>
-        <div style={styles.bg}>
+        <div className={"tank-bg"}>
             <Menu/>
             <div id={"tank-battle"}>
                 <div className={"tank-level-btn pointer"}>
@@ -70,7 +70,7 @@ export default function Battle() {
                 }
                 <div id={"battle-box-left"}>
                     {getHangar.value.map((el) => <div onClick={() => {
-                        if (battle.value.length <= 4 && !battle.value.some(tank => tank.id === el.id)) {
+                        if (battle.value.length <= 20 && !battle.value.some(tank => tank.id === el.id)) {
                             dispatch(addBattle(el))
                         }
                     }} className={"battle-list"} key={el.id}>
@@ -93,7 +93,7 @@ export default function Battle() {
                 <div className={"tank-battle-list-box"}>
                     <div className={"battle-list-bg"}/>
                     <div className={"tank-battle-list"}>
-                        {battle.value.filter((el, i) => i <= 4).map((el, i) => <div key={i + "list"}
+                        {battle.value.filter((el, i) => i <= 20).map((el, i) => <div key={i + "list"}
                                                                                     className={"tank-hangar-view-bg position-center-bg"}>
                             <div onClick={() => {
 

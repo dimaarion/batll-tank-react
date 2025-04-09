@@ -18,8 +18,16 @@ export default class Action{
         return n;
     }
 
+    createArray(n = 4){
+      let a = []
+      for (let i = 0; i < n; i++){
+          a[i] = i;
+      }
+      return a
+    }
+
     getOption(arr,name){
-    return arr.options.filter((opt)=>opt.name === name)[0].num;
+    return arr.options?.filter((opt)=>opt.name === name)[0]?.num;
     }
 
     getProperties(arr,name){

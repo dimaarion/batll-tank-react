@@ -53,7 +53,7 @@ export default class Bot extends Body {
       this.targetBot = this.sensorObject.targetObj
     }
 
-
+    this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
     this.trackAngle()
     this.liveDraw()
     this.shieldDraw();

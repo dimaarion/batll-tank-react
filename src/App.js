@@ -63,7 +63,7 @@ function App() {
 
     function save() {
         initPlayer().then((result) => {
-            let dataDefault = {money: 1000, hangar: defaultHangar.slice(0, 1), music: 0.5, effect: 0.5,level:{id:1,name:"map",tiles:"tiles"}}
+            let dataDefault = {coin: 1000, hangar: defaultHangar.slice(0, 1), music: 0.5, effect: 0.5,level:{id:1,name:"map",tiles:"tiles"}}
             result.setData(dataDefault, true)
         })
     }
@@ -99,7 +99,7 @@ function App() {
         if (initPlayer()) {
             initPlayer().then((result) => {
                 result.getData().then((d) => {
-                    let data = {...d, money: selectMoney.value}
+                    let data = {...d, coin: selectMoney.value}
                     result.setData(data, true)
                 })
             })

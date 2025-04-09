@@ -4,7 +4,9 @@ import {useEffect, useState} from "react";
 import Menu from "./Menu";
 import HpStarIcon from "./HpStarIcon";
 import Plus from "./Plus";
-import {selectOptions, selectLevel, hangar} from "../redux/features/Hangar";
+import {selectOptions, selectLevel, hangar, selectHangar} from "../redux/features/Hangar";
+import Minus from "./Minus";
+import {decrement, increment} from "../redux/features/Money";
 
 export default function Hangar() {
     const getHangar = useSelector((state) => state.hangar)
@@ -100,21 +102,31 @@ export default function Hangar() {
 
     return <>
 
-        <div style={styles.bg}>
+        <div className={"tank-bg"}>
             <Menu/>
             <div className={"tank-panel"}>
                 <TitleHangar/>
                 <div  className={"tank-panel-box"}>
                     <div className={"tank-hp-text"}>
-                        <span>Ур. {getHangar.value.filter((el)=>el.id === id)[0].level}</span>
+                        <span>Ур. {getHangar.value.filter((el)=>el.id === id)[0]?.level}</span>
                     </div>
-                    <div className={"tank-hp"}>
+                    <div className={"tank-coin"}>
                         <div className={"tank-coin-icon"}>
                             <HpStarIcon/>
                         </div>
                         <div id={"tank-coin-text"}>
                             <div id={"tank-coin-text-bg"}/>
                             <div id={"tank-coin-text-item"}>{hp} / {level * levelStep}</div>
+                        </div>
+                        <div onClick={()=>{
+console.log(getHangar.value.filter((el)=>el.id !== id))
+                            if(getHangar.value.length > 1){
+                                dispatch(selectHangar(getHangar.value.filter((el)=>el.id !== id)))
+                                dispatch(increment(coin / 2))
+                            }
+
+                        }} className={"tank-coin-btn"}>
+                            <Minus/>
                         </div>
                     </div>
                     <div className={"view-tank"}>
@@ -158,7 +170,7 @@ export default function Hangar() {
                                         label: "radius_attack"
                                     }))
                                     dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "speed"}))
-                                }} style={styles.plus}>
+                                }} className={"tank-plus"} >
                                     <Plus/>
                                 </div>:""}
                             </div>))}

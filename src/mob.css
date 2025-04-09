@@ -274,7 +274,14 @@
     .tank-level-btn{
         top: 35px;
     }
-
+    .tank-caret-right {
+        right: 0;
+        top: 195px;
+    }
+    .tank-caret-left {
+        left: 0;
+        top: 195px;
+    }
 
 }
 
