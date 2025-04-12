@@ -17,6 +17,7 @@ import {levelCount} from "./features/LevelCount";
 import {restart} from "./features/Restart";
 import {music} from "./features/Music";
 import {effect} from "./features/Effect";
+import {settingsOpen} from "./features/SettingsOpen";
 
 
 
@@ -42,6 +43,7 @@ export default configureStore({
         levelCount:levelCount.reducer,
         restart:restart.reducer,
         music:music.reducer,
-        effect:effect.reducer
+        effect:effect.reducer,
+        settingsOpen:settingsOpen.reducer
     },
 })

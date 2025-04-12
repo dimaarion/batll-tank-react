@@ -10,7 +10,7 @@ export default function TitleHangar(){
             margin: "auto",
             right: 0,
             left: 0,
-            background:"url('./img/gui/hangar-title.png')"
+            background:"url('https://game.fk-i-s.ru/asset/img/gui/hangar-title.png')"
         },
     }
     return <>

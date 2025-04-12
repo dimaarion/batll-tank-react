@@ -4,6 +4,11 @@ import {addBattle, removeBattle} from "../redux/features/Battle";
 import RestartBtn from "./RestartBtn";
 import {setMenu} from "../redux/features/SelectMenu";
 import LevelBtn from "./LevelBtn";
+import SettingsBtn from "./SettingsBtn";
+import {increment} from "../redux/features/SettingsOpen";
+import CaretRight from "./CaretRight";
+import CaretLeft from "./CaretLeft";
+import {useState} from "react";
 
 export default function Battle() {
     const dispatch = useDispatch();
@@ -11,54 +16,27 @@ export default function Battle() {
     const battle = useSelector((state) => state.battle)
     const selectLevelCount = useSelector((state) => state.levelCount);
 
-    const styles = {
-        bg: {
-            position: "fixed",
-            margin: "auto",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            width: "100%",
-            height: "100%",
-            background: "#3C4546",
-            zIndex: 4
-        },
-        listBox: {
-            width: "500px",
-            height: "160px",
-            position: "absolute",
-            overflowX: "auto",
-            top: "400px",
-            right: 0,
-            margin: "auto"
-        },
-        list: {
-            top: "15px",
-            width: "max-content",
-            height: "137.89px",
-            position: "absolute",
-            left: 0,
-            right: 0,
-            margin: "auto"
 
-        }
-
-    }
 
 
     return <>
         <div className={"tank-bg"}>
             <Menu/>
             <div id={"tank-battle"}>
-                <div className={"tank-level-btn pointer"}>
-                    <LevelBtn/>
+                <div className={"absolute right-0 h-50px"}>
+                    <div onClick={()=>dispatch(increment())} className={"tank-setting-btn  pointer"}>
+                        <SettingsBtn />
+                    </div>
+                    <div className={"tank-level-btn pointer"}>
+                        <LevelBtn/>
+                    </div>
+                    <div onClick={() => {
+                        dispatch(removeBattle())
+                    }} className={"battle-restart"}>
+                        <RestartBtn/>
+                    </div>
                 </div>
-                <div onClick={() => {
-                    dispatch(removeBattle())
-                }} className={"battle-restart"}>
-                    <RestartBtn/>
-                </div>
+
                 <div className={"absolute left-0"}>Ур. {selectLevelCount.value.id}</div>
                 {
                     battle.value.length > 0 ? <div className={"battle-play"}>
@@ -79,10 +57,10 @@ export default function Battle() {
                         <div className={"battle-view-tank"}>
                             <div className={"battle-view-tank-window"}>
                                 <div className={"view-tank-window-item position-center-bg"}
-                                     style={{background: "url(../img/gui/list/" + el.name + ".png) no-repeat"}}/>
+                                     style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + el.name + ".png) no-repeat"}}/>
                             </div>
                             <div className={"battle-options"}>
-                                {el.options.map((opt, i) => <div className={"optionItem"} key={i + "options"}>
+                                {el.options.map((opt, i) => <div className={"optionItem-battle"} key={i + "options"}>
                                     <div className={"optionIcon"} dangerouslySetInnerHTML={{__html: opt.icon}}/>
                                     <div className={"optionNum"}>{opt.num}</div>
                                 </div>)}
@@ -90,6 +68,7 @@ export default function Battle() {
                         </div>
                     </div>)}
                 </div>
+
                 <div className={"tank-battle-list-box"}>
                     <div className={"battle-list-bg"}/>
                     <div className={"tank-battle-list"}>
@@ -98,7 +77,7 @@ export default function Battle() {
                             <div onClick={() => {
 
                             }} className={"position-center-bg tank-hangar-view"}
-                                 style={{background: "url(../img/gui/list/" + el.name + ".png) no-repeat"}}/>
+                                 style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + el.name + ".png) no-repeat"}}/>
 
                         </div>)}
                     </div>

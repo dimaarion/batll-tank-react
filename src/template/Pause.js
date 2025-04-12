@@ -12,6 +12,7 @@ import {setRestart} from "../redux/features/Restart";
 import {gameOverClose} from "../redux/features/GameOver";
 import {setMusic} from "../redux/features/Music";
 import {setEffect} from "../redux/features/Effect";
+import {increment} from "../redux/features/SettingsOpen";
 
 
 export default function Pause() {
@@ -32,7 +33,7 @@ export default function Pause() {
                         <MusicIcon/>
                     </div>
                    <div>
-                       {selectMusic.value}
+
                        <input onChange={(e)=>dispatch(setMusic(e.target.value))} value={selectMusic.value} step={"any"} min={0} max={1}  className={"tank-music-input absolute top-0 bottom-0 margin-auto range pointer"} type={"range"} />
                    </div>
 
@@ -40,14 +41,14 @@ export default function Pause() {
                 <div className={"tank-sound-icon"}>
                     <SoundIcon/>
                     <div>
-                        {selectEffect.value}
+
                         <input onChange={(e)=>dispatch(setEffect(e.target.value))} value={selectEffect.value} step={"any"} min={0} max={1} className={"tank-music-input absolute top-0 bottom-0 margin-auto range pointer"} type={"range"} />
                     </div>
                 </div>
                 <div onClick={()=>dispatch(decrement())} className={"pointer"} id={"tank-pause-close"}>
                     <CloseBtn/>
                 </div>
-                <div className={"absolute left-50 b-130 pointer"}>
+                <div onClick={()=>dispatch(increment())} className={"absolute left-50 b-130 pointer"}>
                     <SettingsBtn />
                 </div>
                 <div className={"w-210 absolute b-130 h-50px right-0 left-0 margin-auto"} >

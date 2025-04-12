@@ -17,6 +17,7 @@ export default class Body {
     cam
     bot = 0
     namePule = "pule"
+    nameRocket = "rocket"
     nameSensor = "sensor"
     countPule = 0
     countTanks = 0;
@@ -83,10 +84,10 @@ export default class Body {
         this.live = live * 10;
         this.shield = shield * 10;
         this.attack = attack;
-        this.speedPule = 1000 - speedAttack;
+        this.speedPule = 10000 / speedAttack;
         this.radiusSensor = radiusSensor * 10;
         this.speedTank = speed;
-        this.speed = radiusSensor > attack?radiusSensor / attack: attack / radiusSensor
+        this.speed = radiusSensor / 5
 
         if (this.corpusImg === "Hull_03") {
             this.scaleTrack = {x: 0.8, y: 1}
@@ -105,12 +106,16 @@ export default class Body {
         }
         if (this.corpusImg === "Hull_07") {
             this.scalePule = 0.8
-            this.scaleTrack = {x: 0.8, y: 1}
+            this.scaleTrack = {x: 0.7, y: 1}
+        }
+        if (this.corpusImg === "Hull_08") {
+            this.scaleTrack = {x: 0.7, y: 1}
         }
         if (this.corpusImg === "Hull_rocket") {
             this.scalePule = 0.8
             this.headerCorpus = {a: 0, b: 0}
         }
+
     }
 
 
@@ -138,10 +143,10 @@ export default class Body {
             isSensor: true,
         }).setScale(1).setFixedRotation().setDepth(99)
 
-        this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", "run-track", {
+        this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
             isSensor: true,
             cP: {x: 40, y: 0}
-        }).play("run-track").stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+        }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
 
 
         this.constraint.corpus = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.corpusImg, {label: this.name}).setRectangle(200, 200, {
@@ -168,7 +173,7 @@ export default class Body {
             sensorActive: false
 
         })
-        this.constraint.burning = this.scene.matter.add.sprite(this.x, this.y, "pule-blast", "burning", {isSensor: true}).setDepth(10)
+        this.constraint.burning = this.scene.matter.add.sprite(this.x, this.y, "pule-blast", 0, {isSensor: true}).setDepth(10)
 
 
         this.constraint.main = this.scene.matter.add.constraint(this.constraint.corpus, this.constraint.head, 0, 0, {
@@ -212,10 +217,22 @@ export default class Body {
             loop: true,
             paused: true
         });
+        this.timerRocket = this.scene.time.addEvent({
+            delay: this.speedPule,
+            callback: () => {
+                if (this.corpusImg.match(/[rocket]/i)) {
+                    this.rocket(4)
+                    this.rocketMove()
+                }
 
-        if (this.corpusImg.match(/[rocket]/i)) {
-            this.rocket(4)
-        }
+            },
+            callbackScope: this,
+            loop: true,
+            paused: true
+        });
+
+
+
     }
 
 
@@ -270,7 +287,7 @@ export default class Body {
         this.trackAngle();
         this.movePule();
         this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
-        this.rocketMove()
+
         this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
         if (this.constraint.corpus.body.highlight) {
             this.highlight.clear()
@@ -279,15 +296,21 @@ export default class Body {
             this.highlight.strokeCircle(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, 100);
             this.sensorHighlight.lineStyle(4, 0x00ff00, 0.5);
             this.sensorHighlight.strokeCircle(this.constraint.head.body.position.x, this.constraint.head.body.position.y, this.radiusSensor);
+
         } else {
             this.highlight.clear()
             this.sensorHighlight.clear()
+
 
         }
 
         if (this.constraint.sensor.sensorActive) {
             this.rotateHead(this.constraint.head.body, this.constraint.sensor.positionBot.x, this.constraint.sensor.positionBot.y)
+            this.timerRocket.paused = false
+
         } else {
+            this.timerRocket.paused = true
+
             if (this.target) {
                 this.rotateHead(this.constraint.head.body, this.target.x, this.target.y)
             }
@@ -325,6 +348,20 @@ export default class Body {
                 }
             })
         }
+
+        if (this.constraint.rocket) {
+            this.scene.matter.world.getAllBodies().filter((el) => el.label === this.nameRocket).forEach((pule) => {
+                if (pule.speed < 1.5) {
+                   pule.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
+                        if (pule.gameObject) {
+                           pule.gameObject.destroy()
+                        }
+                       this.scene.matter.world.remove(pule);
+
+                    });
+                }
+            })
+        }
     }
 
     rotateHead(body, x, y) {
@@ -346,7 +383,7 @@ export default class Body {
     pule() {
 
         this.constraint.pule = this.scene.matter.add
-            .sprite(this.constraint.sensor.headObject.body.position.x, this.constraint.sensor.headObject.body.position.y, 'pule', "pule", {
+            .sprite(this.constraint.sensor.headObject.body.position.x, this.constraint.sensor.headObject.body.position.y, 'pule', 0, {
                 label: this.namePule,
                 attack: this.attack,
                 bot: this.bot,
@@ -379,14 +416,14 @@ export default class Body {
         this.constraint.rocket = this.constraint.rocket.map((el) => {
             return {
                 body: this.scene.matter.add.sprite(this.constraint.head.body.position.x + (el * 20), this.constraint.head.body.position.y, "rocket-static", 0, {
-                    label: this.namePule,
+                    label: this.nameRocket,
                     attack: this.attack,
                     bot: this.bot,
                     bodyId: this.id
 
                 })
                     .setSensor(true)
-                    .setDepth(2)
+                    .setDepth(1)
                     .setScale(0.4)
                     .setFixedRotation(),
                 constraint: null
@@ -425,19 +462,11 @@ export default class Body {
                     const speed = this.speed; // Можно менять скорость
                     const velocity = {x: (dx / length) * speed, y: (dy / length) * speed};
                     this.scene.matter.setVelocity(el.body.body, velocity.x, velocity.y)
-
+                    el.body.play("rocket-run", true)
                 } else {
 
                 }
-                if (el.speed < 1.5) {
-                    el.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
-                        if (el.gameObject) {
-                            el.gameObject.destroy()
-                        }
-                        this.scene.matter.world.remove(el);
 
-                    });
-                }
             }
 
         })

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="419dabe5-01fd-435e-8313-05c3895b028a" name="tanks">
+        <fileTransfer rootFolder="/home/users/d/dimaarion/domains/game.fk-i-s.ru" accessType="SFTP" host="fk-i-s.ru" port="22" sshConfigId="c6f13675-5e7f-4379-b343-25ed6edb93d0" sshConfig="dimaarion@fk-i-s.ru:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

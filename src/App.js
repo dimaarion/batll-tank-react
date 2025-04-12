@@ -14,6 +14,7 @@ import {setMoney} from "./redux/features/Money";
 import {setMusic} from "./redux/features/Music";
 import {setEffect} from "./redux/features/Effect";
 import {getLevel} from "./redux/features/LevelCount";
+import Settings from "./template/Settings";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
     const selectMusic = useSelector((state) => state.music)
     const selectEffect = useSelector((state) => state.effect)
     const selectLevelCount = useSelector((state) => state.levelCount);
+    const selectSettingsOpen = useSelector((state) => state.settingsOpen);
 
     const dispatch = useDispatch();
     const [ysdk, setYsdk] = useState(null);
@@ -63,7 +65,13 @@ function App() {
 
     function save() {
         initPlayer().then((result) => {
-            let dataDefault = {coin: 1000, hangar: defaultHangar.slice(0, 1), music: 0.5, effect: 0.5,level:{id:1,name:"map",tiles:"tiles"}}
+            let dataDefault = {
+                coin: 1000,
+                hangar: defaultHangar.slice(0, 1),
+                music: 0.5,
+                effect: 0.5,
+                level: {id: 1, name: "map", tiles: "tiles"}
+            }
             result.setData(dataDefault, true)
         })
     }
@@ -149,7 +157,7 @@ function App() {
             <header>
                 <TopPanel/>
             </header>
-
+            {selectSettingsOpen.value?<Settings/>:""}
             {selectGameOver.value.active ? <GameOver/> : ""}
             {selectPause.value ? <Pause/> : ""}
             {

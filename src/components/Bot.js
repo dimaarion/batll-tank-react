@@ -9,6 +9,7 @@ export default class Bot extends Body {
     super(x, y, name, head, corpus, live, shield, attack, speedAttack, radiusSensor, speed);
     this.bot = 1;
     this.namePule = "pule_bot";
+    this.nameRocket = "rocket_bot"
     this.icon = "HP-bot";
   }
 
@@ -60,12 +61,21 @@ export default class Bot extends Body {
     if(this.constraint.corpus.body.health !== 0){
       this.movePule();
       this.rotateTank(this.targetBot.x,this.targetBot.y)
-      this.rotateHead(this.constraint.head.body,this.constraint.sensor.positionBot.x,this.constraint.sensor.positionBot.y)
-      if (this.targetBot) {
-       // this.rotateHead(this.constraint.head.body, this.targetBot.x, this.targetBot.y)
+      if(this.constraint.sensor.sensorActive){
+        this.rotateHead(this.constraint.head.body,this.constraint.sensor.positionBot.x,this.constraint.sensor.positionBot.y)
+        this.timerRocket.paused = false
+      }else {
+        this.timerRocket.paused = true
+        if (this.targetBot) {
+           this.rotateHead(this.constraint.head.body, this.targetBot.x, this.targetBot.y)
+        }
       }
+
+
+
     }else {
       this.constraint.track.stop()
+      this.timerRocket.paused = true
     }
 
   }

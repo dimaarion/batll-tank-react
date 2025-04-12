@@ -63,7 +63,7 @@ export default function Shop() {
                     <div className={"view-tank"}>
                         <div className={"view-tank-window"}>
                             <div className={"view-tank-window-item position-center-bg"}
-                                 style={{background: "url(../img/gui/list/" + viewTank + ".png) no-repeat"}}/>
+                                 style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + viewTank + ".png) no-repeat"}}/>
                         </div>
                         <div className={"options"}>
                             {options.map((el, i) => <div className={"optionItem"} key={i + "options"}>
@@ -72,13 +72,10 @@ export default function Shop() {
                             </div>)}
                         </div>
                     </div>
-                    {listScroll}
                     <div onClick={(e)=>{
                         if(listScroll >= 0 || listScroll >= -e.currentTarget.clientWidth){
                             setListScroll(listScroll - (e.currentTarget.clientWidth - 50))
                         }
-
-
                     }}  className={"tank-caret-right-box pointer"}>
                         <CaretRight />
                     </div>
@@ -99,7 +96,7 @@ export default function Shop() {
                                     setCoin(el.coin);
                                     setObject(el);
                                 }} className={"position-center-bg tank-hangar-view"}
-                                     style={{background: "url(../img/gui/list/" + el.name + ".png) no-repeat"}}/>
+                                     style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + el.name + ".png) no-repeat"}}/>
 
                             </div>)}
                         </div>

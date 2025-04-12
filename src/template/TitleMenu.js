@@ -17,7 +17,7 @@ export default function TitleMenu(props){
     let title = props?.title
     const styles = {
         def:{
-            background:"url(./img/gui/title-menu.png) no-repeat"
+            background:"url(https://game.fk-i-s.ru/asset/img/gui/title-menu.png) no-repeat"
         }
     }
     return <>

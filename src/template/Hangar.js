@@ -7,6 +7,9 @@ import Plus from "./Plus";
 import {selectOptions, selectLevel, hangar, selectHangar} from "../redux/features/Hangar";
 import Minus from "./Minus";
 import {decrement, increment} from "../redux/features/Money";
+import CaretRight from "./CaretRight";
+import CaretLeft from "./CaretLeft";
+import CoinIcon from "./CoinIcon";
 
 export default function Hangar() {
     const getHangar = useSelector((state) => state.hangar)
@@ -19,70 +22,11 @@ export default function Hangar() {
     const [id, setId] = useState(getHangar.value[0].id)
     const [active, setActive] = useState(false)
     const [countSkills, setCountSkills] = useState(0)
+    const [listScroll, setListScroll] = useState(0)
     const dispatch = useDispatch();
 
     const levelStep = 1000
 
-    const styles = {
-        bg: {
-            position: "fixed",
-            margin: "auto",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            width: "100%",
-            height: "100%",
-            background: "#3C4546",
-            zIndex: 4
-        },
-        panel: {
-            position: "relative",
-            top: "100px"
-        },
-        box: {
-            background: "url(./img/gui/hangar-title-bg.png) no-repeat",
-            top: "70px",
-            left: 0,
-            right: 0,
-            width: "487px",
-            height: "700px",
-            position: "absolute",
-            margin: "auto",
-
-        },
-        listBox: {
-            width: "448px",
-            height: "160px",
-            position: "absolute",
-            overflowX: "auto",
-            top: "375.37px",
-            left: 0,
-            right: 0,
-            margin: "auto"
-        },
-        list: {
-            top: "70px",
-            width: "max-content",
-            height: "137.89px",
-
-        },
-        listItem: {
-            width: "80px",
-            height: "130.63px",
-            float: "left",
-            marginLeft: "8px"
-        },
-        plus: {
-            position: "absolute",
-            margin: "auto",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            height: "30px",
-            cursor: "pointer"
-        }
-    }
 
     useEffect(() => {
         const timer = setTimeout(()=>{
@@ -110,6 +54,15 @@ export default function Hangar() {
                     <div className={"tank-hp-text"}>
                         <span>Ур. {getHangar.value.filter((el)=>el.id === id)[0]?.level}</span>
                     </div>
+                    <div className={"tank-coin-hangar"}>
+                        <div className={"tank-coin-icon"}>
+                            <CoinIcon/>
+                        </div>
+                        <div id={"tank-coin-text"}>
+                            <div id={"tank-coin-text-bg"}/>
+                            <div id={"tank-coin-text-item"}>{coin}</div>
+                        </div>
+                    </div>
                     <div className={"tank-coin"}>
                         <div className={"tank-coin-icon"}>
                             <HpStarIcon/>
@@ -119,7 +72,6 @@ export default function Hangar() {
                             <div id={"tank-coin-text-item"}>{hp} / {level * levelStep}</div>
                         </div>
                         <div onClick={()=>{
-console.log(getHangar.value.filter((el)=>el.id !== id))
                             if(getHangar.value.length > 1){
                                 dispatch(selectHangar(getHangar.value.filter((el)=>el.id !== id)))
                                 dispatch(increment(coin / 2))
@@ -132,7 +84,7 @@ console.log(getHangar.value.filter((el)=>el.id !== id))
                     <div className={"view-tank"}>
                         <div className={"view-tank-window"}>
                             <div className={"view-tank-window-item position-center-bg"}
-                                 style={{background: "url(../img/gui/list/" + viewTank + ".png) no-repeat"}}/>
+                                 style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + viewTank + ".png) no-repeat"}}/>
                         </div>
                         <div className={"options"}>
                             {hp >= level * levelStep?<span className={"absolute top--25 right-0"}> {6 - countSkills} очк.</span>:""}
@@ -169,12 +121,29 @@ console.log(getHangar.value.filter((el)=>el.id !== id))
                                         name: opt.name,
                                         label: "radius_attack"
                                     }))
-                                    dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "speed"}))
+                                    if(opt.name === "speed" && opt.num < 10){
+                                        dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "speed"}))
+                                    }
+
                                 }} className={"tank-plus"} >
                                     <Plus/>
                                 </div>:""}
                             </div>))}
                         </div>
+                    </div>
+                    <div onClick={(e)=>{
+                        if(listScroll >= 0 || listScroll >= -e.currentTarget.clientWidth){
+                            setListScroll(listScroll - (e.currentTarget.clientWidth - 50))
+                        }
+                    }}  className={"tank-caret-right-box pointer"}>
+                        <CaretRight />
+                    </div>
+                    <div onClick={(e)=>{
+                        if(listScroll < 0 ){
+                            setListScroll(listScroll + (e.currentTarget.clientWidth - 50))
+                        }
+                    }}  className={"tank-caret-left-box pointer"}>
+                        <CaretLeft/>
                     </div>
                     <div className={"tank-panel-list-box"}>
                         <div className={"tank-panel-list"}>
@@ -187,7 +156,7 @@ console.log(getHangar.value.filter((el)=>el.id !== id))
                                     setHp(el.hp)
                                     setId(el.id)
                                 }} className={"position-center-bg tank-hangar-view"}
-                                     style={{background: "url(../img/gui/list/" + el.name + ".png) no-repeat"}}/>
+                                     style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + el.name + ".png) no-repeat"}}/>
 
                             </div>)}
                         </div>

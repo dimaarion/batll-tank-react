@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "axios": "^1.8.4",
     "phaser": "^3.88.2",
     "phaser-matter-collision-plugin": "^1.0.0",
     "phaser3-rex-plugins": "^1.80.15",
