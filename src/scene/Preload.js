@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import axios from "axios";
+
 
 export default class Preload extends Phaser.Scene {
     constructor() {

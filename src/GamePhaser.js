@@ -21,7 +21,7 @@ export default function GamePhaser() {
 
     useEffect(() => {
         const config = {
-            type: Phaser.AUTO,
+            type: Phaser.WEBGL,
             width: window.innerWidth,
             height: window.innerHeight,
             backgroundColor: "#000",
