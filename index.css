@@ -24,7 +24,7 @@ html {
 
 
 .title-bg {
-    background: url("./img/gui/hangar-title.png");
+    background: url("./asset/img/gui/hangar-title.png");
     position: absolute;
     width: 295px;
     height: 68px;
@@ -142,7 +142,7 @@ html {
 }
 
 .image-bg {
-    background: url("./img/gui/hangar-title-bg.png") no-repeat;
+    background: rgb(60, 69, 70) url("./asset/img/gui/hangar-title-bg.png") no-repeat !important;
 }
 
 .tank-level-active {
@@ -211,7 +211,7 @@ html {
 }
 
 .level-bg {
-    background: url("./img/gui/level-bg.png") no-repeat;
+    background: url("./asset/img/gui/level-bg.png") no-repeat;
     position: relative;
     top: 80px;
     background-size: contain;
@@ -257,7 +257,9 @@ html {
 .w-100 {
     width: 100%;
 }
-
+.w-90{
+    width: 90%;
+}
 .w-175 {
     width: 175px;
 }
@@ -266,8 +268,16 @@ html {
     width: 200px;
 }
 
+.p-10{
+    padding: 10px;
+}
+
 .w-210 {
     width: 210px;
+}
+
+.w-200{
+    width: 200px;
 }
 
 .w-500 {
@@ -321,7 +331,13 @@ svg :hover .tank-btn {
 
 
 .tank-icon {
-    background: url("./img/gui/tank-icon.png");
+    background: url("./asset/img/gui/tank-icon.png");
+}
+
+.tank-coin-hangar {
+    position: absolute;
+    top: 50px;
+    left: 50px;
 }
 
 .tank-top-panel-level {
@@ -333,6 +349,13 @@ svg :hover .tank-btn {
     left: 80px;
 }
 
+.tank-setting-btn{
+    position: absolute;
+    right: 147px;
+    top: 80px;
+}
+
+
 .tank-level {
     position: fixed;
     top: 0;
@@ -343,6 +366,8 @@ svg :hover .tank-btn {
     height: 100%;
     z-index: 8;
 }
+
+
 
 .tank-level-box {
     position: relative;
@@ -451,11 +476,16 @@ svg :hover .tank-btn {
     width: 608px;
     height: 318px;
     top: 71px;
-    background: url("./img/gui/pause-box-bg.png");
+    background: url("./asset/img/gui/pause-box-bg.png");
 }
 
+.tank-pause-bg-img{
+    background: url("./asset/img/gui/pause-box-bg.png") no-repeat;
+}
+
+
 .tank-active {
-    background: url("./img/gui/tank-hangar-list-item-active.png");
+    background: url("./asset/img/gui/tank-hangar-list-item-active.png");
     width: 80px;
     height: 131px;
     float: left;
@@ -483,7 +513,7 @@ div {
     height: 50px;
     font-size: 25pt;
     text-align: center;
-    background: url("./img/gui/block-bg.png");
+    background: url("./asset/img/gui/block-bg.png");
 }
 
 .battle-play {
@@ -550,7 +580,7 @@ div {
     bottom: 0;
     left: 0;
     right: 0;
-    background: url("./img/gui/block-bg.png");
+    background: url("./asset/img/gui/block-bg.png");
 }
 
 .battle-view-tank {
@@ -578,7 +608,7 @@ div {
     position: absolute;
     width: 162px;
     height: 262px;
-    background: url("./img/gui/tank-hangar-list-item.png");
+    background: url("./asset/img/gui/tank-hangar-list-item.png");
     background-size: cover;
     right: 15px;
 }
@@ -595,7 +625,7 @@ div {
 }
 
 #tank-battle {
-    background: url("./img/gui/batle.png");
+    background: url("./asset/img/gui/batle.png");
     position: relative;
     width: 911px;
     height: 621px;
@@ -691,9 +721,40 @@ div {
     left: 0;
 }
 
+.tank-setting-bg{
+    z-index: 8;
+    position: absolute;
+    width: 630px;
+    height: 515px;
+    background-size: cover!important;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 70px;
+
+}
+
+.tank-setting-img{
+    background: url("./asset/img/gui/settings-box.png") no-repeat;
+}
+
+.tank-setting-close{
+    position: absolute;
+    right: -20px;
+    top: -20px;
+}
+
+.tank-setting-box{
+    position: absolute;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
 .tank-battle-list-box {
     width: 500px;
-    height: 160px;
+    height: 170px;
     position: absolute;
     overflow-x: auto;
     top: 400px;
@@ -702,7 +763,7 @@ div {
 }
 
 .tank-panel-box {
-    background: url("./img/gui/hangar-title-bg.png") no-repeat;
+    background: url("./asset/img/gui/hangar-title-bg.png") no-repeat;
     top: 70px;
     left: 0;
     right: 0;
@@ -853,7 +914,7 @@ div {
     position: absolute;
     width: 162px;
     height: 262px;
-    background: url(./img/gui/tank-hangar-list-item.png) no-repeat;
+    background: url('./asset/img/gui/tank-hangar-list-item.png') no-repeat;
     background-size: cover;
     right: 0;
 }
@@ -891,7 +952,7 @@ div {
 }
 
 .tank-hangar-view-bg {
-    background: url(./img/gui/tank-hangar-list-item.png);
+    background: url(./asset/img/gui/tank-hangar-list-item.png);
     width: 80px;
     height: 130.63px;
     float: left;
@@ -924,7 +985,13 @@ div {
     margin-bottom: 2px;
     position: relative;
 }
-
+.optionItem-battle {
+    width: 150px;
+    height: 35px;
+    border: solid 1px #808080;
+    margin-bottom: 2px;
+    position: relative;
+}
 .optionIcon {
     width: 50px;
     height: 100%;

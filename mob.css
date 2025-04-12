@@ -20,7 +20,7 @@
     }
 
     #tank-battle {
-        background: url("./img/gui/level-bg.png") no-repeat;
+        background: url("./asset/img/gui/level-bg.png") no-repeat;
         position: relative;
         width: 400px;
         height: 621px;
@@ -99,13 +99,19 @@
         justify-content: center;
     }
     .optionItem {
+        width: 118px;
+        height: 20px;
+        border: solid 1px #808080;
+        margin-bottom: 2px;
+        position: relative;
+    }
+    .optionItem-battle {
         width: 72px;
         height: 20px;
         border: solid 1px #808080;
         margin-bottom: 2px;
         position: relative;
     }
-
     .battle-level {
         position: absolute;
         top: -50px;
@@ -214,9 +220,7 @@
         top: -280px;
     }
 
-    .options {
-        right: 120px;
-    }
+
 
     .tank-panel-list-box {
         top: 325px;
@@ -283,6 +287,36 @@
         top: 195px;
     }
 
+    .tank-setting-img{
+        background: url("./asset/img/gui/settings-box-mob.png") no-repeat;
+    }
+
+    .tank-setting-bg{
+        width: 402px;
+        height: 769px;
+    }
+
+    .tank-setting-close {
+        right: -5px;
+        top: -5px;
+    }
+
+    .tank-coin-hangar {
+        top: 35px;
+        left: 0;
+    }
+    #tank-coin-text-bg {
+        width: 120px;
+    }
+    .tank-hp-text {
+        top: 80px;
+    }
+    .tank-setting-btn {
+        top: 37px;
+    }
+    .tank-battle-add {
+        bottom: 100px;
+    }
 }
 
 @media screen and (max-height: 800px) {
@@ -296,6 +330,8 @@
     #tank-pause {
         position: relative;
     }
+
+
 }
 
 @media screen and (min-width: 800px) {
