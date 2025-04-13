@@ -15,6 +15,7 @@ import {setMusic} from "./redux/features/Music";
 import {setEffect} from "./redux/features/Effect";
 import {getLevel} from "./redux/features/LevelCount";
 import Settings from "./template/Settings";
+import Loading from "./template/Loading";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
     const selectEffect = useSelector((state) => state.effect)
     const selectLevelCount = useSelector((state) => state.levelCount);
     const selectSettingsOpen = useSelector((state) => state.settingsOpen);
+    const load = useSelector((state) => state.load)
 
     const dispatch = useDispatch();
     const [ysdk, setYsdk] = useState(null);
@@ -154,18 +156,24 @@ function App() {
 
     return (
         <div className="App">
-            <header>
-                <TopPanel/>
-            </header>
+            <div>
             {selectSettingsOpen.value?<Settings/>:""}
             {selectGameOver.value.active ? <GameOver/> : ""}
             {selectPause.value ? <Pause/> : ""}
+            </div>
             {
                 selectMenu.value === "Ангар" ?
                     <Hangar/> : selectMenu.value === "Магазин" ?
                     <Shop/> : selectMenu.value === "К бою" ?
                         <Battle/> : selectMenu.value === "Уровни" ?
-                            <Levels/> : !selectRestart.value ? <GamePhaser/> : ""
+                            <Levels/> : !selectRestart.value ?
+                                <div>
+                                    {load.value < 1?<Loading/>:""}
+                                    <TopPanel/>
+                                    <GamePhaser/>
+                                </div>
+
+                                 : ""
             }
 
         </div>

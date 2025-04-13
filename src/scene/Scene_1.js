@@ -78,8 +78,9 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
-        let tiles = this.map.addTilesetImage("level_" + this.state.levelCount.value.id, this.state.levelCount.value.tiles, 32, 32, 0, 0);
+        let tiles = this.map.addTilesetImage("level_1", this.state.levelCount.value.tiles, 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
+        this.map.createLayer("block", tiles, 0, 0);
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
         this.matter.world.createDebugGraphic();
@@ -169,6 +170,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.arrHp = this.arrHp.concat(this.base.arrBaseBot)
         this.defaultHp = this.arrHp.reduce((acc, num) => acc + num, 0);
 
+        this.map.createLayer("tree", tiles, 0, 0).setDepth(100);
 
         this.clock = new Clock(this);
         this.clock.start()

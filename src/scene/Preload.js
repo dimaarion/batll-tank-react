@@ -1,7 +1,9 @@
 import Phaser from "phaser";
+import {setLoad} from "../redux/features/Load";
 
 
 export default class Preload extends Phaser.Scene {
+    store
     constructor() {
         super('Preloader');
     }
@@ -10,14 +12,9 @@ export default class Preload extends Phaser.Scene {
     preload() {
         this.load.setCORS('anonymous');
 
-        this.load.on('progress', function (value) {
-            //console.log(value);
 
-        });
 
         this.load.image('tiles', 'https://game.fk-i-s.ru/script/tiles.php');
-
-        this.load.image('tiles_2', 'https://game.fk-i-s.ru/script/tiles_2.php');
 
         this.load.tilemapTiledJSON('map', 'https://game.fk-i-s.ru/script/location_1-json.php');
 
@@ -69,11 +66,17 @@ export default class Preload extends Phaser.Scene {
             frameHeight: 228
         });
 
+        this.store = this.registry.get('store');
+        this.load.on('progress', function (value) {
+            this.store.dispatch(setLoad(value))
+        },this);
 
     }
 
     create() {
         this.scene.start('Start');
+
+
         this.anims.create({
             key: 'runPoint',
             frames: this.anims.generateFrameNumbers('image-point', {start: 0, end: 3}),

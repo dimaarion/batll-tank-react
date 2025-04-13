@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 export default function GamePhaser() {
     const dispatch = useDispatch();
     const phaserRef = useRef(null);
-    const battle = useSelector((state) => state.battle)
+    const levelCount = useSelector((state) => state.levelCount)
 
 
     useEffect(() => {

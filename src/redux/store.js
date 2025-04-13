@@ -18,6 +18,7 @@ import {restart} from "./features/Restart";
 import {music} from "./features/Music";
 import {effect} from "./features/Effect";
 import {settingsOpen} from "./features/SettingsOpen";
+import {load} from "./features/Load";
 
 
 
@@ -44,6 +45,7 @@ export default configureStore({
         restart:restart.reducer,
         music:music.reducer,
         effect:effect.reducer,
-        settingsOpen:settingsOpen.reducer
+        settingsOpen:settingsOpen.reducer,
+        load:load.reducer
     },
 })
