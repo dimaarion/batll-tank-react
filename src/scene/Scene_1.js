@@ -346,10 +346,12 @@ export default class Scene_1 extends Phaser.Scene {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
                         if(pair.bodyB.health === 0 || el.constraint.corpus.body.health === 0){
                             el.timer.paused = true
+                            el.timerRocket.paused = true
                         }else {
                             el.constraint.sensor.positionBot = pair.bodyB.position
                             el.constraint.sensor.sensorActive = true
                             el.timer.paused = false
+                            el.timerRocket.paused = false
                         }
 //console.log(el)
 
@@ -360,9 +362,11 @@ export default class Scene_1 extends Phaser.Scene {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         if(el.constraint.corpus.body.health === 0){
                             el.timer.paused = true
+                            el.timerRocket.paused = true
                         }
                         if(pair.bodyA.healthBase < 1){
                             el.timer.paused = true
+                            el.timerRocket.paused = true
                             this.hp += pair.bodyA.hpBot
                             this.store.dispatch(increment(this.state.levelCount.value.id * 100))
                             this.store.dispatch(setHp({id:el.id,hp:this.state.levelCount.value.id * 100}))
@@ -370,6 +374,7 @@ export default class Scene_1 extends Phaser.Scene {
                             el.constraint.sensor.positionBot = pair.bodyA.position
                             el.constraint.sensor.sensorActive = true
                             el.timer.paused = false
+                            el.timerRocket.paused = false
                         }
 
                     })
@@ -378,10 +383,12 @@ export default class Scene_1 extends Phaser.Scene {
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         if(pair.bodyA.healthBase === 0){
                             el.timer.paused = true
+                            el.timerRocket.paused = true
                         }else {
                             el.constraint.sensor.positionBot = pair.bodyA.position
                             el.constraint.sensor.sensorActive = true
                             el.timer.paused = false
+                            el.timerRocket.paused = false
                         }
                     })
                 }
@@ -390,10 +397,12 @@ export default class Scene_1 extends Phaser.Scene {
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         if(pair.bodyA.health === 0 || el.constraint.corpus.body.health === 0){
                             el.timer.paused = true
+                            el.timerRocket.paused = true
                         }else {
                             el.constraint.sensor.positionBot = pair.bodyA.position
                             el.constraint.sensor.sensorActive = true
                             el.timer.paused = false
+                            el.timerRocket.paused = false
                         }
                     })
 
@@ -428,6 +437,7 @@ export default class Scene_1 extends Phaser.Scene {
                     pair.bodyA.sensorActive = false
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
                         el.timer.paused = true
+                        el.timerRocket.paused = true
                         if (el.constraint.corpus.body && el.constraint.corpus.body.health > 1) {
                             el.constraint.sensor.positionBot = pair.bodyB.position
                             if (pair.bodyB.health !== 0) {
@@ -441,9 +451,10 @@ export default class Scene_1 extends Phaser.Scene {
                 }
 
                 if (/sensor/i.test(pair.bodyB.label) && pair.bodyA.label.match(/tank/i)) {
-                    pair.bodyA.sensorActive = false
+                    pair.bodyB.sensorActive = false
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         el.timer.paused = true
+                        el.timerRocket.paused = true
                         if (el.constraint.corpus.body.health > 1) {
                             el.constraint.sensor.positionBot = pair.bodyA.position
                             if (pair.bodyA.health !== 0) {
@@ -462,6 +473,7 @@ export default class Scene_1 extends Phaser.Scene {
                   //  pair.bodyB.sensorActive = false
                     this.body.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         el.timer.paused = true
+                        el.timerRocket.paused = true
                     })
 
                 }
@@ -470,6 +482,7 @@ export default class Scene_1 extends Phaser.Scene {
                   //  pair.bodyB.sensorActive = false
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         el.timer.paused = true
+                        el.timerRocket.paused = true
                     })
 
                 }

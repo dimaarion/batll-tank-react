@@ -3,57 +3,238 @@
     "id": 1,
     "star": 0,
     "name": "map",
-    "tiles": "tiles"
-
+    "tiles": "tiles",
+    "quest": {
+        "content": {
+          "title": "Глава 1: Первая Волна",
+          "briefing": "Командование приказало установить контроль над приграничной зоной. Разведка доложила о перемещении вражеских разведгрупп и первых бронетанковых подразделений. Ваша задача — сдержать натиск, защитить базу и выявить слабые места в обороне противника.",
+          "text": "Отразить разведывательный отряд противника и удержать базу."
+        },
+        "completed": false
+      }
   },
   {
     "id": 2,
     "star": 0,
     "name": "map2",
-    "tiles": "tiles"
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 2",
+        "text": "Провести патрулирование и зачистить окрестности от одиночных танков."
+      },
+      "completed": false
+    }
   },
   {
     "id": 3,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
-
+    "name": "map3",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 3",
+        "text": "Разведать расположение вражеских минных полей, не потеряв технику."
+      },
+      "completed": false
+    }
   },
   {
     "id": 4,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
+    "name": "map4",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 4",
+        "text": "Уничтожить вражескую артиллерийскую батарею на окраине."
+      },
+      "completed": false
+    }
   },
   {
     "id": 5,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
+    "name": "map5",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 5",
+        "text": "Устроить засаду на вражеский конвой с боеприпасами."
+      },
+      "completed": false
+    }
   },
   {
     "id": 6,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
+    "name": "map6",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 6",
+        "text": "Перехватить вражеский танк-разведчик до передачи данных."
+      },
+      "completed": false
+    }
   },
   {
     "id": 7,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
+    "name": "map7",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 7",
+        "text": "Отразить ночную атаку при ограниченной видимости."
+      },
+      "completed": false
+    }
   },
   {
     "id": 8,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
+    "name": "map8",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 8",
+        "text": "Захватить мост, пока противник не подорвал его."
+      },
+      "completed": false
+    }
   },
   {
     "id": 9,
     "star": 0,
-    "name": "",
-    "tiles": "tiles"
-
+    "name": "map9",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 9",
+        "text": "Провести разведку в тылу врага и ликвидировать штаб связи."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 10,
+    "star": 0,
+    "name": "map10",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 1: Первая Волна",
+        "briefing": "Часть 10",
+        "text": "Удерживать стратегическую точку 2 минуты против элитного отряда."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 11,
+    "star": 0,
+    "name": "map11",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Противник усиливает давление на наших позициях. У нас есть шанс сорвать их планы, устроив засады и перехватив стратегически важные грузы. Подготовьтесь к ночным операциям и экстренным эвакуациям — эта глава определит, кто возьмёт инициативу.",
+        "text": "Эвакуировать повреждённый танк с линии фронта."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 12,
+    "star": 0,
+    "name": "map12",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 2",
+        "text": "Уничтожить отряд вражеских миномётчиков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 13,
+    "star": 0,
+    "name": "map13",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 3",
+        "text": "Обезвредить скрытые мины вдоль дороги."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 14,
+    "star": 0,
+    "name": "map14",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 4",
+        "text": "Захватить вражеский склад и удерживать его."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 15,
+    "star": 0,
+    "name": "map15",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 5",
+        "text": "Провести эвакуацию союзного танка под обстрелом."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 16,
+    "star": 0,
+    "name": "map16",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 6",
+        "text": "Перехватить и уничтожить вражеский конвой."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 17,
+    "star": 0,
+    "name": "map17",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 7",
+        "text": "Зачистить деревню от засевших лёгких танков."
+      },
+      "completed": false
+    }
   }
 ]

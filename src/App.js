@@ -16,6 +16,7 @@ import {setEffect} from "./redux/features/Effect";
 import {getLevel} from "./redux/features/LevelCount";
 import Settings from "./template/Settings";
 import Loading from "./template/Loading";
+import Dialog from "./template/Dialog";
 
 
 function App() {
@@ -161,6 +162,7 @@ function App() {
             {selectGameOver.value.active ? <GameOver/> : ""}
             {selectPause.value ? <Pause/> : ""}
             </div>
+            <Dialog/>
             {
                 selectMenu.value === "Ангар" ?
                     <Hangar/> : selectMenu.value === "Магазин" ?

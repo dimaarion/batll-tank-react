@@ -18,10 +18,10 @@ export default function Levels() {
                     <div className={"title-text"}>Уровни</div>
                 </div>
                 <div className={"level-bg"}>
-                    <div className={"absolute top-50 left-30"}>
+                    <div className={"absolute tank-level-box-item top-50 left-30"}>
                         {selectLevel.value.map((el,i) => <div onClick={()=>{
                             dispatch(setMenu("К бою"));
-                            dispatch(getLevel({id:el.id,name:el.name,tiles:el.tiles}))
+                            dispatch(getLevel(el));
                         }
                         } key={i + "levels"} className={"float-left p-5 pointer"}>
                             <LevelCount num = {el.id} />
