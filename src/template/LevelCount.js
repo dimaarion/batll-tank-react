@@ -3,10 +3,17 @@ import {useSelector} from "react-redux";
 export default function LevelCount(props){
     const selectLevelCount = useSelector((state) => state.levelCount);
 
-    let active = ""
+    let active = "";
+    let left = 17;
+    if(props.num > 9 && props.num < 100){
+        left = 10
+    }else if(props.num > 99){
+        left = 1
+    }
     if(selectLevelCount.value.id === props.num){
         active = "tank-level-active"
     }
+
 
     return <>
         <div>
@@ -22,7 +29,7 @@ export default function LevelCount(props){
                         <path d="M0 0L50 0" fill="#3C4546" fillRule="evenodd" strokeWidth="3" stroke="#1F2324" strokeLinecap="square" transform="translate(0 11.873)" />
                         <path d="M0 0L50 0" fill="#3C4546" fillRule="evenodd" strokeWidth="3" stroke="#1F2324" strokeLinecap="square" />
                     </g>
-                    <text x={props.num < 10?17:10} y={38} className={"title-text"} fill="#c6bcbc" fillRule="evenodd" >{props.num}</text>
+                    <text x={left} y={38} className={"title-text"} fill="#c6bcbc" fillRule="evenodd" >{props.num}</text>
                 </g>
             </svg>
         </div>

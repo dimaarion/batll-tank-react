@@ -15,9 +15,9 @@ import {setHp} from "../redux/features/Hangar";
 import {gameOverOpen} from "../redux/features/GameOver";
 import {none, one, two, three} from "../redux/features/Stsr";
 import Hallway from "../components/Hallway";
-import store from "../redux/store";
 import {increment} from "../redux/features/Money";
 import Walls from "../components/Walls";
+import getHangar from "../json/hangar.json"
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -149,7 +149,8 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.map.objects.filter((el) => el.name === "tanks")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
-
+           let b = getHangar.filter((f)=>f.name === el.name)[0]
+            console.log(el)
             this.bodyBot[i] = new Bot(el.x, el.y, "bot_corpus_" + i,
                 this.action.getProperties(el, "head"),
                 this.action.getProperties(el, "corpus"),

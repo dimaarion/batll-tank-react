@@ -17,9 +17,11 @@ export default function Hangar() {
     const [viewTank, setViewTank] = useState("Hull_01")
 
     const [coin, setCoin] = useState(getHangar.value[0].coin)
+    const [sale, setSale] = useState(getHangar.value[0].sale)
     const [level, setLevel] = useState(getHangar.value[0].level)
     const [hp, setHp] = useState(getHangar.value[0].hp)
     const [id, setId] = useState(getHangar.value[0].id)
+    const [title, setTitle] = useState(getHangar.value[0].title)
     const [active, setActive] = useState(false)
     const [countSkills, setCountSkills] = useState(0)
     const [listScroll, setListScroll] = useState(0)
@@ -60,7 +62,7 @@ export default function Hangar() {
                         </div>
                         <div id={"tank-coin-text"}>
                             <div id={"tank-coin-text-bg"}/>
-                            <div id={"tank-coin-text-item"}>{coin}</div>
+                            <div id={"tank-coin-text-item"}>{sale}</div>
                         </div>
                     </div>
                     <div className={"tank-coin"}>
@@ -74,7 +76,7 @@ export default function Hangar() {
                         <div onClick={()=>{
                             if(getHangar.value.length > 1){
                                 dispatch(selectHangar(getHangar.value.filter((el)=>el.id !== id)))
-                                dispatch(increment(coin / 2))
+                                dispatch(increment(sale))
                             }
 
                         }} className={"tank-coin-btn"}>
@@ -87,6 +89,7 @@ export default function Hangar() {
                                  style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + viewTank + ".png) no-repeat"}}/>
                         </div>
                         <div className={"options"}>
+                            <div className="absolute left-0 margin-auto top--25">{title}</div>
                             {hp >= level * levelStep?<span className={"absolute top--25 right-0"}> {6 - countSkills} очк.</span>:""}
                             {getHangar.value.filter((el) => el.id === id).map((el, i) => el.options.map((opt, j) => <div
                                 className={"optionItem"} key={j + "options"}>
@@ -155,6 +158,8 @@ export default function Hangar() {
                                     setLevel(el.level)
                                     setHp(el.hp)
                                     setId(el.id)
+                                    setTitle(el.title)
+                                    setSale(el.sale)
                                 }} className={"position-center-bg tank-hangar-view"}
                                      style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + el.name + ".png) no-repeat"}}/>
 

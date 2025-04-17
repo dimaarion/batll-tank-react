@@ -264,7 +264,7 @@ export default class Body {
         if (this.target) {
             const distance = Phaser.Math.Distance.Between(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, this.target.x, this.target.y);
 
-            if (distance < 200) { // Если близко к цели, останавливаем
+            if (distance < (200 + this.speedTank * 5)) { // Если близко к цели, останавливаем
                 this.scene.matter.setVelocity(this.constraint.corpus.body, 0, 0);
                 this.target = null; // Убираем цель
             }

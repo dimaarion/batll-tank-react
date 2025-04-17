@@ -13,7 +13,7 @@ export default function PlayBtn(){
 
         <svg onMouseDown={()=> {
             if(levelPlay?.id){
-                dispatch(getLevel({id: levelPlay.id, name: levelPlay.name, tiles: levelPlay.tiles}))
+                dispatch(getLevel(levelPlay))
             }
             dispatch(setRestart(true))
 

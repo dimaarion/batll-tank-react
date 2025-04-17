@@ -8,6 +8,13 @@
         visibility: hidden;
     }
 
+    .tank-dialog-left{
+        left: -290px;
+    }
+    .tank-dialog-btn{
+        left: 290px;
+    }
+
     .tank-hangar-top-menu-title{
         grid-template-columns: 1fr;
         z-index: 8;

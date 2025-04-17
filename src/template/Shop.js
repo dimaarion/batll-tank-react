@@ -61,6 +61,7 @@ export default function Shop() {
                         </div>
                     </div>
                     <div className={"view-tank"}>
+                        <div className="absolute left-30 margin-auto">{object?.title}</div>
                         <div className={"view-tank-window"}>
                             <div className={"view-tank-window-item position-center-bg"}
                                  style={{background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + viewTank + ".png) no-repeat"}}/>

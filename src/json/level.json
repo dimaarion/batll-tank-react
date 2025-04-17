@@ -236,5 +236,1168 @@
       },
       "completed": false
     }
+  },
+  {
+    "id": 18,
+    "star": 0,
+    "name": "map18",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 8",
+        "text": "Разведать расположение вражеских ракетных установок."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 19,
+    "star": 0,
+    "name": "map19",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 9",
+        "text": "Разрушить радиовышку противника."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 20,
+    "star": 0,
+    "name": "map20",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 2: Перелом",
+        "briefing": "Часть 10",
+        "text": "Удерживать базу против непрерывных волн врага."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 21,
+    "star": 0,
+    "name": "map21",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Противник стягивает тяжёлую технику. Нам предстоит оборонять мосты, конвои, проводить разведку в глубоком тылу. Основная цель — не дать вражеским колоннам прорваться к нашим снабженческим базам и уничтожить их артиллерию.",
+        "text": "Перехватить колонну вражеских танков на открытой местности."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 22,
+    "star": 0,
+    "name": "map22",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 2",
+        "text": "Спасти зажатый отряд союзников из окружения."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 23,
+    "star": 0,
+    "name": "map23",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 3",
+        "text": "Провести ночную вылазку и подорвать топливный склад врага."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 24,
+    "star": 0,
+    "name": "map24",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 4",
+        "text": "Разминировать дороги, прикрывая сапёров."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 25,
+    "star": 0,
+    "name": "map25",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 5",
+        "text": "Уничтожить командный танк в укреплённой зоне."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 26,
+    "star": 0,
+    "name": "map26",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 6",
+        "text": "Захватить деревню до прибытия вражеского подкрепления."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 27,
+    "star": 0,
+    "name": "map27",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 7",
+        "text": "Разгромить колонну тяжёлых танков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 28,
+    "star": 0,
+    "name": "map28",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 8",
+        "text": "Захватить важный перевал в ущелье."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 29,
+    "star": 0,
+    "name": "map29",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 9",
+        "text": "Провести операцию по скрытому проникновению на базу."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 30,
+    "star": 0,
+    "name": "map30",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 3: Линия Огня",
+        "briefing": "Часть 10",
+        "text": "Отразить ночной штурм элитной дивизии."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 31,
+    "star": 0,
+    "name": "map31",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Противник готовится к массированному наступлению. Ваша задача — укрепить позиции, зачистить минные поля и удержать ключевые стратегические точки. Особое внимание — защите мостов и сопровождению союзных эвакуаций.",
+        "text": "Спасти отряд сапёров, попавших в засаду."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 32,
+    "star": 0,
+    "name": "map32",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 2",
+        "text": "Провести зачистку лесной зоны от лёгких танков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 33,
+    "star": 0,
+    "name": "map33",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 3",
+        "text": "Захватить склад горючего и не дать врагу его взорвать."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 34,
+    "star": 0,
+    "name": "map34",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 4",
+        "text": "Обезвредить минные поля вокруг базы."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 35,
+    "star": 0,
+    "name": "map35",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 5",
+        "text": "Уничтожить командный танк в ночной операции."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 36,
+    "star": 0,
+    "name": "map36",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 6",
+        "text": "Сопроводить колонну грузовиков через опасный район."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 37,
+    "star": 0,
+    "name": "map37",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 7",
+        "text": "Перехватить ракетную установку противника."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 38,
+    "star": 0,
+    "name": "map38",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 8",
+        "text": "Разведать район с радиоэлектронной помехой."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 39,
+    "star": 0,
+    "name": "map39",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 9",
+        "text": "Захватить и удерживать мост в течение 90 секунд."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 40,
+    "star": 0,
+    "name": "map40",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 4: Осада",
+        "briefing": "Часть 10",
+        "text": "Уничтожить элитную группировку в центре города."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 41,
+    "star": 0,
+    "name": "map41",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Враг активизировал диверсионные группы. Необходимо срочно зачистить районы, восстановить контроль над узловыми объектами и обезвредить вражеские мины. Каждое промедление может стоить жизни нашим танковым экипажам.",
+        "text": "Перехватить и уничтожить диверсантов."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 42,
+    "star": 0,
+    "name": "map42",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 2",
+        "text": "Защитить сапёров при установке минных полей."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 43,
+    "star": 0,
+    "name": "map43",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 3",
+        "text": "Захватить вражескую радиостанцию."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 44,
+    "star": 0,
+    "name": "map44",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 4",
+        "text": "Провести разведку в ночных условиях."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 45,
+    "star": 0,
+    "name": "map45",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 5",
+        "text": "Уничтожить командный танк в укреплённом пункте."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 46,
+    "star": 0,
+    "name": "map46",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 6",
+        "text": "Сопроводить эвакуацию раненных."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 47,
+    "star": 0,
+    "name": "map47",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 7",
+        "text": "Зачистить укрепрайон на юге карты."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 48,
+    "star": 0,
+    "name": "map48",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 8",
+        "text": "Провести внезапный удар по артиллерийской батарее."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 49,
+    "star": 0,
+    "name": "map49",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 9",
+        "text": "Удержать базу при внезапном нападении."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 50,
+    "star": 0,
+    "name": "map50",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 5: Операция «Щит» ",
+        "briefing": "Часть 10",
+        "text": "Перехватить механизированную колонну."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 51,
+    "star": 0,
+    "name": "map51",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Противник идёт ва-банк. Они сосредотачивают тяжёлые танковые части и артиллерию для прорыва нашей линии обороны. Мы обязаны сдержать натиск, провести контрудары и уничтожить их командные пункты, иначе весь фронт рухнет.",
+        "text": "Спасти союзный отряд из окружения."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 52,
+    "star": 0,
+    "name": "map52",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 2",
+        "text": "Провести атаку на артиллерийский редут."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 53,
+    "star": 0,
+    "name": "map53",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 3",
+        "text": "Захватить нефтяную станцию."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 54,
+    "star": 0,
+    "name": "map54",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 4",
+        "text": "Обезвредить мины на подходах к мосту."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 55,
+    "star": 0,
+    "name": "map55",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 5",
+        "text": "Уничтожить вражеского командира танковой группы."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 56,
+    "star": 0,
+    "name": "map56",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 6",
+        "text": "Организовать засаду на транспортную колонну."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 57,
+    "star": 0,
+    "name": "map57",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 7",
+        "text": "Перехватить вражескую передвижную ракетную установку."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 58,
+    "star": 0,
+    "name": "map58",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 8",
+        "text": "Провести эвакуацию техники."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 59,
+    "star": 0,
+    "name": "map59",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 9",
+        "text": "Удерживать мост в течение 3 минут."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 60,
+    "star": 0,
+    "name": "map60",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 6: Последний Рубеж",
+        "briefing": "Часть 10",
+        "text": "Уничтожить командный центр противника."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 61,
+    "star": 0,
+    "name": "map61",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Время переходить в наступление. Нам предстоит вернуть захваченные районы, уничтожить вражеские колонны и вывести из строя их штабы связи. Поддержка союзников ограничена — успех операции зависит только от ваших действий.",
+        "text": "Захватить вражеский радиопередатчик."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 62,
+    "star": 0,
+    "name": "map62",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 2",
+        "text": "Провести патрульную зачистку пустоши."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 63,
+    "star": 0,
+    "name": "map63",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 3",
+        "text": "Перехватить отряд лёгких танков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 64,
+    "star": 0,
+    "name": "map64",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 4",
+        "text": "Обезвредить мины в зоне предстоящей атаки."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 65,
+    "star": 0,
+    "name": "map65",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 5",
+        "text": "Уничтожить элитного командира танков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 66,
+    "star": 0,
+    "name": "map66",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 6",
+        "text": "Разгромить вражеский блокпост."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 67,
+    "star": 0,
+    "name": "map67",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 7",
+        "text": "Уничтожить колонну тяжёлых танков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 68,
+    "star": 0,
+    "name": "map68",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 8",
+        "text": "Захватить стратегический перевал."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 69,
+    "star": 0,
+    "name": "map69",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 9",
+        "text": "Спасти механиков под огнём."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 70,
+    "star": 0,
+    "name": "map70",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 7: Контрудар",
+        "briefing": "Часть 10",
+        "text": "Провести зачистку севера карты."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 71,
+    "star": 0,
+    "name": "map70",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада",
+        "briefing": "Противник заперт в нескольких ключевых укреплённых зонах. Задача — организовать блокаду, не дать врагу прорваться к снабжению и методично уничтожить их укрепления. Особое внимание — радиопомехам и мобильным ракетным установкам.",
+        "text": "Отразить наступление бронированной группы."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 72,
+    "star": 0,
+    "name": "map72",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 2",
+        "text": "Перехватить склад с боеприпасами."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 73,
+    "star": 0,
+    "name": "map73",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 3",
+        "text": "Захватить вражескую базу связи."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 74,
+    "star": 0,
+    "name": "map74",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 4",
+        "text": "Провести скрытную разведку в центре карты."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 75,
+    "star": 0,
+    "name": "map75",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 5",
+        "text": "Уничтожить командный танк под прикрытием."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 76,
+    "star": 0,
+    "name": "map76",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 6",
+        "text": "Защитить колонну грузовиков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 77,
+    "star": 0,
+    "name": "map77",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 7",
+        "text": "Захватить перевал и отбить все контратаки."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 78,
+    "star": 0,
+    "name": "map78",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 8",
+        "text": "Провести ночную зачистку деревни."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 79,
+    "star": 0,
+    "name": "map79",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада ",
+        "briefing": "Часть 9",
+        "text": "Перехватить танковую дивизию до их выхода к мосту."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 80,
+    "star": 0,
+    "name": "map80",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 8: Блокада",
+        "briefing": "Часть 10",
+        "text": "Взять штурмом укреплённый форпост."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 81,
+    "star": 0,
+    "name": "map81",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Это решающий этап. Остатки вражеских сил пытаются перегруппироваться и закрепиться на ключевых объектах. Проведите серию ударов по их позициям, уничтожьте командный центр и обеспечьте контроль над стратегическими районами.",
+        "text": "Уничтожить механизированную колонну."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 82,
+    "star": 0,
+    "name": "map82",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 2",
+        "text": "Перехватить колонну с горючим."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 83,
+    "star": 0,
+    "name": "map83",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 3",
+        "text": "Захватить командный центр."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 84,
+    "star": 0,
+    "name": "map84",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 4",
+        "text": "Провести ночной рейд."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 85,
+    "star": 0,
+    "name": "map85",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 5",
+        "text": "Уничтожить командира противника."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 86,
+    "star": 0,
+    "name": "map86",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 6",
+        "text": "Перехватить ракетную установку."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 87,
+    "star": 0,
+    "name": "map87",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 7",
+        "text": "Разминировать дорогу для конвоя."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 88,
+    "star": 0,
+    "name": "map88",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 8",
+        "text": "Спасти союзный отряд."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 89,
+    "star": 0,
+    "name": "map89",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 9",
+        "text": "Отразить масштабное наступление."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 90,
+    "star": 0,
+    "name": "map90",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Глава 9: Финальная операция",
+        "briefing": "Часть 9",
+        "text": "Уничтожить главную базу противника."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 91,
+    "star": 0,
+    "name": "map91",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Операция выходит на финальный рубеж. Противник бросает в бой элитные подразделения, мобильные укрепления и экспериментальную бронетехнику. Наша цель — уничтожить их главную базу, ликвидировать командование и поставить точку в этой войне.",
+        "text": "Уничтожить элитный отряд тяжёлых танков."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 92,
+    "star": 0,
+    "name": "map92",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 2",
+        "text": "Перехватить стратегические запасы топлива."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 93,
+    "star": 0,
+    "name": "map93",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 3",
+        "text": "Захватить радиопеленгатор."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 94,
+    "star": 0,
+    "name": "map94",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 4",
+        "text": "Провести зачистку укреплений."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 95,
+    "star": 0,
+    "name": "map95",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 5",
+        "text": "Уничтожить экспериментальный танк."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 96,
+    "star": 0,
+    "name": "map96",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 6",
+        "text": "Перехватить вражеский штабной конвой."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 97,
+    "star": 0,
+    "name": "map97",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 7",
+        "text": "Разминировать выходы из ущелья."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 98,
+    "star": 0,
+    "name": "map98",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 8",
+        "text": "Захватить мост и удерживать до подкрепления."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 99,
+    "star": 0,
+    "name": "map99",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 9",
+        "text": "Провести ночную операцию по ликвидации штаба."
+      },
+      "completed": false
+    }
+  },
+  {
+    "id": 100,
+    "star": 0,
+    "name": "map100",
+    "tiles": "tiles",
+    "quest": {
+      "content": {
+        "title": "Финальная глава: Финальная операция",
+        "briefing": "Часть 10",
+        "text": "Штурмовать и уничтожить главный командный центр противника."
+      },
+      "completed": false
+    }
   }
+
 ]
