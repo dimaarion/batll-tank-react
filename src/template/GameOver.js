@@ -1,8 +1,5 @@
-import MusicIcon from "./MusicIcon";
-import SoundIcon from "./SoundIcon";
 import {decrement} from "../redux/features/Pause";
 import CloseBtn from "./CloseBtn";
-import SettingsBtn from "./SettingsBtn";
 import RestartBtn from "./RestartBtn";
 import HangarBtn from "./HangarBtn";
 import LevelBtn from "./LevelBtn";
@@ -19,6 +16,7 @@ import {setRestart} from "../redux/features/Restart";
 export default function GameOver() {
     const selectGameOver = useSelector((state) => state.gameOver)
     const selectStar = useSelector((state) => state.star)
+    const selectLevelCount = useSelector((state) => state.levelCount);
     const dispatch = useDispatch();
 
     return <>
@@ -53,16 +51,24 @@ export default function GameOver() {
                 <div style={{width: "508px"}} className={"absolute left-50 top-100"}>
                     <div className={"absolute left-0 w-25 h-25"}>
                         <div className={"absolute left-0 w-25 h-25"}>
-                            <Ok/>
+                            {selectLevelCount.value.quest.tanks?<Ok/>:<None/>}
                         </div>
-                        <div className={"absolute left-30 h-25 w-200"}>Уничтожь все танки противника</div>
                     </div>
                     <div className={"absolute left-0 top-30 w-25 h-25"}>
                         <div className={"absolute left-0 w-25 h-25"}>
-                            <None/>
+                            {selectLevelCount.value.quest.base?<Ok/>:<None/>}
                         </div>
-                        <div className={"absolute left-30 h-25 w-200"}>Уничтожь все танки противника</div>
                     </div>
+
+                    <div className={"absolute left-0 top-60 w-25 h-25"}>
+                        <div className={"absolute left-0 w-25 h-25"}>
+                            {selectLevelCount.value.quest.completed?<Ok/>:<None/>}
+                        </div>
+
+                    </div>
+                    <div className={"absolute left-30 top-0 h-25 w-250"}>Уничтожь все танки противника</div>
+                    <div className={"absolute left-30 top-30 h-25 w-250"}>Уничтожь базу противника</div>
+                    <div className={"absolute left-30 top-60 h-25 w-250"}>{selectLevelCount.value.quest.content.text}</div>
                 </div>
             </div>
             <div onClick={() => {

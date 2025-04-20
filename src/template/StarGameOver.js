@@ -1,6 +1,7 @@
 import {useSelector} from "react-redux";
 
 export default function StarGameOver(props) {
+
     return <>
         {props?.count === 0 ? <svg width={props?.size} viewBox="0 0 50 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>

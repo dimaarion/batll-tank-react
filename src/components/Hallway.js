@@ -8,7 +8,9 @@ export default class Hallway{
     setup(){
         this.body = this.scene.map.createFromObjects('hallway', {name: "hallway"});
         this.body.forEach((el)=>{
-            el.setTexture("hallway").setScale(1).setDepth(1000)
+            if(el){
+                el.setTexture("hallway").setScale(1).setDepth(1000)
+            }
         })
 
     }

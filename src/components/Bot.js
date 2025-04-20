@@ -23,7 +23,10 @@ export default class Bot extends Body {
         delay: Phaser.Math.Between(5000,20000),
         loop: true,
         callback: () => {
-          this.targetBot = { x: Phaser.Math.Between(0, this.scene.map.heightInPixels), y: Phaser.Math.Between(0, this.scene.map.heightInPixels) };
+          if(this.inTrack){
+            this.targetBot = { x: Phaser.Math.Between(0, this.scene.map.heightInPixels), y: Phaser.Math.Between(0, this.scene.map.heightInPixels) };
+          }
+
         }
       });
 
@@ -31,11 +34,16 @@ export default class Bot extends Body {
       delay: 10000,
       loop: true,
       callback: () => {
-        this.targetBot = this.playerBasePosition;
+        if (this.inTrack){
+          this.targetBot = this.playerBasePosition;
+        }
+
 
       }
     });
-
+    if(!this.inTrack){
+      this.targetBot = this.constraint.sensor.positionBot
+    }
 
   }
 
@@ -55,12 +63,17 @@ export default class Bot extends Body {
     }
 
     this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
-    this.trackAngle()
+    if(this.inTrack){
+      this.trackAngle()
+    }
+
     this.liveDraw()
     this.shieldDraw();
     if(this.constraint.corpus.body.health !== 0){
       this.movePule();
-      this.rotateTank(this.targetBot.x,this.targetBot.y)
+      if(this.inTrack){
+        this.rotateTank(this.targetBot.x,this.targetBot.y)
+      }
       if(this.constraint.sensor.sensorActive){
         this.rotateHead(this.constraint.head.body,this.constraint.sensor.positionBot.x,this.constraint.sensor.positionBot.y)
         this.timerRocket.paused = false
@@ -74,7 +87,9 @@ export default class Bot extends Body {
 
 
     }else {
-      this.constraint.track.stop()
+      if(this.inTrack){
+        this.constraint.track.stop()
+      }
       this.timerRocket.paused = true
     }
 
@@ -103,6 +118,7 @@ let m = false
       tank.setVelocity(0, 0);
       m = false
     }
+
     this.constraint.track.forEach((el) => {
       if (m) {
         el.play("run-track", true)

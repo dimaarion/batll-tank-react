@@ -28,7 +28,7 @@ export default class Base {
 
     setup(scene) {
         this.scene.map.objects.filter((el) => el.name === "base")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
-            this.arrBaseBot[i] = this.action.getProperties(el, "hp")
+            this.arrBaseBot[i] = 300 + (this.level * 5)
         })
         this.hpBot = this.arrBaseBot.reduce((acc, num) => acc + num, 0)
 
@@ -36,7 +36,7 @@ export default class Base {
         this.bodyBot = this.scene.map.createFromObjects('base', {name: "bot"});
         this.bodyPlayer = this.scene.map.createFromObjects('base', {name: "tank"});
         this.bodyPlayer = this.bodyPlayer.map((el) => {
-            this.HPBasePlayer = this.scene.matter.add.image(el.x, el.y - 150, "HPBasePlayer").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true})
+            this.HPBasePlayer = this.scene.matter.add.image(el.x, el.y - 150, "HP-player").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true})
             //  this.sensorPlayer = this.scene.matter.add.circle(el.x,el.y,500,{isSensor:true,label:"base-player-sensor"})
             return this.scene.matter.add.gameObject(el, {label: "tank_base"}).setTexture('base-player').setRectangle(300, 300, {
                 isStatic: true,
@@ -58,6 +58,7 @@ export default class Base {
             }).setScale(this.scale)
 
         })
+
 
 
         this.healthBar = this.createHP(this.healthBar, this.HPBasePlayer.body.position.x - this.HPBasePlayer.width / 2, this.HPBasePlayer.body.position.y - this.HPBasePlayer.height / 2, this.HPBasePlayer.width)
@@ -98,7 +99,7 @@ export default class Base {
                 if (healthWidth < 1) {
                     this.scene.matter.world.remove(obj);
                 }
-                graphic.fillRect(x, y, healthWidth, 10);
+                graphic.fillRect(x + 70, y, healthWidth, 10);
                 live = healthWidth
 
             })

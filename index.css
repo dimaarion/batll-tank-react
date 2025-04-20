@@ -104,6 +104,10 @@ html {
     top: 50px;
 }
 
+.top-60{
+    top: 60px;
+}
+
 .top-70 {
     top: 70px;
 }
@@ -317,6 +321,9 @@ html {
 .w-200{
     width: 200px;
 }
+.w-250{
+    width: 250px;
+}
 
 .w-500 {
     width: 500px;
@@ -423,7 +430,7 @@ svg :hover .tank-btn {
 }
 
 #tank-pause {
-    position: absolute;
+    position: relative;
     width: 627px;
     height: 469px;
     top: 0;

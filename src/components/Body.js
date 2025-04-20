@@ -45,7 +45,6 @@ export default class Body {
     }
 
     timerRocket
-
     targetBot = {x: 0, y: 0}
     highlightShield
     highlight
@@ -74,6 +73,7 @@ export default class Body {
     playerBasePosition = {x: 0, y: 0}
     icon = "HP-player"
     action = new Action();
+    inTrack = true
 
     constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
         this.x = x;
@@ -115,6 +115,11 @@ export default class Body {
             this.scalePule = 0.8
             this.headerCorpus = {a: 0, b: 0}
         }
+        if (this.corpusImg === "Hull_art_1") {
+            this.inTrack = false
+            this.headerCorpus = {a: -25, b: 25}
+            this.scale = 0.8
+        }
 
     }
 
@@ -142,11 +147,12 @@ export default class Body {
         this.hpPlayer = this.scene.matter.add.sprite(this.x, this.y, this.icon, 0, {
             isSensor: true,
         }).setScale(1).setFixedRotation().setDepth(99)
-
-        this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
-            isSensor: true,
-            cP: {x: 40, y: 0}
-        }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+        if (this.inTrack) {
+            this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
+                isSensor: true,
+                cP: {x: 40, y: 0}
+            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+        }
 
 
         this.constraint.corpus = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.corpusImg, {label: this.name}).setRectangle(200, 200, {
@@ -220,7 +226,7 @@ export default class Body {
         this.timerRocket = this.scene.time.addEvent({
             delay: this.speedPule,
             callback: () => {
-                if (this.corpusImg.match(/[rocket]/i)) {
+                if (this.corpusImg.match(/rocket/i)) {
                     this.rocket(4)
                     this.rocketMove()
                 }
@@ -230,7 +236,6 @@ export default class Body {
             loop: true,
             paused: true
         });
-
 
 
     }
@@ -283,10 +288,12 @@ export default class Body {
 
 
     draw() {
-
-        this.trackAngle();
         this.movePule();
-        this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
+        if (this.inTrack) {
+            this.trackAngle();
+            this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
+        }
+
 
         this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
         if (this.constraint.corpus.body.highlight) {
@@ -352,11 +359,11 @@ export default class Body {
         if (this.constraint.rocket) {
             this.scene.matter.world.getAllBodies().filter((el) => el.label === this.nameRocket).forEach((pule) => {
                 if (pule.speed < 1.5) {
-                   pule.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
+                    pule.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
                         if (pule.gameObject) {
-                           pule.gameObject.destroy()
+                            pule.gameObject.destroy()
                         }
-                       this.scene.matter.world.remove(pule);
+                        this.scene.matter.world.remove(pule);
 
                     });
                 }

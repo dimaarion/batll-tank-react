@@ -10,17 +10,22 @@ export const levelCount = createSlice({
                     briefing: "Командование приказало установить контроль над приграничной зоной. Разведка доложила о перемещении вражеских разведгрупп и первых бронетанковых подразделений. Ваша задача — сдержать натиск, защитить базу и выявить слабые места в обороне противника.",
                     text: "Отразить разведывательный отряд противника и удержать базу."
                 },
-                "completed": false
+                tanks: false,
+                base: false,
+                completed: false
             }},
     },
     reducers: {
         getLevel:(state, action)=>{
             state.value = {... state.value, id:action.payload.id, name:action.payload.name,tiles:action.payload.tiles,quest:action.payload.quest}
 
+        },
+        updateQuest:(state, action)=>{
+            state.value = {... state.value, quest:{... state.value.quest, tanks:action.payload.tanks,base:action.payload.base,completed:action.payload.completed}}
         }
     },
 })
 
-export const {getLevel} = levelCount.actions
+export const {getLevel,updateQuest} = levelCount.actions
 
 export default levelCount.reducer

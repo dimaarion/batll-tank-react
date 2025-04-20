@@ -245,7 +245,7 @@
 
     #tank-pause {
         width: 400px;
-        position: relative;
+        position: fixed;
     }
 
     .tank-pause-box-bg {
@@ -352,9 +352,7 @@
         top: 0;
     }
 
-    #tank-pause {
-        position: relative;
-    }
+
 
 
 }

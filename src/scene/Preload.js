@@ -20,6 +20,12 @@ export default class Preload extends Phaser.Scene {
 
         this.load.tilemapTiledJSON('map2', 'https://game.fk-i-s.ru/script/location_2-json.php');
 
+        this.load.tilemapTiledJSON('map3', 'https://game.fk-i-s.ru/script/location_3-json.php');
+
+        this.load.tilemapTiledJSON('map4', 'https://game.fk-i-s.ru/script/location_4-json.php');
+
+        this.load.tilemapTiledJSON('map5', 'https://game.fk-i-s.ru/script/location_5-json.php');
+
         this.load.image("base-player", 'https://game.fk-i-s.ru/script/base.php');
 
         this.load.image("HPBasePlayer", 'https://game.fk-i-s.ru/script/HPBasePlayer.php');
@@ -39,6 +45,8 @@ export default class Preload extends Phaser.Scene {
         this.load.image("hallway", 'https://game.fk-i-s.ru/script/hallway.php');
 
         this.load.image("rocket-static", 'https://game.fk-i-s.ru/script/rocket-static.php');
+
+        this.load.image("mpb_1", 'https://game.fk-i-s.ru/script/mpb_1.php');
 
         this.load.spritesheet('pule-blast', 'https://game.fk-i-s.ru/script/pule-blast.php', {
             frameWidth: 64,
@@ -64,6 +72,10 @@ export default class Preload extends Phaser.Scene {
         this.load.spritesheet('rocket', 'https://game.fk-i-s.ru/script/rocket.php', {
             frameWidth: 64,
             frameHeight: 228
+        });
+        this.load.spritesheet('mine', 'https://game.fk-i-s.ru/script/mine.php', {
+            frameWidth: 64,
+            frameHeight: 64
         });
 
         this.store = this.registry.get('store');
@@ -116,6 +128,13 @@ export default class Preload extends Phaser.Scene {
             frames: 'rocket',
             frameRate: 5,
             repeat: -1
+        });
+
+        this.anims.create({
+            key: 'mine-run',
+            frames: 'mine',
+            frameRate: 5,
+            repeat: 0
         });
     }
 

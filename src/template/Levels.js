@@ -9,7 +9,7 @@ export default function Levels() {
     const dispatch = useDispatch();
     const selectLevel = useSelector((state) => state.level);
 
-
+console.log(selectLevel)
     return <>
         <div className={"tank-level"}>
             <Menu/>
