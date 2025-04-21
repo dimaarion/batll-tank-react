@@ -4,6 +4,11 @@ import Action from "./Action";
 export default class Body {
     x = 200
     y = 200
+
+    width = 200
+
+    height = 200
+
     botPosition = {x: 0, y: 0}
     scene;
     name
@@ -124,38 +129,20 @@ export default class Body {
     }
 
 
-    setup(scene) {
-        this.countTanks += 1;
-        this.scene = scene;
+    createHealthShield() {
         this.healthBar = this.scene.add.graphics();
         this.healthBar.fillStyle(0x00ff00, 1);
-        this.healthBar.fillRect(this.x - 50, this.y - 80, 100, 10);
+        this.healthBar.fillRect(this.x - 22, this.y - 92, 100, 10);
         this.healthBar.setDepth(100);
 
         this.highlightShield = this.scene.add.graphics();
         this.highlightShield.fillStyle(0x21B1BB, 1);
-        this.highlightShield.fillRect(this.x, this.y, 100, 10);
+        this.highlightShield.fillRect(this.x - 22, this.y - 80, 100, 10);
         this.highlightShield.setDepth(100);
+    }
 
-        this.highlight = this.scene.add.graphics();
-        this.highlight.lineStyle(4, 0x3949AB, 1);
-
-        this.sensorHighlight = this.scene.add.graphics();
-        this.sensorHighlight.lineStyle(4, 0x808080, 0.5);
-
-
-        this.hpPlayer = this.scene.matter.add.sprite(this.x, this.y, this.icon, 0, {
-            isSensor: true,
-        }).setScale(1).setFixedRotation().setDepth(99)
-        if (this.inTrack) {
-            this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
-                isSensor: true,
-                cP: {x: 40, y: 0}
-            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
-        }
-
-
-        this.constraint.corpus = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.corpusImg, {label: this.name}).setRectangle(200, 200, {
+    createCorpus(keySprite) {
+        this.constraint.corpus = this.scene.matter.add.sprite(this.x, this.y, keySprite, this.corpusImg, {label: this.name}).setRectangle(this.width, this.height, {
             label: this.name,
             pX: this.x,
             pY: this.y,
@@ -169,6 +156,40 @@ export default class Body {
             corpusImg: this.corpusImg
         }).setScale(this.scale).setDepth(1).setName(this.name)
 
+    }
+
+    createHPIcons(icon) {
+        this.hpPlayer = this.scene.matter.add.sprite(this.x - 50, this.y - 80, icon, 0, {
+            isSensor: true,
+        }).setScale(1).setFixedRotation().setDepth(99)
+    }
+
+    createBurning(){
+        this.constraint.burning = this.scene.matter.add.sprite(this.x, this.y, "pule-blast", 0, {isSensor: true}).setDepth(10)
+    }
+
+    setup(scene) {
+        this.countTanks += 1;
+        this.scene = scene;
+
+        this.createHealthShield()
+        this.highlight = this.scene.add.graphics();
+        this.highlight.lineStyle(4, 0x3949AB, 1);
+
+        this.sensorHighlight = this.scene.add.graphics();
+        this.sensorHighlight.lineStyle(4, 0x808080, 0.5);
+
+        this.createHPIcons(this.icon)
+
+        if (this.inTrack) {
+            this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
+                isSensor: true,
+                cP: {x: 40, y: 0}
+            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+        }
+
+        this.createCorpus("tanks")
+
 
         this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.headImg, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2);
         this.constraint.sensor = this.scene.matter.add.circle(this.x, this.y, this.radiusSensor, {
@@ -179,8 +200,8 @@ export default class Body {
             sensorActive: false
 
         })
-        this.constraint.burning = this.scene.matter.add.sprite(this.x, this.y, "pule-blast", 0, {isSensor: true}).setDepth(10)
 
+        this.createBurning()
 
         this.constraint.main = this.scene.matter.add.constraint(this.constraint.corpus, this.constraint.head, 0, 0, {
             pointA: {
@@ -236,10 +257,7 @@ export default class Body {
             loop: true,
             paused: true
         });
-
-
     }
-
 
     trackAngle() {
         this.constraint.track.setPosition(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y)
@@ -274,7 +292,10 @@ export default class Body {
                 this.target = null; // Убираем цель
             }
         }
-        this.trackAnimate()
+        if(this.inTrack){
+            this.trackAnimate()
+        }
+
     }
 
 

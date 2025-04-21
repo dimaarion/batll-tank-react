@@ -73,7 +73,8 @@ export default class Scene_1 extends Phaser.Scene {
     timerGameOver;
     walls = new Walls(this)
     mine = new Mine(this)
-    vehicle = new Vehicle(this)
+
+    vehicleBot = []
 
 
     constructor() {
@@ -92,7 +93,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
         this.matter.world.createDebugGraphic();
-        this.matter.world.drawDebug = true;
+        this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
 
         this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -110,7 +111,9 @@ export default class Scene_1 extends Phaser.Scene {
         this.base.setup();
         this.hallway.setup();
         this.mine.setup();
-        this.vehicle.setup();
+
+
+
 
         this.body = this.state.battle.value.map((el) => {
                 let b = new Body(this.base.bodyPlayer[0].x, this.base.bodyPlayer[0].y, "tank_corpus_" + el.id, el.head, el.corpus,
@@ -153,6 +156,12 @@ export default class Scene_1 extends Phaser.Scene {
             el.x = (this.base.bodyPlayer[0].x + i * 120)
             el.y = (this.base.bodyPlayer[0].y + this.base.bodyPlayer[0].height * 2)
             el.setup(this);
+        })
+
+        this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
+            this.vehicleBot[i] = new Vehicle(el.x,el.y,"bot_corpus_" + i,"",el.type,5,5,0,0,0,4);
+            this.vehicleBot[i].createVehicle(this)
+
         })
 
 
@@ -246,14 +255,14 @@ export default class Scene_1 extends Phaser.Scene {
             event.pairs.forEach((pair) => {
                 this.mine.collegeStart(pair)
 
-                if ((pair.bodyA.label.match(/bot|mpb_1/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule") {
+                if ((pair.bodyA.label.match(/bot/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule") {
                     pule(this, pair)
                 }
                 if ((pair.bodyA.label.match(/tank/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule_bot") {
                     pule(this, pair)
                 }
 
-                if ((pair.bodyB.label.match(/bot|mpb_1/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule") {
+                if ((pair.bodyB.label.match(/bot/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule") {
                     puleA(this, pair)
                 }
                 if ((pair.bodyB.label.match(/tank/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule_bot") {
@@ -261,7 +270,7 @@ export default class Scene_1 extends Phaser.Scene {
                 }
 
 
-                if (pair.bodyA.label.match(/bot|mpb_1/i) && pair.bodyB.label === "rocket") {
+                if (pair.bodyA.label.match(/bot/i) && pair.bodyB.label === "rocket") {
 
                     rocket(this, pair)
                 }
@@ -269,7 +278,7 @@ export default class Scene_1 extends Phaser.Scene {
                     rocket(this, pair)
                 }
 
-                if (pair.bodyB.label.match(/bot|mpb_1/i) && pair.bodyA.label === "rocket") {
+                if (pair.bodyB.label.match(/bot/i) && pair.bodyA.label === "rocket") {
 
                     rocketA(this, pair)
                 }
@@ -302,37 +311,20 @@ export default class Scene_1 extends Phaser.Scene {
 
 
                 }
-                if ((/pule/i.test(pair.bodyB.label) || /rocket/i.test(pair.bodyB.label)) && pair.bodyB.bot === 0 && pair.bodyA.label.match(/bot|mpb_1/i)) {
+                if ((/pule/i.test(pair.bodyB.label) || /rocket/i.test(pair.bodyB.label)) && pair.bodyB.bot === 0 && pair.bodyA.label.match(/bot/i)) {
 
-                    this.bodyBot.filter((el) => el.constraint.corpus.body === pair.bodyA).forEach((el) => {
-                        el.shieldDamageBot(pair.bodyA, pair.bodyB.attack)
-                        if (pair.bodyA.gameObject.body.shield === 0) {
-                            el.takeDamageBot(pair.bodyA, pair.bodyB.attack)
-                        }
-                        if (el.constraint.corpus.body.health === 0) {
-                            this.hp += el.hp
-                            this.store.dispatch(increment(el.level * 50))
-                            this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: el.hp}))
-                        }
-
-                    })
+                    this.attackBotA(this.bodyBot,pair)
+                    this.attackBotA(this.vehicleBot,pair)
                     this.base.takeDamageBot(pair.bodyA, pair.bodyB.attack)
                 }
 
-                if ((/pule/i.test(pair.bodyA.label) || /rocket/i.test(pair.bodyA.label)) && pair.bodyA.bot === 0 && pair.bodyB.label.match(/bot|mpb_1/i)) {
+                if ((/pule/i.test(pair.bodyA.label) || /rocket/i.test(pair.bodyA.label)) && pair.bodyA.bot === 0 && pair.bodyB.label.match(/bot/i)) {
 
-                    this.bodyBot.filter((el) => el.constraint.corpus.body === pair.bodyB).forEach((el) => {
-                        el.shieldDamageBot(pair.bodyB, pair.bodyA.attack)
-                        if (pair.bodyB.gameObject.body.shield === 0) {
-                            el.takeDamageBot(pair.bodyB, pair.bodyA.attack)
-                        }
-                        if (el.constraint.corpus.body.health === 0) {
-                            this.hp += el.hp
-                            this.store.dispatch(increment(el.level * 50))
-                            this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: el.hp}))
-                        }
+                   // атака бота
+                    this.attackBotB(this.bodyBot,pair)
+                    this.attackBotB(this.vehicleBot,pair)
 
-                    })
+
                     this.base.takeDamageBot(pair.bodyA, pair.bodyB.attack)
                 }
                 if ((/pule/i.test(pair.bodyB.label) || /rocket/i.test(pair.bodyB.label)) && pair.bodyB.bot === 1 && pair.bodyA.label.match(/tank/i)) {
@@ -352,7 +344,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.on("collisionactive", (event) => {
 
             event.pairs.forEach((pair) => {
-                if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus|mpb_1/i)) {
+                if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
                         if (pair.bodyB.health === 0 || el.constraint.corpus.body.health === 0) {
                             el.timer.paused = true
@@ -363,9 +355,9 @@ export default class Scene_1 extends Phaser.Scene {
                             el.timer.paused = false
                             el.timerRocket.paused = false
                         }
-//console.log(el)
 
                     })
+
                 }
 
                 if (/sensor/i.test(pair.bodyB.label) && pair.bodyA.label.match(/base-bot/i)) {
@@ -389,7 +381,7 @@ export default class Scene_1 extends Phaser.Scene {
 
                     })
                 }
-                if (pair.bodyA.label.match(/tank_base/i) || pair.bodyB.label.match(/bot|mpb_1/i)) {
+                if (pair.bodyA.label.match(/tank_base/i) || pair.bodyB.label.match(/bot/i)) {
                     this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyB).forEach((el) => {
                         if (pair.bodyA.healthBase === 0) {
                             el.timer.paused = true
@@ -442,7 +434,7 @@ export default class Scene_1 extends Phaser.Scene {
                     // this.activePoint = true
                     this.activePoint = false
                 }
-                if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus|mpb_1/i)) {
+                if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
 
                     pair.bodyA.sensorActive = false
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
@@ -679,6 +671,10 @@ export default class Scene_1 extends Phaser.Scene {
             el.move();
         })
 
+        this.vehicleBot.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
+            el.drawVehicle();
+        })
+
         this.base.liveDraw()
 
         this.store.dispatch(live((this.base.health / this.base.liveDefault) * 100))
@@ -697,6 +693,35 @@ export default class Scene_1 extends Phaser.Scene {
             bot: this.bodyBot.length - this.countBot,
             title: "Победа"
         }))
+    }
+
+    attackBotB(arr,pair){
+        arr.filter((el) => el.constraint.corpus.body === pair.bodyB).forEach((el) => {
+            el.shieldDamageBot(pair.bodyB, pair.bodyA.attack)
+            if (pair.bodyB.gameObject.body.shield === 0) {
+                el.takeDamageBot(pair.bodyB, pair.bodyA.attack)
+            }
+            if (el.constraint.corpus.body.health === 0) {
+                this.hp += el.hp
+                this.store.dispatch(increment(el.level * 50))
+                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: el.hp}))
+            }
+
+        })
+    }
+    attackBotA(arr,pair){
+        arr.filter((el) => el.constraint.corpus.body === pair.bodyA).forEach((el) => {
+            el.shieldDamageBot(pair.bodyA, pair.bodyB.attack)
+            if (pair.bodyA.gameObject.body.shield === 0) {
+                el.takeDamageBot(pair.bodyA, pair.bodyB.attack)
+            }
+            if (el.constraint.corpus.body.health === 0) {
+                this.hp += el.hp
+                this.store.dispatch(increment(el.level * 50))
+                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: el.hp}))
+            }
+
+        })
     }
 
 

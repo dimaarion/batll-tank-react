@@ -57,16 +57,21 @@ export default class Bot extends Body {
     if (body.shield < 0) body.shield = 0;
   }
 
+  setPositionHP(){
+    this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
+  }
+
+
   move(){
     if(this.sensorObject.activeObj){
       this.targetBot = this.sensorObject.targetObj
     }
 
-    this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
+
     if(this.inTrack){
       this.trackAngle()
     }
-
+    this.setPositionHP()
     this.liveDraw()
     this.shieldDraw();
     if(this.constraint.corpus.body.health !== 0){

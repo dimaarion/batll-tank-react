@@ -1,29 +1,40 @@
-export default class Vehicle{
-    scene
-    body = []
-    constructor(scene) {
-        this.scene = scene
+import Body from "./Body";
+import Bot from "./Bot";
+
+export default class Vehicle extends Bot {
+    scene;
+    body = [];
+    move = [{x: 4300, y: 400, delay: 10000},{x: 43820, y: 2800, delay: 20000},{x: 1800, y: 2800, delay:30000},{x: 4300, y: 2800, delay: 40000},{x: 4300, y: 400, delay: 50000}]
+
+    constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
+        super(x, y, name, head, corpus, live, shield, attack, speedAttack, radiusSensor, speed);
+        this.inTrack = false
     }
 
-    setup(){
+    createVehicle(scene) {
+        this.scene = scene
+        this.createHealthShield();
+        this.createHPIcons("HP-bot");
+        this.createCorpus("mpb_1");
+        this.createBurning();
+        this.move.forEach((el) => {
+            this.scene.time.addEvent({
+                delay: el.delay,
+                loop: true,
+                callback: (e) => {
+                    this.targetBot.x = el.x;
+                    this.targetBot.y = el.y;
+                }
+            });
+        })
 
-            if(this.scene.map.objects.filter((el) => el.name === "vehicle")[0]){
-                this.scene.map.objects.filter((el) => el.name === "vehicle")[0].objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
-                    this.body[i] = this.scene.matter.add.sprite(el.x,el.y,el.type,0).setRectangle(el.width, el.height,{isSensor:false,height:el.height})
-                })
-            }
-this.body.forEach((el)=>{
-    this.scene.tweens.add({
-        targets: el,
-        y: {value:el.y + el.body.height,flipY:true},
-        duration:10000,
-        yoyo: true,
-        repeat: -1,
 
+    }
 
-        // interpolation: null,
-    });
-})
-
+    drawVehicle() {
+        this.setPositionHP()
+        this.liveDraw();
+        this.shieldDraw();
+        this.rotateTank(this.targetBot.x, this.targetBot.y)
     }
 }
