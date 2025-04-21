@@ -1,30 +1,28 @@
 import Phaser from "phaser";
 import {setLoad} from "../redux/features/Load";
-
+import level from "../json/level.json"
 
 export default class Preload extends Phaser.Scene {
     store
+
     constructor() {
         super('Preloader');
     }
 
 
+    getLocation() {
+        level.filter((el) => el.id < 8).forEach((el) => {
+            this.load.tilemapTiledJSON(el.name, 'https://game.fk-i-s.ru/script/location_' + el.id + '-json.php');
+        })
+    }
+
     preload() {
         this.load.setCORS('anonymous');
 
 
-
         this.load.image('tiles', 'https://game.fk-i-s.ru/script/tiles.php');
 
-        this.load.tilemapTiledJSON('map', 'https://game.fk-i-s.ru/script/location_1-json.php');
-
-        this.load.tilemapTiledJSON('map2', 'https://game.fk-i-s.ru/script/location_2-json.php');
-
-        this.load.tilemapTiledJSON('map3', 'https://game.fk-i-s.ru/script/location_3-json.php');
-
-        this.load.tilemapTiledJSON('map4', 'https://game.fk-i-s.ru/script/location_4-json.php');
-
-        this.load.tilemapTiledJSON('map5', 'https://game.fk-i-s.ru/script/location_5-json.php');
+        this.getLocation()
 
         this.load.image("base-player", 'https://game.fk-i-s.ru/script/base.php');
 
@@ -47,6 +45,11 @@ export default class Preload extends Phaser.Scene {
         this.load.image("rocket-static", 'https://game.fk-i-s.ru/script/rocket-static.php');
 
         this.load.image("mpb_1", 'https://game.fk-i-s.ru/script/mpb_1.php');
+
+        this.load.spritesheet('linck', 'https://game.fk-i-s.ru/script/linck.php', {
+            frameWidth: 64,
+            frameHeight: 64
+        });
 
         this.load.spritesheet('pule-blast', 'https://game.fk-i-s.ru/script/pule-blast.php', {
             frameWidth: 64,
@@ -81,7 +84,7 @@ export default class Preload extends Phaser.Scene {
         this.store = this.registry.get('store');
         this.load.on('progress', function (value) {
             this.store.dispatch(setLoad(value))
-        },this);
+        }, this);
 
     }
 
@@ -135,6 +138,13 @@ export default class Preload extends Phaser.Scene {
             frames: 'mine',
             frameRate: 5,
             repeat: 0
+        });
+
+        this.anims.create({
+            key: 'linck-run',
+            frames: 'linck',
+            frameRate: 5,
+            repeat: -1
         });
     }
 

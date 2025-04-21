@@ -60,7 +60,7 @@ export default class Scene_1 extends Phaser.Scene {
     activeObject = undefined
     edgeThreshold = 100;
     block
-    cameraSpeed = 4;
+    cameraSpeed = 10;
     action = new Action();
     body = []
     sec = 0
@@ -75,6 +75,8 @@ export default class Scene_1 extends Phaser.Scene {
     mine = new Mine(this)
 
     vehicleBot = []
+    scout = false
+    day = true
 
 
     constructor() {
@@ -89,12 +91,20 @@ export default class Scene_1 extends Phaser.Scene {
         this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("level_1", this.state.levelCount.value.tiles, 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
-        this.map.createLayer("block", tiles, 0, 0);
+        let block = this.map.createLayer("block", tiles, 0, 0)
+        let tree = this.map.createLayer("tree", tiles, 0, 0).setDepth(100)
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
         this.matter.world.createDebugGraphic();
         this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
+
+        if(!this.day){
+            this.layer.setPipeline('Light2D');
+            block.setPipeline('Light2D');
+            tree.setPipeline('Light2D');
+        }
+
 
         this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -106,6 +116,9 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.walls.rect("walls")
         this.walls.circle("walls-circle")
+
+       // this.lights.enable().setAmbientColor(0x111111);
+
 
         this.base.level = this.state.levelCount.value.id
         this.base.setup();
@@ -160,7 +173,12 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
             this.vehicleBot[i] = new Vehicle(el.x,el.y,"bot_corpus_" + i,"",el.type,5,5,0,0,0,4);
-            this.vehicleBot[i].createVehicle(this)
+            if(this.state.levelCount.value.id === 5){
+                this.vehicleBot[i].move = [{x: 4400, y: 3050},{x: 1800, y: 2900},{x: 4700, y: 2900},{x: 4400, y: 300}]
+                this.vehicleBot[i].delay = 15000;
+            }
+            this.vehicleBot[i].createVehicle(this);
+
 
         })
 
@@ -187,7 +205,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.arrHp = this.arrHp.concat(this.base.arrBaseBot)
         this.defaultHp = this.arrHp.reduce((acc, num) => acc + num, 0);
 
-        this.map.createLayer("tree", tiles, 0, 0).setDepth(100);
+
 
         this.clock = new Clock(this);
         this.clock.start()
@@ -344,6 +362,12 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.on("collisionactive", (event) => {
 
             event.pairs.forEach((pair) => {
+                this.bodyBot.forEach((el)=>{
+                    el.connect(pair)
+                    this.scout = el.scout
+                })
+
+
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
                         if (pair.bodyB.health === 0 || el.constraint.corpus.body.health === 0) {
@@ -593,6 +617,7 @@ export default class Scene_1 extends Phaser.Scene {
             if (this.activeObject.body.health > 0) {
                 this.activeObject.body.pX = worldXY.x;
                 this.activeObject.body.pY = worldXY.y;
+
             }
 
             this.pointT.setPosition(worldXY.x, worldXY.y)
@@ -650,13 +675,21 @@ export default class Scene_1 extends Phaser.Scene {
         } else if (this.state.levelCount.value.id === 2 && this.countBotBase === 0 && this.countBot === 0) {
             this.victory()
 
-        } else if (this.state.levelCount.value.id === 3 && this.countPlayer === this.state.battle.value.length && this.countBot === 0 && this.countBot === 0) {
+        } else if (this.state.levelCount.value.id === 3 && this.countPlayer === this.state.battle.value.length && this.countBotBase === 0 && this.countBot === 0) {
             this.victory()
 
-        } else if (this.state.levelCount.value.id === 4 && this.countBot === 0 && this.countBot === 0 && this.matter.world.getAllBodies().filter((el) => el.label.match(/Hull_art_1/i)).length === 0) {
+        } else if (this.state.levelCount.value.id === 4 && this.countBotBase === 0 && this.countBot === 0 && this.matter.world.getAllBodies().filter((el) => el.label.match(/Hull_art_1/i)).length === 0) {
+            this.victory()
+
+        }else if (this.state.levelCount.value.id === 5 && this.countBotBase === 0 && this.countBot === 0 && this.matter.world.getAllBodies().filter((el) => el.label.match(/mpb_1/i)).length === 0) {
+            this.victory()
+
+        }else if (this.state.levelCount.value.id === 6 && this.countBotBase === 0 && this.countBot === 0 && !this.scout) {
             this.victory()
 
         }
+
+
 
 
         this.store.dispatch(count(this.countPlayer));
@@ -723,6 +756,26 @@ export default class Scene_1 extends Phaser.Scene {
 
         })
     }
+
+
+    updateMap ()
+    {
+        this.activeObject.setPipeline('Light2D');
+        const origin = this.map.getTileAtWorldXY(this.activeObject.body.position.x, this.activeObject.body.position.y);
+
+        this.map.forEachTile(tile =>
+        {
+            const dist = Phaser.Math.Distance.Snake(
+                origin.x,
+                origin.y,
+                tile.x,
+                tile.y
+            );
+
+            tile.setAlpha(1 - 0.1 * dist);
+        });
+    }
+
 
 
 }

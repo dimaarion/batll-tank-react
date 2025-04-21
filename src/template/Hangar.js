@@ -124,7 +124,7 @@ export default function Hangar() {
                                         name: opt.name,
                                         label: "radius_attack"
                                     }))
-                                    if(opt.name === "speed" && opt.num < 10){
+                                    if(opt.name === "speed" && opt.num < 50){
                                         dispatch(selectOptions({hangar: getHangar, id: id, name: opt.name, label: "speed"}))
                                     }
 

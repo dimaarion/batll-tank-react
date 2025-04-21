@@ -3,7 +3,9 @@ import * as Phaser from "phaser";
 export default class Bot extends Body {
   targetBot
   sensorObject = null
+  linck = null
 
+  scout = false
 
   constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
     super(x, y, name, head, corpus, live, shield, attack, speedAttack, radiusSensor, speed);
@@ -18,7 +20,9 @@ export default class Bot extends Body {
     this.sensorObject = this.scene.matter.add.circle(this.x,this.y,500,{isSensor:true,label:"search_object",activeObj:false, targetObj:{x:Phaser.Math.Between(100, this.scene.map.heightInPixels),y:Phaser.Math.Between(100, this.scene.map.heightInPixels)}})
     this.scene.matter.add.constraint(this.constraint.sensor,this.sensorObject,0,1)
     this.targetBot = { x: Phaser.Math.Between(0, this.scene.map.heightInPixels), y: Phaser.Math.Between(0, this.scene.map.heightInPixels) };
-
+    if(this.corpusImg === "Hull_04"){
+      this.linck = this.scene.matter.add.sprite(this.x,this.y,"linck","linck-run",{isSensor:true}).setDepth(50);
+    }
       this.scene.time.addEvent({
         delay: Phaser.Math.Between(5000,20000),
         loop: true,
@@ -89,8 +93,6 @@ export default class Bot extends Body {
         }
       }
 
-
-
     }else {
       if(this.inTrack){
         this.constraint.track.stop()
@@ -98,41 +100,28 @@ export default class Bot extends Body {
       this.timerRocket.paused = true
     }
 
+    this.reportPlayerDetection()
+
   }
 
-  moveToTarget(tank, target, speed) {
-let m = false
 
-    const angleToTarget = Phaser.Math.Angle.Between(tank.x, tank.y, target.x, target.y)  ;
-
-    // Плавный поворот танка
-    const angleDiff = Phaser.Math.Angle.Wrap(angleToTarget - (tank.rotation)) ;
-
-    tank.rotation += Phaser.Math.Clamp(angleDiff, -0.05, 0.05);
-
-    // Движение вперёд
-    if (Math.abs(angleDiff) < 0.2) { // Двигаемся только если почти повернулись
-      const velocityX = (Math.cos(tank.rotation - Math.PI / 2) * speed);
-      const velocityY = (Math.sin(tank.rotation - Math.PI / 2) * speed);
-      tank.setVelocity(velocityX, velocityY);
-      m = true
-    }
-
-    // Остановка, если достигли цели
-    if (Phaser.Math.Distance.Between(tank.x, tank.y, target.x, target.y) < 10) {
-      tank.setVelocity(0, 0);
-      m = false
-    }
-
-    this.constraint.track.forEach((el) => {
-      if (m) {
-        el.play("run-track", true)
-      } else {
-        el.stop()
+  connect(pair){
+    if(pair.bodyB === this.constraint.sensor && pair.bodyA.label.match(/tank_corpus/)){
+      if(this.linck && this.constraint.corpus.body.health !== 0){
+        this.linck.play("linck-run",true)
+        this.scout = true
       }
-    })
-
+    }
   }
+
+  reportPlayerDetection(){
+      if(this.linck){
+        this.linck.setPosition(this.constraint.sensor.position.x,this.constraint.sensor.position.y)
+      }
+  }
+
+
+
 
 
 }
