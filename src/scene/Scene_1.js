@@ -86,7 +86,9 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
-
+        if (this.state.levelCount.value.id === 7) {
+            this.day = false
+        }
 
         this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("level_1", this.state.levelCount.value.tiles, 32, 32, 0, 0);
@@ -99,7 +101,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
 
-        if(!this.day){
+        if (!this.day) {
             this.layer.setPipeline('Light2D');
             block.setPipeline('Light2D');
             tree.setPipeline('Light2D');
@@ -117,15 +119,14 @@ export default class Scene_1 extends Phaser.Scene {
         this.walls.rect("walls")
         this.walls.circle("walls-circle")
 
-       // this.lights.enable().setAmbientColor(0x111111);
+        // this.lights.enable().setAmbientColor(0x111111);
 
 
         this.base.level = this.state.levelCount.value.id
         this.base.setup();
         this.hallway.setup();
+        this.mine.day = this.day
         this.mine.setup();
-
-
 
 
         this.body = this.state.battle.value.map((el) => {
@@ -139,6 +140,7 @@ export default class Scene_1 extends Phaser.Scene {
                 )
                 b.id = el.id
                 b.hp = el.hp
+                b.day = this.day
 
                 return b;
             }
@@ -172,9 +174,12 @@ export default class Scene_1 extends Phaser.Scene {
         })
 
         this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
-            this.vehicleBot[i] = new Vehicle(el.x,el.y,"bot_corpus_" + i,"",el.type,5,5,0,0,0,4);
-            if(this.state.levelCount.value.id === 5){
-                this.vehicleBot[i].move = [{x: 4400, y: 3050},{x: 1800, y: 2900},{x: 4700, y: 2900},{x: 4400, y: 300}]
+            this.vehicleBot[i] = new Vehicle(el.x, el.y, "bot_corpus_" + i, "", el.type, 5, 5, 0, 0, 0, 4);
+            if (this.state.levelCount.value.id === 5) {
+                this.vehicleBot[i].move = [{x: 4400, y: 3050}, {x: 1800, y: 2900}, {x: 4700, y: 2900}, {
+                    x: 4400,
+                    y: 300
+                }]
                 this.vehicleBot[i].delay = 15000;
             }
             this.vehicleBot[i].createVehicle(this);
@@ -198,13 +203,14 @@ export default class Scene_1 extends Phaser.Scene {
             this.bodyBot[i].hp = b.hpRemove * this.state.levelCount.value.id;
             this.bodyBot[i].level = this.state.levelCount.value.id;
             this.bodyBot[i].playerBasePosition = {x: this.base.bodyPlayer[0].x, y: this.base.bodyPlayer[0].y}
+            this.bodyBot[i].day = this.day;
             this.bodyBot[i].setup(this);
             this.arrHp[i] = this.bodyBot[i].hp;
+
 
         })
         this.arrHp = this.arrHp.concat(this.base.arrBaseBot)
         this.defaultHp = this.arrHp.reduce((acc, num) => acc + num, 0);
-
 
 
         this.clock = new Clock(this);
@@ -331,16 +337,16 @@ export default class Scene_1 extends Phaser.Scene {
                 }
                 if ((/pule/i.test(pair.bodyB.label) || /rocket/i.test(pair.bodyB.label)) && pair.bodyB.bot === 0 && pair.bodyA.label.match(/bot/i)) {
 
-                    this.attackBotA(this.bodyBot,pair)
-                    this.attackBotA(this.vehicleBot,pair)
+                    this.attackBotA(this.bodyBot, pair)
+                    this.attackBotA(this.vehicleBot, pair)
                     this.base.takeDamageBot(pair.bodyA, pair.bodyB.attack)
                 }
 
                 if ((/pule/i.test(pair.bodyA.label) || /rocket/i.test(pair.bodyA.label)) && pair.bodyA.bot === 0 && pair.bodyB.label.match(/bot/i)) {
 
-                   // атака бота
-                    this.attackBotB(this.bodyBot,pair)
-                    this.attackBotB(this.vehicleBot,pair)
+                    // атака бота
+                    this.attackBotB(this.bodyBot, pair)
+                    this.attackBotB(this.vehicleBot, pair)
 
 
                     this.base.takeDamageBot(pair.bodyA, pair.bodyB.attack)
@@ -362,7 +368,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.on("collisionactive", (event) => {
 
             event.pairs.forEach((pair) => {
-                this.bodyBot.forEach((el)=>{
+                this.bodyBot.forEach((el) => {
                     el.connect(pair)
                     this.scout = el.scout
                 })
@@ -681,15 +687,13 @@ export default class Scene_1 extends Phaser.Scene {
         } else if (this.state.levelCount.value.id === 4 && this.countBotBase === 0 && this.countBot === 0 && this.matter.world.getAllBodies().filter((el) => el.label.match(/Hull_art_1/i)).length === 0) {
             this.victory()
 
-        }else if (this.state.levelCount.value.id === 5 && this.countBotBase === 0 && this.countBot === 0 && this.matter.world.getAllBodies().filter((el) => el.label.match(/mpb_1/i)).length === 0) {
+        } else if (this.state.levelCount.value.id === 5 && this.countBotBase === 0 && this.countBot === 0 && this.matter.world.getAllBodies().filter((el) => el.label.match(/mpb_1/i)).length === 0) {
             this.victory()
 
-        }else if (this.state.levelCount.value.id === 6 && this.countBotBase === 0 && this.countBot === 0 && !this.scout) {
+        } else if (this.state.levelCount.value.id === 6 && this.countBotBase === 0 && this.countBot === 0 && !this.scout) {
             this.victory()
 
         }
-
-
 
 
         this.store.dispatch(count(this.countPlayer));
@@ -728,7 +732,7 @@ export default class Scene_1 extends Phaser.Scene {
         }))
     }
 
-    attackBotB(arr,pair){
+    attackBotB(arr, pair) {
         arr.filter((el) => el.constraint.corpus.body === pair.bodyB).forEach((el) => {
             el.shieldDamageBot(pair.bodyB, pair.bodyA.attack)
             if (pair.bodyB.gameObject.body.shield === 0) {
@@ -742,7 +746,8 @@ export default class Scene_1 extends Phaser.Scene {
 
         })
     }
-    attackBotA(arr,pair){
+
+    attackBotA(arr, pair) {
         arr.filter((el) => el.constraint.corpus.body === pair.bodyA).forEach((el) => {
             el.shieldDamageBot(pair.bodyA, pair.bodyB.attack)
             if (pair.bodyA.gameObject.body.shield === 0) {
@@ -758,13 +763,11 @@ export default class Scene_1 extends Phaser.Scene {
     }
 
 
-    updateMap ()
-    {
+    updateMap() {
         this.activeObject.setPipeline('Light2D');
         const origin = this.map.getTileAtWorldXY(this.activeObject.body.position.x, this.activeObject.body.position.y);
 
-        this.map.forEachTile(tile =>
-        {
+        this.map.forEachTile(tile => {
             const dist = Phaser.Math.Distance.Snake(
                 origin.x,
                 origin.y,
@@ -775,7 +778,6 @@ export default class Scene_1 extends Phaser.Scene {
             tile.setAlpha(1 - 0.1 * dist);
         });
     }
-
 
 
 }

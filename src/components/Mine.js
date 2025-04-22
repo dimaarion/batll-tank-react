@@ -1,6 +1,7 @@
 export default class Mine{
     scene
     body = []
+    day  = true;
     constructor(scene) {
         this.scene = scene
     }
@@ -9,6 +10,10 @@ export default class Mine{
         if(this.scene.map.objects.filter((el) => el.name === "mine")[0]){
             this.scene.map.objects.filter((el) => el.name === "mine")[0].objects.filter((el) => el.name === "mine").forEach((el, i) => {
                 this.body[i] = this.scene.matter.add.sprite(el.x,el.y,"mine","mine-run").setCircle(el.width / 2,{isSensor:true})
+            if(!this.day){
+                this.body[i].setPipeline('Light2D');
+            }
+
             })
         }
     }

@@ -270,10 +270,13 @@ export default class Body {
         if(!this.day){
             this.constraint.corpus.setPipeline('Light2D');
             this.constraint.head.setPipeline('Light2D');
-            this.constraint.track.setPipeline('Light2D');
             this.healthBar.setPipeline('Light2D');
             this.highlightShield.setPipeline('Light2D');
             this.hpPlayer.setPipeline('Light2D');
+            if(this.inTrack){
+                  this.constraint.track.setPipeline('Light2D');
+            }
+            this.scene.lights.enable().setAmbientColor(0x111111);
             if (this.bot === 0) {
                 this.playerLight = this.scene.lights.addLight(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, 250).setIntensity(1);
             }
