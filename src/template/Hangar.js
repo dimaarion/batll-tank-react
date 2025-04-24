@@ -27,7 +27,7 @@ export default function Hangar() {
     const [listScroll, setListScroll] = useState(0)
     const dispatch = useDispatch();
 
-    const levelStep = 1000
+    const levelStep = 500
 
 
     useEffect(() => {
@@ -44,7 +44,12 @@ export default function Hangar() {
             setLevel(getHangar.value.filter((el)=>el.id === id)[0].level)
          //   setCountSkills(0);
         }
+
     },[countSkills])
+
+    useEffect(()=>{
+        setCountSkills(0);
+    },[id])
 
     return <>
 

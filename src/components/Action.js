@@ -1,4 +1,9 @@
 export default class Action{
+    scene
+    constructor(scene) {
+        this.scene = scene
+    }
+
 
   getRandomInt(max) {
     return Math.floor(Math.random() * max);

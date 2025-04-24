@@ -11,7 +11,7 @@ export default class Preload extends Phaser.Scene {
 
 
     getLocation() {
-        level.filter((el) => el.id < 8).forEach((el) => {
+        level.filter((el) => el.id < 10).forEach((el) => {
             this.load.tilemapTiledJSON(el.name, 'https://game.fk-i-s.ru/script/location_' + el.id + '-json.php');
         })
     }
@@ -36,6 +36,8 @@ export default class Preload extends Phaser.Scene {
 
         this.load.atlas('tanks', 'https://game.fk-i-s.ru/script/tanks-img.php', 'https://game.fk-i-s.ru/script/tanks-json.php');
 
+        this.load.atlas('sprites', 'https://game.fk-i-s.ru/script/sprites-img.php', 'https://game.fk-i-s.ru/script/sprites-json.php');
+
         this.load.image("pule", 'https://game.fk-i-s.ru/script/pule.php');
 
         this.load.image("point-move", 'https://game.fk-i-s.ru/script/pointNone.php');
@@ -45,6 +47,11 @@ export default class Preload extends Phaser.Scene {
         this.load.image("rocket-static", 'https://game.fk-i-s.ru/script/rocket-static.php');
 
         this.load.image("mpb_1", 'https://game.fk-i-s.ru/script/mpb_1.php');
+
+        this.load.spritesheet('occupy', 'https://game.fk-i-s.ru/script/occupy.php', {
+            frameWidth: 128,
+            frameHeight: 128
+        });
 
         this.load.spritesheet('linck', 'https://game.fk-i-s.ru/script/linck.php', {
             frameWidth: 64,
@@ -91,6 +98,12 @@ export default class Preload extends Phaser.Scene {
     create() {
         this.scene.start('Start');
 
+        this.anims.create({
+            key: 'occupy-run',
+            frames: "occupy",
+            frameRate: 0.1,
+            repeat: 0
+        });
 
         this.anims.create({
             key: 'runPoint',

@@ -77,7 +77,7 @@ export default class Body {
     worldXY = {x: 0, y: 0}
     playerBasePosition = {x: 0, y: 0}
     icon = "HP-player"
-    action = new Action();
+    action = new Action(this);
     inTrack = true
     playerLight
 
@@ -137,12 +137,12 @@ export default class Body {
         this.healthBar = this.scene.add.graphics();
         this.healthBar.fillStyle(0x00ff00, 1);
         this.healthBar.fillRect(this.x - 22, this.y - 92, 100, 10);
-        this.healthBar.setDepth(100);
+        this.healthBar.setDepth(50);
 
         this.highlightShield = this.scene.add.graphics();
         this.highlightShield.fillStyle(0x21B1BB, 1);
         this.highlightShield.fillRect(this.x - 22, this.y - 80, 100, 10);
-        this.highlightShield.setDepth(100);
+        this.highlightShield.setDepth(50);
     }
 
     createCorpus(keySprite, label = "") {
@@ -165,7 +165,7 @@ export default class Body {
     createHPIcons(icon) {
         this.hpPlayer = this.scene.matter.add.sprite(this.x - 50, this.y - 80, icon, 0, {
             isSensor: true,
-        }).setScale(1).setFixedRotation().setDepth(99)
+        }).setScale(1).setFixedRotation().setDepth(50)
     }
 
     createBurning() {
@@ -273,10 +273,10 @@ export default class Body {
             this.healthBar.setPipeline('Light2D');
             this.highlightShield.setPipeline('Light2D');
             this.hpPlayer.setPipeline('Light2D');
+
             if(this.inTrack){
                   this.constraint.track.setPipeline('Light2D');
             }
-            this.scene.lights.enable().setAmbientColor(0x111111);
             if (this.bot === 0) {
                 this.playerLight = this.scene.lights.addLight(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, 250).setIntensity(1);
             }

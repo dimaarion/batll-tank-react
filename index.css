@@ -23,6 +23,8 @@ html {
     cursor: url('./asset/img/gui/cursor.png'),pointer;
 }
 
+
+
 .tank-dialog-left{
     left: -850px;
     transition: 1s;

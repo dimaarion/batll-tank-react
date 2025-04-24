@@ -17,12 +17,12 @@ import {none, one, two, three} from "../redux/features/Stsr";
 import Hallway from "../components/Hallway";
 import {increment} from "../redux/features/Money";
 import Walls from "../components/Walls";
-import getHangar from "../json/hangar.json"
 import getHangarBot from "../json/hangarBot.json"
 import {updateQuest} from "../redux/features/LevelCount";
 import {setStar} from "../redux/features/Level";
 import Mine from "../components/Mine";
 import Vehicle from "../components/Vehicle";
+import Occupy from "../components/Occupy";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -61,7 +61,7 @@ export default class Scene_1 extends Phaser.Scene {
     edgeThreshold = 100;
     block
     cameraSpeed = 10;
-    action = new Action();
+    action = new Action(this);
     body = []
     sec = 0
     min = 0
@@ -71,9 +71,9 @@ export default class Scene_1 extends Phaser.Scene {
     killedBot = 0;
     killedPlayer = 0;
     timerGameOver;
-    walls = new Walls(this)
-    mine = new Mine(this)
-
+    walls = new Walls(this);
+    mine = new Mine(this);
+    occupy = new Occupy(this);
     vehicleBot = []
     scout = false
     day = true
@@ -98,10 +98,11 @@ export default class Scene_1 extends Phaser.Scene {
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
         this.matter.world.createDebugGraphic();
-        this.matter.world.drawDebug = false;
+        this.matter.world.drawDebug = true;
         this.cam = this.cameras.main;
 
         if (!this.day) {
+            this.lights.enable().setAmbientColor(0x111111);
             this.layer.setPipeline('Light2D');
             block.setPipeline('Light2D');
             tree.setPipeline('Light2D');
@@ -123,14 +124,18 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.base.level = this.state.levelCount.value.id
-        this.base.setup();
+        this.base.setup()
+
+
         this.hallway.setup();
-        this.mine.day = this.day
+        this.mine.day = this.day;
         this.mine.setup();
+        this.occupy.day = this.day;
+        this.occupy.create();
 
 
         this.body = this.state.battle.value.map((el) => {
-                let b = new Body(this.base.bodyPlayer[0].x, this.base.bodyPlayer[0].y, "tank_corpus_" + el.id, el.head, el.corpus,
+                let b = new Body(this.base.player[0].body.position.x, this.base.player[0].body.position.y, "tank_corpus_" + el.id, el.head, el.corpus,
                     this.action.getOption(el, "live"),
                     this.action.getOption(el, "shield"),
                     this.action.getOption(el, "attack"),
@@ -146,7 +151,7 @@ export default class Scene_1 extends Phaser.Scene {
             }
         )
 
-        this.cameras.main.setScroll(this.base.bodyPlayer[0].x - window.innerWidth / 2, this.base.bodyPlayer[0].y - window.innerHeight / 2);
+        this.cameras.main.setScroll(this.base.player[0].body.position.x - window.innerWidth / 2, this.base.player[0].body.position.y - window.innerHeight / 2);
 
 
         this.store.subscribe(() => {
@@ -168,8 +173,8 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.body.forEach((el, i) => {
-            el.x = (this.base.bodyPlayer[0].x + i * 120)
-            el.y = (this.base.bodyPlayer[0].y + this.base.bodyPlayer[0].height * 2)
+            el.x = (this.base.player[0].body.position.x + i * 120)
+            el.y = (this.base.player[0].body.position.y + this.base.player[0].body.height * 2)
             el.setup(this);
         })
 
@@ -187,22 +192,23 @@ export default class Scene_1 extends Phaser.Scene {
 
         })
 
-
+        const level = this.state.levelCount.value.id;
+        const scalingFactor = 1 + level * 0.05;
         this.map.objects.filter((el) => el.name === "tanks")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
             let b = getHangarBot.filter((f) => f.name === el.type)[0];
             this.bodyBot[i] = new Bot(el.x, el.y, "bot_corpus_" + i,
                 b.head,
                 b.corpus,
-                this.action.getOption(b, "live") + this.state.levelCount.value.id,
-                this.action.getOption(b, "shield") + this.state.levelCount.value.id,
-                this.action.getOption(b, "attack") + this.state.levelCount.value.id,
-                this.action.getOption(b, "attack_speed") + this.state.levelCount.value.id,
-                this.action.getOption(b, "radius_attack") + this.state.levelCount.value.id,
-                this.action.getOption(b, "speed") + this.state.levelCount.value.id
+                this.scaleStat(this.action.getOption(b, "live"),level,"live"),
+                this.scaleStat(this.action.getOption(b, "shield"), level, "shield"),
+                this.scaleStat(this.action.getOption(b, "attack"), level, "attack"),
+                this.scaleStat(this.action.getOption(b, "attack_speed"), level, "attack_speed"),
+                this.scaleStat(this.action.getOption(b, "radius_attack"), level, "radius_attack"),
+                this.scaleStat(this.action.getOption(b, "speed"), level, "speed")
             );
             this.bodyBot[i].hp = b.hpRemove * this.state.levelCount.value.id;
             this.bodyBot[i].level = this.state.levelCount.value.id;
-            this.bodyBot[i].playerBasePosition = {x: this.base.bodyPlayer[0].x, y: this.base.bodyPlayer[0].y}
+            this.bodyBot[i].playerBasePosition = {x: this.base.player[0].body.position.x, y: this.base.player[0].body.position.y}
             this.bodyBot[i].day = this.day;
             this.bodyBot[i].setup(this);
             this.arrHp[i] = this.bodyBot[i].hp;
@@ -373,6 +379,8 @@ export default class Scene_1 extends Phaser.Scene {
                     this.scout = el.scout
                 })
 
+                this.occupy.collegeActive(pair)
+
 
                 if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/bot_corpus/i)) {
                     this.body.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
@@ -400,8 +408,8 @@ export default class Scene_1 extends Phaser.Scene {
                             el.timer.paused = true
                             el.timerRocket.paused = true
                             this.hp += pair.bodyA.hpBot
-                            this.store.dispatch(increment(this.state.levelCount.value.id * 100))
-                            this.store.dispatch(setHp({id: el.id, hp: this.state.levelCount.value.id * 100}))
+                            this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id,1.0,false)))
+                            this.store.dispatch(setHp({id: el.id, hp: this.getBaseDestructionXP(this.state.levelCount.value.id,1.0,false)}))
                         } else {
                             el.constraint.sensor.positionBot = pair.bodyA.position
                             el.constraint.sensor.sensorActive = true
@@ -460,6 +468,9 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.matter.world.on("collisionend", (event) => {
             event.pairs.forEach((pair) => {
+                this.occupy.collegeEnd(pair)
+
+
                 if ((pair.bodyA.label.match(/tank_corpus/i) && pair.bodyB.label === "cursor-move") || (pair.bodyB.label.match(/tank_corpus/i) && pair.bodyA.label === "cursor-move")) {
                     // this.activePoint = true
                     this.activePoint = false
@@ -524,6 +535,7 @@ export default class Scene_1 extends Phaser.Scene {
         })
 
 
+
         this.input.on('pointerdown', (pointer) => {
 
             let worldXY = pointer.positionToCamera(this.cam);
@@ -541,12 +553,6 @@ export default class Scene_1 extends Phaser.Scene {
                 }
 
 
-            })
-
-            this.body.forEach((el) => {
-                if (el.constraint.corpus.body.label === this.activeObject) {
-                    //
-                }
             })
         });
 
@@ -693,6 +699,10 @@ export default class Scene_1 extends Phaser.Scene {
         } else if (this.state.levelCount.value.id === 6 && this.countBotBase === 0 && this.countBot === 0 && !this.scout) {
             this.victory()
 
+        }else if (this.state.levelCount.value.id === 7 && this.countBotBase === 0 && this.countBot === 0) {
+            this.victory()
+        }else if (this.state.levelCount.value.id === 8 && this.countBotBase === 0 && this.countBot === 0 && this.occupy.quest) {
+            this.victory()
         }
 
 
@@ -763,21 +773,35 @@ export default class Scene_1 extends Phaser.Scene {
     }
 
 
-    updateMap() {
-        this.activeObject.setPipeline('Light2D');
-        const origin = this.map.getTileAtWorldXY(this.activeObject.body.position.x, this.activeObject.body.position.y);
+     scaleStat(baseValue, level, type) {
+        switch (type) {
+            case "live":           // здоровье
+            case "shield":         // щит
+                return Math.floor(baseValue * (1 + level * 0.04)); // +8% за уровень
 
-        this.map.forEachTile(tile => {
-            const dist = Phaser.Math.Distance.Snake(
-                origin.x,
-                origin.y,
-                tile.x,
-                tile.y
-            );
+            case "attack":         // урон
+                return Math.floor(baseValue * (1 + level * 0.03)); // +6% за уровень
 
-            tile.setAlpha(1 - 0.1 * dist);
-        });
+            case "attack_speed":   // скорость атаки (чем меньше, тем быстрее)
+                return Math.max(0.2, baseValue - level * 0.01); // уменьшается (до минимума 0.2)
+
+            case "radius_attack":  // радиус атаки
+                return baseValue + (level % 5 === 0 ? 1 : 0); // растёт на 1 каждые 5 уровней
+
+            case "speed":          // скорость движения
+                return baseValue + (level >= 10 ? 0.01 * level : 0); // небольшой прирост с 10-го уровня
+
+            default:
+                return baseValue;
+        }
     }
 
+
+     getBaseDestructionXP(baseLevel, difficultyMultiplier = 1.0, isMainHQ = false) {
+        const baseXP = 250; // Базовое количество опыта за стандартную базу
+        const hqBonus = isMainHQ ? 2 : 1; // В 2 раза больше за главный штаб
+
+        return Math.floor(baseXP * (1 + baseLevel * 0.1) * difficultyMultiplier * hqBonus);
+    }
 
 }
