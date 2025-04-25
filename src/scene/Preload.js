@@ -11,7 +11,7 @@ export default class Preload extends Phaser.Scene {
 
 
     getLocation() {
-        level.filter((el) => el.id < 10).forEach((el) => {
+        level.filter((el) => el.id < 13).forEach((el) => {
             this.load.tilemapTiledJSON(el.name, 'https://game.fk-i-s.ru/script/location_' + el.id + '-json.php');
         })
     }

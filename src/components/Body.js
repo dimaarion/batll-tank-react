@@ -83,6 +83,10 @@ export default class Body {
 
     day = true
 
+    static = false
+
+    label = ""
+
 
     constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
         this.x = x;
@@ -128,8 +132,16 @@ export default class Body {
             this.inTrack = false
             this.headerCorpus = {a: -25, b: 25}
             this.scale = 0.8
+            this.static = true
+            this.label = this.corpusImg
         }
-
+        if (this.corpusImg === "Hull_art_2") {
+            this.inTrack = false
+            this.headerCorpus = {a: 0, b: 0}
+            this.scale = 0.5
+            this.static = true
+            this.label = this.corpusImg
+        }
     }
 
 
@@ -157,9 +169,34 @@ export default class Body {
             hp: this.hp,
             mass: 5,
             frictionAir: 0,
-            corpusImg: this.corpusImg
+            corpusImg: this.corpusImg,
+            isStatic:this.static
         }).setScale(this.scale).setDepth(1).setName(this.name)
 
+    }
+
+    createHead(keySprite = "tanks") {
+        this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, keySprite, this.headImg, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2)
+    }
+
+    createTrek() {
+        if (this.inTrack) {
+            this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
+                isSensor: true,
+                cP: {x: 40, y: 0}
+            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+        }
+    }
+
+    createSensor() {
+        this.constraint.sensor = this.scene.matter.add.circle(this.x, this.y, this.radiusSensor, {
+            isSensor: true,
+            label: this.nameSensor,
+            positionBot: {x: 0, y: 0},
+            headObject: this.constraint.head,
+            sensorActive: false
+
+        })
     }
 
     createHPIcons(icon) {
@@ -170,6 +207,15 @@ export default class Body {
 
     createBurning() {
         this.constraint.burning = this.scene.matter.add.sprite(this.x, this.y, "pule-blast", 0, {isSensor: true}).setDepth(100)
+    }
+
+    createConstraint(bodyA,bodyB,positionA = {x:0,y:0},positionB= {x:0,y:0}){
+        return  this.scene.matter.add.constraint(bodyA, bodyB, 0, 0, {
+            pointA: positionA,
+            pointB: positionB,
+            damping: 0.2,
+            angularStiffness: 0
+        });
     }
 
     constraintCorpusBurning() {
@@ -187,45 +233,17 @@ export default class Body {
         this.sensorHighlight = this.scene.add.graphics()
         this.sensorHighlight.lineStyle(4, 0x808080, 0.5);
 
-        this.createHPIcons(this.icon)
+        this.createHPIcons(this.icon);
+        this.createTrek();
+        this.createCorpus("tanks", this.label);
+        this.createHead("tanks");
+        this.createSensor()
+        //
 
-        if (this.inTrack) {
-            this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
-                isSensor: true,
-                cP: {x: 40, y: 0}
-            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
-        }
-
-        this.createCorpus("tanks")
-
-
-        this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, "tanks", this.headImg, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2)
-        this.constraint.sensor = this.scene.matter.add.circle(this.x, this.y, this.radiusSensor, {
-            isSensor: true,
-            label: this.nameSensor,
-            positionBot: {x: 0, y: 0},
-            headObject: this.constraint.head,
-            sensorActive: false
-
-        })
 
         this.createBurning()
-
-        this.constraint.main = this.scene.matter.add.constraint(this.constraint.corpus, this.constraint.head, 0, 0, {
-            pointA: {
-                x: 0,
-                y: this.headerCorpus.a,
-            },
-            pointB: {
-                x: 0,
-                y: this.headerCorpus.b,
-            },
-            damping: 0.2,
-            angularStiffness: 0
-        });
-
-
-        this.headSensor = this.scene.matter.add.constraint(this.constraint.head, this.constraint.sensor, 0, 1);
+        this.constraint.main = this.createConstraint(this.constraint.corpus,this.constraint.head,{x:0,y:this.headerCorpus.a},{x:0,y:this.headerCorpus.b})
+        this.headSensor = this.createConstraint(this.constraint.head,this.constraint.sensor)
         this.constraintCorpusBurning()
 
 
@@ -267,15 +285,15 @@ export default class Body {
         });
 
 
-        if(!this.day){
+        if (!this.day) {
             this.constraint.corpus.setPipeline('Light2D');
             this.constraint.head.setPipeline('Light2D');
             this.healthBar.setPipeline('Light2D');
             this.highlightShield.setPipeline('Light2D');
             this.hpPlayer.setPipeline('Light2D');
 
-            if(this.inTrack){
-                  this.constraint.track.setPipeline('Light2D');
+            if (this.inTrack) {
+                this.constraint.track.setPipeline('Light2D');
             }
             if (this.bot === 0) {
                 this.playerLight = this.scene.lights.addLight(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, 250).setIntensity(1);
@@ -288,9 +306,6 @@ export default class Body {
     trackAngle() {
         this.constraint.track.setPosition(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y)
         this.constraint.track.setRotation(this.constraint.corpus.body.angle)
-        //this.constraint.head.setPosition(this.constraint.corpus.body.position.x,this.constraint.corpus.body.position.y)
-        //  this.constraint.head.setRotation(this.constraint.corpus.body.angle)
-
     }
 
     rotateTank(x, y) {
@@ -340,10 +355,10 @@ export default class Body {
             this.trackAngle();
             this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
         }
-if(!this.day){
-    this.playerLight.x = this.constraint.corpus.body.position.x;
-    this.playerLight.y = this.constraint.corpus.body.position.y;
-}
+        if (!this.day) {
+            this.playerLight.x = this.constraint.corpus.body.position.x;
+            this.playerLight.y = this.constraint.corpus.body.position.y;
+        }
 
         this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
         if (this.constraint.corpus.body.highlight) {

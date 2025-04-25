@@ -26,6 +26,7 @@ export default class Base {
     hpPlayer = []
     hpBaseBot = []
     hpConnection_baseBot = []
+    sensor = []
 
     constructor(scene) {
         this.scene = scene
@@ -45,8 +46,11 @@ export default class Base {
                     hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-player").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
-                    height:el.height
+                    height:el.height,
                 }).setScale(2)
+
+                this.sensor[i] = this.scene.matter.add.circle(el.x + el.width / 2,el.y + el.height / 2,el.width * 2,{isSensor:true,label:"base_sensor"})
+
                 if (!this.day) {
                     this.player[i].setPipeline('Light2D');
                 }
