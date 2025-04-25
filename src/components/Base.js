@@ -42,7 +42,7 @@ export default class Base {
                     label: "tank_base",
                     healthBase: this.health,
                     level: this.level,
-                    hp:this.createHP(this.hpPlayer[i], el.x, el.y - el.height, this.liveDefault),
+                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-player").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
                     height:el.height
@@ -63,7 +63,7 @@ export default class Base {
                     label: "base-bot",
                     healthBase: this.health,
                     level: this.level,
-                    hp:this.createHP(this.hpBaseBot[i], el.x, el.y - el.height, this.liveDefault),
+                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-bot").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
                     height:el.height,
@@ -83,10 +83,10 @@ export default class Base {
             this.scene.map.objects.filter((el) => el.name === "base")[0].objects.filter((el) => el.name === "connection_baseBot").forEach((el, i) => {
                 this.connection_baseBot[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "connection_baseBot", {
                     isStatic: true,
-                    label: "connection_baseBot",
+                    label: "connection_base-bot",
                     healthBase: this.health,
                     level: this.level,
-                    hp:this.createHP(this.hpConnection_baseBot[i], el.x, el.y - el.height, this.liveDefault),
+                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-bot").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
                     height:el.height,
@@ -112,8 +112,8 @@ export default class Base {
         this.createBotBaseConnection()
     }
 
-    createHP(obj, x, y, w) {
-        obj = this.scene.add.graphics();
+    createHP(x, y, w) {
+      let obj = this.scene.add.graphics();
         obj.fillStyle(0x00ff00, 1);
         obj.fillRect(x, y, w, 10);
         obj.setDepth(100);
