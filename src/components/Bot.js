@@ -13,6 +13,7 @@ export default class Bot extends Body {
     this.namePule = "pule_bot";
     this.nameRocket = "rocket_bot"
     this.icon = "HP-bot";
+    this.label = this.corpusImg
   }
 
   setup(scene) {

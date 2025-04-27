@@ -104,7 +104,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
         this.matter.world.createDebugGraphic();
-        this.matter.world.drawDebug = false;
+        this.matter.world.drawDebug = true;
         this.cam = this.cameras.main;
 
         if (!this.day) {
@@ -123,9 +123,14 @@ export default class Scene_1 extends Phaser.Scene {
             this.cameras.main.setZoom(0.8);
         }
 
+        this.hallway.setup();
+        this.mine.day = this.day;
+        this.mine.setup();
+        this.occupy.day = this.day;
+        this.occupy.create();
         this.walls.rect("walls")
         this.walls.circle("walls-circle")
-
+        this.walls.createCzech()
         // this.lights.enable().setAmbientColor(0x111111);
 
 
@@ -133,11 +138,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.base.setup()
 
 
-        this.hallway.setup();
-        this.mine.day = this.day;
-        this.mine.setup();
-        this.occupy.day = this.day;
-        this.occupy.create();
+
 
 
         this.body = this.state.battle.value.map((el) => {
@@ -184,26 +185,22 @@ export default class Scene_1 extends Phaser.Scene {
             el.setup(this);
         })
 
+
+
         this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
-            this.vehicleBot[i] = new Vehicle(el.x, el.y, "bot_corpus_" + i, "", el.type, 5, 5, 0, 0, 0, 4);
-            if (this.state.levelCount.value.id === 5) {
-                this.vehicleBot[i].move = [{x: 4400, y: 3050}, {x: 1800, y: 2900}, {x: 4700, y: 2900}, {
-                    x: 4400,
-                    y: 300
-                }]
-                this.vehicleBot[i].delay = 15000;
-            }
+            this.vehicleBot[i] = new Vehicle(el.x + el.width / 2, el.y + el.height / 2, "bot_corpus_" + i, "", el.type, 5, 5, 0, 0, 0, 4);
+            this.vehicleBot[i].index = i;
             this.vehicleBot[i].createVehicle(this);
-
-
         })
+
+
 
         const level = this.state.levelCount.value.id;
         const scalingFactor = 1 + level * 0.05;
 
         this.map.objects.filter((el) => el.name === "tanks")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
             let b = getHangarBot.filter((f) => f.name === el.type)[0];
-            this.bodyBot[i] = new Bot(el.x, el.y, "bot_corpus_" + i,
+            this.bodyBot[i] = new Bot(el.x + el.width / 2, el.y + el.height / 2, "bot_corpus_" + i,
                 b.head,
                 b.corpus,
                 this.scaleStat(this.action.getOption(b, "live"), level, "live"),
@@ -301,14 +298,14 @@ export default class Scene_1 extends Phaser.Scene {
             event.pairs.forEach((pair) => {
                 this.mine.collegeStart(pair)
 
-                if ((pair.bodyA.label.match(/bot/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule") {
+                if (pair.bodyA.label.match(/bot/i) && pair.bodyB.label === "pule") {
                     pule(this, pair)
                 }
-                if ((pair.bodyA.label.match(/tank/i) || pair.bodyA.label.match(/walls/i)) && pair.bodyB.label === "pule_bot") {
+                if (pair.bodyA.label.match(/tank/i) && pair.bodyB.label === "pule_bot") {
                     pule(this, pair)
                 }
 
-                if ((pair.bodyB.label.match(/bot/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule") {
+                if (pair.bodyB.label.match(/bot/i) && pair.bodyA.label === "pule") {
                     puleA(this, pair)
                 }
                 if ((pair.bodyB.label.match(/tank/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule_bot") {
@@ -667,6 +664,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(2, this.isObjectRemove(/bot_corpus/i))
         this.victory(3, this.countPlayer === this.defaultCountPlayer)
         this.victory(4, this.isObjectRemove(/Hull_art_1/i))
+        this.victory(5, this.isObjectRemove(/mpb_1/i))
         this.victory(6, !this.scout)
         this.victory(7, this.isObjectRemove(/bot_corpus/i))
         this.victory(8, this.occupy.quest)
@@ -674,6 +672,13 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(10, this.occupy.quest)
         this.victory(11, this.quest)
         this.victory(12, this.isObjectRemove(/Hull_art_2/i))
+        this.victory(13, this.isObjectRemove(/czech/i))
+        this.victory(14, this.quest)
+        this.victory(15, this.quest)
+        this.victory(16, this.isObjectRemove(/mpb_1/i))
+        this.victory(17, true)
+        this.victory(18, this.isObjectRemove(/rocket/i))
+
 
 
         this.store.dispatch(count(this.countPlayer));

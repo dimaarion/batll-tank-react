@@ -7,6 +7,11 @@ export default class Walls {
         this.scene = scene
     }
 
+
+    setup(name){
+
+    }
+
     rect(name) {
         if (this.scene.map.objects.filter((el) => el.name === "walls")[0]) {
             this.scene.map.objects.filter((el) => el.name === "walls")[0].objects.filter((el) => el.name === name).forEach((el, i) => {
@@ -25,6 +30,17 @@ export default class Walls {
                     isStatic: true,
                     label: el.name
                 })
+            })
+        }
+    }
+
+    createCzech(){
+        if (this.scene.map.objects.filter((el) => el.name === "walls")[0]) {
+            this.scene.map.objects.filter((el) => el.name === "walls")[0].objects.filter((el) => el.name === "czech").forEach((el, i) => {
+                this.bodyRect = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2,"sprites","czech", {
+                    isStatic: false,
+                    label: "czech"
+                }).setScale(0.5)
             })
         }
     }

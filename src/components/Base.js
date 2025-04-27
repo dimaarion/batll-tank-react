@@ -62,9 +62,9 @@ export default class Base {
     createBotBase() {
         if (this.scene.map.objects.filter((el) => el.name === "base")[0]) {
             this.scene.map.objects.filter((el) => el.name === "base")[0].objects.filter((el) => el.name === "baseBot").forEach((el, i) => {
-                this.bot[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "baseBot", {
+                this.bot[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", el.type, {
                     isStatic: true,
-                    label: "base-bot",
+                    label: "base-bot_" + el.type,
                     healthBase: this.health,
                     level: this.level,
                     hp:this.createHP(el.x, el.y - el.height, this.liveDefault),

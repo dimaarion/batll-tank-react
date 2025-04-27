@@ -6,7 +6,8 @@ export default class AllyTank extends Bot{
     position = {x:0,y:0}
     constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
         super(x, y, name, head, corpus, live, shield, attack, speedAttack, radiusSensor, speed);
-        this.position = {x:x,y:y}
+        this.position = {x:x + 200,y:y + 200}
+        this.icon = "HP-player"
     }
 
     createTank(scene){

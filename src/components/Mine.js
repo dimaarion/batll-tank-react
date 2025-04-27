@@ -21,7 +21,7 @@ export default class Mine{
 
     collegeStart(pair){
         this.body.forEach((el)=>{
-            if(pair.bodyA === el.body && pair.bodyB.label.match(/tank_corpus/)){
+            if(pair.bodyA === el.body && pair.bodyB.label.match(/tank_corpus/i)){
                 el.play("mine-run",true).once('animationcomplete', () => {
                     if (el.body) {
                         el.body.gameObject.destroy()
@@ -35,6 +35,14 @@ export default class Mine{
                     if (pair.bodyB.health < 0) pair.bodyB.health = 0;
                 }
 
+            }
+            if(pair.bodyB === el.body && pair.bodyA.label.match(/czech/i)){
+                el.play("mine-run",true).once('animationcomplete', () => {
+                    if (el.body) {
+                        el.body.gameObject.destroy()
+                    }
+                    this.scene.matter.world.remove(el);
+                });
             }
         })
     }

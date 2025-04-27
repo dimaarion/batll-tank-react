@@ -2,6 +2,10 @@ export default class Occupy{
     body = []
 
     point = []
+
+    sklad = []
+    pointSklad = []
+
     scene
     day
     quest = false
@@ -31,6 +35,17 @@ export default class Occupy{
 
             })
         }
+        if(this.scene.map.objects.filter((el) => el.name === "occupy")[0]){
+            this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "sklad").forEach((el, i) => {
+                this.pointSklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2,el.y + el.height / 2,"sprites","control_point_neutral",{isSensor:true})
+                this.sklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2,el.y + el.height / 2,"sprites","no_image",{isSensor:true}).setScale(2)
+
+                if(!this.day){
+                    this.body[i].setPipeline('Light2D');
+                }
+
+            })
+        }
     }
 
     collegeActive(pair){
@@ -47,6 +62,18 @@ export default class Occupy{
             }else if(pair.bodyA === el.body && pair.bodyB.label.match(/bot_corpus/i)){
                 el.setTexture("sprites","control_point_bot")
                 this.quest = false;
+            }
+        })
+
+        this.sklad.forEach((el,i)=>{
+            if(pair.bodyA === el.body && pair.bodyB.label.match(/tank_corpus/i)){
+                el.play("occupy-run",true).once('animationcomplete', () => {
+                    this.pointSklad[i].setTexture("sprites","control_point_player")
+                    this.scene.quest = true;
+                });
+                if(this.scene.quest){
+                    el.stop()
+                }
             }
         })
 
@@ -68,6 +95,12 @@ export default class Occupy{
                 this.quest = false;
             }else if(pair.bodyA === el.body && pair.bodyB.label.match(/bot_corpus/i)){
                 el.setTexture("sprites","control_point_neutral")
+            }
+        })
+
+        this.sklad.forEach((el,i)=>{
+            if(pair.bodyA === el.body && pair.bodyB.label.match(/tank_corpus/i)){
+                el.stop()
             }
         })
     }

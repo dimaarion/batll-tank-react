@@ -11,7 +11,7 @@ export default class Preload extends Phaser.Scene {
 
 
     getLocation() {
-        level.filter((el) => el.id < 13).forEach((el) => {
+        level.filter((el) => el.id < 20).forEach((el) => {
             this.load.tilemapTiledJSON(el.name, 'https://game.fk-i-s.ru/script/location_' + el.id + '-json.php');
         })
     }
@@ -46,7 +46,7 @@ export default class Preload extends Phaser.Scene {
 
         this.load.image("rocket-static", 'https://game.fk-i-s.ru/script/rocket-static.php');
 
-        this.load.image("mpb_1", 'https://game.fk-i-s.ru/script/mpb_1.php');
+     //   this.load.image("mpb_1", 'https://game.fk-i-s.ru/script/mpb_1.php');
 
         this.load.spritesheet('occupy', 'https://game.fk-i-s.ru/script/occupy.php', {
             frameWidth: 128,
