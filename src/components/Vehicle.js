@@ -38,7 +38,7 @@ export default class Vehicle extends Bot {
             }
         });
 
-
+this.createLight()
 
 
     }

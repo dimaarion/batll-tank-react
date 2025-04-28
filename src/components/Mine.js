@@ -36,7 +36,7 @@ export default class Mine{
                 }
 
             }
-            if(pair.bodyB === el.body && pair.bodyA.label.match(/czech/i)){
+            if(pair.bodyB === el.body && pair.bodyA.label.match(/czech/i) || pair.bodyA === el.body && pair.bodyB.label.match(/czech/i)){
                 el.play("mine-run",true).once('animationcomplete', () => {
                     if (el.body) {
                         el.body.gameObject.destroy()
@@ -44,6 +44,7 @@ export default class Mine{
                     this.scene.matter.world.remove(el);
                 });
             }
+
         })
     }
 

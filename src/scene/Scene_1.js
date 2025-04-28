@@ -92,7 +92,7 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
-        if (this.state.levelCount.value.id === 7) {
+        if (this.state.levelCount.value.id === 7 || this.state.levelCount.value.id === 21 || this.state.levelCount.value.id === 23) {
             this.day = false
         }
 
@@ -135,6 +135,7 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.base.level = this.state.levelCount.value.id
+        this.base.day = this.day
         this.base.setup()
 
 
@@ -190,6 +191,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
             this.vehicleBot[i] = new Vehicle(el.x + el.width / 2, el.y + el.height / 2, "bot_corpus_" + i, "", el.type, 5, 5, 0, 0, 0, 4);
             this.vehicleBot[i].index = i;
+            this.vehicleBot[i].day = this.day;
             this.vehicleBot[i].createVehicle(this);
         })
 
@@ -668,7 +670,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(6, !this.scout)
         this.victory(7, this.isObjectRemove(/bot_corpus/i))
         this.victory(8, this.occupy.quest)
-        this.victory(9, this.isObjectRemove(/connection_base-bot/i))
+        this.victory(9, this.isObjectRemove(/connection_baseBot/i))
         this.victory(10, this.occupy.quest)
         this.victory(11, this.quest)
         this.victory(12, this.isObjectRemove(/Hull_art_2/i))
@@ -678,8 +680,12 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(16, this.isObjectRemove(/mpb_1/i))
         this.victory(17, true)
         this.victory(18, this.isObjectRemove(/rocket/i))
-
-
+        this.victory(19, this.isObjectRemove(/tower/i))
+        this.victory(20, !this.isObjectRemove(/tank_base/i))
+        this.victory(21, this.isObjectRemove(/mpb_1/i))
+        this.victory(22, this.quest)
+        this.victory(23, this.isObjectRemove(/fuel_depot/i))
+        this.victory(24, this.isObjectRemove(/czech/i))
 
         this.store.dispatch(count(this.countPlayer));
         this.store.dispatch(countBot(this.countBot));

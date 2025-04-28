@@ -53,6 +53,8 @@ export default class Base {
 
                 if (!this.day) {
                     this.player[i].setPipeline('Light2D');
+                    this.player[i].body.hp.setPipeline('Light2D');
+                    this.player[i].body.icon.setPipeline('Light2D');
                 }
 
             })
@@ -72,9 +74,11 @@ export default class Base {
                     width:el.width,
                     height:el.height,
                     hpBot:this.hpBot
-                }).setScale(2)
+                }).setScale(2).setDepth(500)
                 if (!this.day) {
-                    this.player[i].setPipeline('Light2D');
+                    this.bot[i].setPipeline('Light2D');
+                    this.bot[i].body.hp.setPipeline('Light2D');
+                    this.bot[i].body.icon.setPipeline('Light2D');
                 }
 
             })
@@ -97,7 +101,9 @@ export default class Base {
                     hpBot:this.hpBot
                 }).setScale(2)
                 if (!this.day) {
-                    this.player[i].setPipeline('Light2D');
+                    this.connection_baseBot[i].setPipeline('Light2D');
+                    this.connection_baseBot[i].body.hp.setPipeline('Light2D');
+                    this.connection_baseBot[i].body.icon.setPipeline('Light2D');
                 }
 
             })
@@ -113,7 +119,7 @@ export default class Base {
         this.hpBot = this.arrBaseBot.reduce((acc, num) => acc + num, 0)
         this.createPlayerBase()
         this.createBotBase()
-        this.createBotBaseConnection()
+       // this.createBotBaseConnection()
     }
 
     createHP(x, y, w) {
