@@ -84,7 +84,7 @@ export default class Body {
     day = true
 
     static = false
-
+   keyImage = "tanks"
     label = ""
 
 
@@ -251,8 +251,8 @@ export default class Body {
 
         this.createHPIcons(this.icon);
         this.createTrek();
-        this.createCorpus("tanks", this.label);
-        this.createHead("tanks");
+        this.createCorpus(this.keyImage, this.label);
+        this.createHead(this.keyImage);
         this.createSensor()
         //
 

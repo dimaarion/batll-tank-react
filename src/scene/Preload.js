@@ -36,6 +36,8 @@ export default class Preload extends Phaser.Scene {
 
         this.load.atlas('tanks', 'https://game.fk-i-s.ru/script/tanks-img.php', 'https://game.fk-i-s.ru/script/tanks-json.php');
 
+        this.load.atlas('tanks-bot', 'https://game.fk-i-s.ru/script/tanks-img.php', 'https://game.fk-i-s.ru/script/tanks_bot-json.php');
+
         this.load.atlas('sprites', 'https://game.fk-i-s.ru/script/sprites-img.php', 'https://game.fk-i-s.ru/script/sprites-json.php');
 
         this.load.image("pule", 'https://game.fk-i-s.ru/script/pule.php');
