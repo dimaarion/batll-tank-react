@@ -161,7 +161,6 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.cameras.main.setScroll(this.base.player[0].body.position.x - window.innerWidth / 2, this.base.player[0].body.position.y - window.innerHeight / 2);
 
-
         this.store.subscribe(() => {
             const newState = this.store.getState();
             if (newState.pause.value || newState.gameOver.value.active) {
@@ -186,8 +185,6 @@ export default class Scene_1 extends Phaser.Scene {
             el.setup(this);
         })
 
-
-
         this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
             this.vehicleBot[i] = new Vehicle(el.x + el.width / 2, el.y + el.height / 2, "bot_corpus_" + i, "", el.type, 5, 5, 0, 0, 0, 4);
             this.vehicleBot[i].index = i;
@@ -195,13 +192,10 @@ export default class Scene_1 extends Phaser.Scene {
             this.vehicleBot[i].createVehicle(this);
         })
 
-
-
         const level = this.state.levelCount.value.id;
-        const scalingFactor = 1 + level * 0.05;
-
         this.map.objects.filter((el) => el.name === "tanks")[0].objects.filter((el) => el.name === "bot").forEach((el, i) => {
             let b = getHangarBot.filter((f) => f.name === el.type)[0];
+
             this.bodyBot[i] = new Bot(el.x + el.width / 2, el.y + el.height / 2, "bot_corpus_" + i,
                 b.head,
                 b.corpus,
@@ -212,7 +206,7 @@ export default class Scene_1 extends Phaser.Scene {
                 this.scaleStat(this.action.getOption(b, "radius_attack"), level, "radius_attack"),
                 this.scaleStat(this.action.getOption(b, "speed"), level, "speed")
             );
-
+            this.bodyBot[i].type = b.name
             this.bodyBot[i].hp = b.hpRemove * this.state.levelCount.value.id;
             this.bodyBot[i].level = this.state.levelCount.value.id;
             this.bodyBot[i].playerBasePosition = {
@@ -224,6 +218,7 @@ export default class Scene_1 extends Phaser.Scene {
             this.arrHp[i] = this.bodyBot[i].hp;
 
         })
+
         this.map.objects.filter((el) => el.name === "tanks")[0]?.objects.filter((el) => el.name === "player_tank").forEach((el, i) => {
             this.allyTank[i] = new AllyTank(el.x, el.y, "tank_corpus_apply", "Gun_01", "Hull_01", 10, 10, 5, 10, 20, 3)
             this.allyTank[i].createTank(this);
@@ -674,7 +669,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(10, this.occupy.quest)
         this.victory(11, this.quest)
         this.victory(12, this.isObjectRemove(/Hull_art_2/i))
-        this.victory(13, this.isObjectRemove(/czech/i))
+        this.victory(13, this.isObjectRemove(/mine/i))
         this.victory(14, this.quest)
         this.victory(15, this.quest)
         this.victory(16, this.isObjectRemove(/mpb_1/i))
@@ -685,10 +680,14 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(21, this.isObjectRemove(/mpb_1/i))
         this.victory(22, this.quest)
         this.victory(23, this.isObjectRemove(/fuel_depot/i))
-        this.victory(24, this.isObjectRemove(/czech/i))
+        this.victory(24, this.isObjectRemove(/mine/i))
 
         this.store.dispatch(count(this.countPlayer));
         this.store.dispatch(countBot(this.countBot));
+        let test = false
+        if(test){
+            console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/mine/i)).length)
+        }
 
 
         this.body.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
@@ -842,6 +841,10 @@ export default class Scene_1 extends Phaser.Scene {
 
     isObjectRemove(name) {
         return this.matter.world.getAllBodies().filter((el) => el.label.match(name)).length === 0
+    }
+
+    createBotTanks(){
+
     }
 
 }

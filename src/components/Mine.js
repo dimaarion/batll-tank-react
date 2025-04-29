@@ -9,7 +9,7 @@ export default class Mine{
     setup(){
         if(this.scene.map.objects.filter((el) => el.name === "mine")[0]){
             this.scene.map.objects.filter((el) => el.name === "mine")[0].objects.filter((el) => el.name === "mine").forEach((el, i) => {
-                this.body[i] = this.scene.matter.add.sprite(el.x + el.width / 2,el.y + el.height / 2,"mine","").setCircle(el.width / 2,{isSensor:true})
+                this.body[i] = this.scene.matter.add.sprite(el.x + el.width / 2,el.y + el.height / 2,"mine","").setCircle(el.width / 2,{isSensor:true,label:el.type})
             if(!this.day){
                 this.body[i].setPipeline('Light2D');
             }

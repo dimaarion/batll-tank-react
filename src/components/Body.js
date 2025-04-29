@@ -12,6 +12,7 @@ export default class Body {
     botPosition = {x: 0, y: 0}
     scene;
     name
+    type = ""
     keyObjects = null
     corpus
     speedPule = 1000
@@ -86,6 +87,9 @@ export default class Body {
     static = false
    keyImage = "tanks"
     label = ""
+    countRocket = 4
+
+    rocketStatic = []
 
 
     constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
@@ -191,8 +195,8 @@ export default class Body {
 
     }
 
-    createHead(keySprite = "tanks") {
-        this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, keySprite, this.headImg, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2)
+    createHead(keySprite = "tanks",img) {
+        this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, keySprite, img, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2)
     }
 
     createTrek() {
@@ -252,7 +256,7 @@ export default class Body {
         this.createHPIcons(this.icon);
         this.createTrek();
         this.createCorpus(this.keyImage, this.label);
-        this.createHead(this.keyImage);
+        this.createHead(this.keyImage,this.headImg);
         this.createSensor()
         //
 
@@ -286,11 +290,14 @@ export default class Body {
             loop: true,
             paused: true
         });
+
+
+
         this.timerRocket = this.scene.time.addEvent({
             delay: this.speedPule,
             callback: () => {
                 if (this.corpusImg.match(/rocket/i)) {
-                    this.rocket(4)
+                    this.rocket(this.countRocket)
                     this.rocketMove()
                 }
 
@@ -393,6 +400,7 @@ export default class Body {
         }
 
 
+
         this.liveDraw()
         this.shieldDraw()
     }
@@ -429,6 +437,7 @@ export default class Body {
                 if (pule.speed < 1.5) {
                     pule.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
                         if (pule.gameObject) {
+
                             pule.gameObject.destroy()
                         }
                         this.scene.matter.world.remove(pule);
@@ -486,7 +495,56 @@ export default class Body {
         this.scene.matter.setVelocity(this.constraint.pule.body, velocity.x, velocity.y);
     }
 
-    rocket(n = 4) {
+
+    createRocketStatic(n = 4,x = 20,y = 0){
+        this.rocketStatic = this.action.createArray(n);
+        this.rocketStatic = this.rocketStatic.map((el)=>{
+            return {
+                body: this.scene.matter.add.sprite(this.constraint.head.body.position.x, this.constraint.head.body.position.y, "rocket-static", 0, {isSensor: true})
+                    .setDepth(56)
+                    .setFixedRotation()
+                    .setScale(0.4)
+            }
+        })
+
+        this.rocketStatic.map((el, i) => {
+            this.scene.matter.add.constraint(this.constraint.head, el.body, 0, 0.1, {
+                pointA: {
+                    x: 0,
+                    y: 0,
+                },
+                pointB: {
+                    x:0,
+                    y:0,
+                },
+                damping: 0.2,
+                angularStiffness: 0
+            })
+          //  this.positionRocket(el,x,y,i)
+        })
+
+    }
+
+    drawRocketStatic(x = 50){
+        this.rocketStatic.forEach((el,i)=>{
+            const angle = this.constraint.sensor.headObject.body.angle;
+            this.scene.matter.body.setAngle(el.body.body, angle);
+            // Смещение от родителя на фиксированное расстояние
+            const distance = 50 + (i * 20) - 20 * this.countRocket;
+            const offsetX = Math.cos(angle) * distance;
+            const offsetY = Math.sin(angle) * distance;
+
+            // Новая позиция объекта
+            const moveX = this.constraint.sensor.headObject.body.position.x + offsetX;
+            const moveY = this.constraint.sensor.headObject.body.position.y + offsetY;
+
+            // Устанавливаем объект в новую позицию
+            el.body.setPosition(moveX, moveY);
+        })
+    }
+
+
+    rocket(n = 4,x = 20,y = 0) {
         this.constraint.rocket = this.action.createArray(n);
         this.constraint.rocket = this.constraint.rocket.map((el) => {
             return {
@@ -498,7 +556,7 @@ export default class Body {
 
                 })
                     .setSensor(true)
-                    .setDepth(1)
+                    .setDepth(55)
                     .setScale(0.4)
                     .setFixedRotation(),
                 constraint: null
@@ -512,31 +570,56 @@ export default class Body {
                     y: 0,
                 },
                 pointB: {
-                    x: (i * 20) - 25,
-                    y: 0,
+                    x:(i * 20) - 25,
+                    y:0,
                 },
                 damping: 0.2,
                 angularStiffness: 0
             })
+            this.positionRocket(el,x,y,i)
         })
 
 
     }
 
-    rocketMove() {
 
-        this.constraint.rocket.forEach((el) => {
+    positionRocket(el,x,y,i){
+        const dx = this.constraint.sensor.positionBot.x - this.constraint.sensor.headObject.body.position.x;
+        const dy = this.constraint.sensor.positionBot.y - this.constraint.sensor.headObject.body.position.y;
+        const angle = Math.atan2(dy, dx) + Math.PI / 2;
+        this.scene.matter.body.setAngle(el.body.body, angle);
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const speed = this.speed; // Можно менять скорость
+        const velocity = {x: (dx / length) * speed, y: (dy / length) * speed};
+
+        //
+        // const angle = this.constraint.sensor.headObject.body.angle; // угол объекта
+        const distance = 50 + (i * 20) - 20 * this.countRocket;
+        const offsetX = Math.cos(angle) * distance;
+        const offsetY = Math.sin(angle) * distance;
+
+        const moveX = this.constraint.sensor.headObject.body.position.x + offsetX;
+        const moveY = this.constraint.sensor.headObject.body.position.y + offsetY;
+
+        el.body.setPosition(moveX, moveY);
+        return velocity
+    }
+
+
+    rocketMove(x = 20,y = 0) {
+
+        this.constraint.rocket.forEach((el,i) => {
 
             if (el.body.body) {
-                el.body.setRotation(this.constraint.head.body.angle)
+
+               // el.body.setRotation(this.constraint.head.body.angle)
                 if (this.constraint.sensor.sensorActive) {
                     this.scene.matter.world.removeConstraint(el.constraint)
-                    const dx = this.constraint.sensor.positionBot.x - this.constraint.sensor.headObject.body.position.x;
-                    const dy = this.constraint.sensor.positionBot.y - this.constraint.sensor.headObject.body.position.y;
-                    const length = Math.sqrt(dx * dx + dy * dy);
-                    const speed = this.speed; // Можно менять скорость
-                    const velocity = {x: (dx / length) * speed, y: (dy / length) * speed};
+                   let velocity = this.positionRocket(el,x,y,i)
+                    //
+
                     this.scene.matter.setVelocity(el.body.body, velocity.x, velocity.y)
+
                     el.body.play("rocket-run", true)
                 } else {
 

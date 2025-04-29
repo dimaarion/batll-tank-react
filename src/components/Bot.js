@@ -5,6 +5,7 @@ export default class Bot extends Body {
   sensorObject = null
   linck = null
 
+  timerDopRocket
   scout = false
 
   constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
@@ -25,6 +26,24 @@ export default class Bot extends Body {
     if(this.corpusImg === "Hull_04"){
       this.linck = this.scene.matter.add.sprite(this.x,this.y,"linck","linck-run",{isSensor:true}).setDepth(50);
     }
+
+
+    this.timerDopRocket = this.scene.time.addEvent({
+      delay: this.speedPule * 2,
+      callback: () => {
+        if (this.type.match(/Hull_boss_1/i)) {
+          this.rocket(this.countRocket)
+          this.rocketMove(50,0)
+        }
+
+      },
+      callbackScope: this,
+      loop: true,
+      paused: true
+    });
+
+    this.createRocketStatic(4,50,0)
+
       this.scene.time.addEvent({
         delay: Phaser.Math.Between(5000,20000),
         loop: true,
@@ -88,8 +107,10 @@ export default class Bot extends Body {
       if(this.constraint.sensor.sensorActive){
         this.rotateHead(this.constraint.head.body,this.constraint.sensor.positionBot.x,this.constraint.sensor.positionBot.y)
         this.timerRocket.paused = false
+        this.timerDopRocket.paused = false
       }else {
         this.timerRocket.paused = true
+        this.timerDopRocket.paused = true
         if (this.targetBot) {
            this.rotateHead(this.constraint.head.body, this.targetBot.x, this.targetBot.y)
         }
@@ -103,7 +124,7 @@ export default class Bot extends Body {
     }
 
     this.reportPlayerDetection()
-
+    this.drawRocketStatic()
   }
 
 
