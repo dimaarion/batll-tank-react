@@ -104,7 +104,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
         this.matter.world.createDebugGraphic();
-        this.matter.world.drawDebug = true;
+        this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
 
         if (!this.day) {
@@ -681,6 +681,11 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(22, this.quest)
         this.victory(23, this.isObjectRemove(/fuel_depot/i))
         this.victory(24, this.isObjectRemove(/mine/i))
+        this.victory(25, this.isObjectRemove(/Hull_boss_1/i))
+        this.victory(26, this.occupy.quest)
+        this.victory(27, this.isObjectRemove(/Hull/i))
+
+        
 
         this.store.dispatch(count(this.countPlayer));
         this.store.dispatch(countBot(this.countBot));

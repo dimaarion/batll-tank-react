@@ -41,8 +41,11 @@ export default class Bot extends Body {
       loop: true,
       paused: true
     });
+    if (this.type.match(/Hull_boss_1/i)) {
+      this.countRocket = 2
+      this.createRocketStatic()
+    }
 
-    this.createRocketStatic(4,50,0)
 
       this.scene.time.addEvent({
         delay: Phaser.Math.Between(5000,20000),
@@ -121,10 +124,15 @@ export default class Bot extends Body {
         this.constraint.track.stop()
       }
       this.timerRocket.paused = true
+      this.timerDopRocket.paused = true
     }
 
     this.reportPlayerDetection()
-    this.drawRocketStatic()
+
+    if (this.type.match(/Hull_boss_1/i)) {
+      this.drawRocketStatic(this.rocketStatic,75,50)
+    }
+
   }
 
 
