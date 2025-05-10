@@ -23,7 +23,7 @@ export default class Bot extends Body {
     this.sensorObject = this.scene.matter.add.circle(this.x,this.y,500,{isSensor:true,label:"search_object",activeObj:false, targetObj:{x:Phaser.Math.Between(100, this.scene.map.heightInPixels),y:Phaser.Math.Between(100, this.scene.map.heightInPixels)}})
     this.scene.matter.add.constraint(this.constraint.sensor,this.sensorObject,0,1)
     this.targetBot = { x: Phaser.Math.Between(0, this.scene.map.heightInPixels), y: Phaser.Math.Between(0, this.scene.map.heightInPixels) };
-    if(this.corpusImg === "Hull_04"){
+    if(this.corpusImg === "Hull_04" && this.level === 6){
       this.linck = this.scene.matter.add.sprite(this.x,this.y,"linck","linck-run",{isSensor:true}).setDepth(50);
     }
 
@@ -83,10 +83,6 @@ export default class Bot extends Body {
   shieldDamageBot(body, amount) {
     body.shield -= amount;
     if (body.shield < 0) body.shield = 0;
-  }
-
-  setPositionHP(){
-    this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
   }
 
 

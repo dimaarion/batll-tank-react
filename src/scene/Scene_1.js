@@ -25,6 +25,7 @@ import Vehicle from "../components/Vehicle";
 import Occupy from "../components/Occupy";
 import AllyTank from "../components/AllyTank";
 import quest from "phaser3-rex-plugins/plugins/quest";
+import Sapper from "../components/Sapper";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -77,7 +78,7 @@ export default class Scene_1 extends Phaser.Scene {
     mine = new Mine(this);
     occupy = new Occupy(this);
     vehicleBot = []
-
+    sapper = []
     allyTank = []
     scout = false
     day = true
@@ -92,7 +93,8 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
-        if (this.state.levelCount.value.id === 7 || this.state.levelCount.value.id === 21 || this.state.levelCount.value.id === 23) {
+        const arrayLevel = [7, 21, 23, 29, 30];
+        if (arrayLevel.some((el) => el === this.state.levelCount.value.id)) {
             this.day = false
         }
 
@@ -137,9 +139,6 @@ export default class Scene_1 extends Phaser.Scene {
         this.base.level = this.state.levelCount.value.id
         this.base.day = this.day
         this.base.setup()
-
-
-
 
 
         this.body = this.state.battle.value.map((el) => {
@@ -223,7 +222,10 @@ export default class Scene_1 extends Phaser.Scene {
             this.allyTank[i] = new AllyTank(el.x, el.y, "tank_corpus_apply", "Gun_01", "Hull_01", 10, 10, 5, 10, 20, 3)
             this.allyTank[i].createTank(this);
         })
-
+        this.map.objects.filter((el) => el.name === "tanks")[0]?.objects.filter((el) => el.name === "sapper_tank").forEach((el, i) => {
+            this.sapper[i] = new Sapper(el.x, el.y, "tank_corpus_sapper", "Gun_01", "sapper_1", 10, 10, 5, 10, 20, 3)
+            this.sapper[i].createSapper(this);
+        })
 
         this.arrHp = this.arrHp.concat(this.base.arrBaseBot)
         this.defaultHp = this.arrHp.reduce((acc, num) => acc + num, 0);
@@ -294,7 +296,7 @@ export default class Scene_1 extends Phaser.Scene {
 
             event.pairs.forEach((pair) => {
                 this.mine.collegeStart(pair)
-
+                this.occupy.collegeStart(pair)
                 if (pair.bodyA.label.match(/bot/i) && pair.bodyB.label === "pule") {
                     pule(this, pair)
                 }
@@ -369,6 +371,13 @@ export default class Scene_1 extends Phaser.Scene {
                 }
                 if ((/pule/i.test(pair.bodyB.label) || /rocket/i.test(pair.bodyB.label)) && pair.bodyB.bot === 1 && pair.bodyA.label.match(/tank/i)) {
                     this.body.filter((el) => el.constraint.corpus.body === pair.bodyA).forEach((el) => {
+                        el.shieldDamage(pair.bodyA, pair.bodyB.attack)
+                        if (pair.bodyA.gameObject.body.shield === 0) {
+                            el.takeDamage(pair.bodyA, pair.bodyB.attack)
+                        }
+
+                    })
+                    this.sapper.filter((el) => el.constraint.corpus.body === pair.bodyA).forEach((el) => {
                         el.shieldDamage(pair.bodyA, pair.bodyB.attack)
                         if (pair.bodyA.gameObject.body.shield === 0) {
                             el.takeDamage(pair.bodyA, pair.bodyB.attack)
@@ -463,9 +472,28 @@ export default class Scene_1 extends Phaser.Scene {
 
                 }
 
+                if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/tank_corpus/i)) {
+                    this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
+                        if (pair.bodyB.health === 0 || el.constraint.corpus.body.health === 0) {
+                            el.timer.paused = true
+                            el.timerRocket.paused = true
+                        } else {
+                            el.constraint.sensor.positionBot = pair.bodyB.position
+                            el.constraint.sensor.sensorActive = true
+                            el.timer.paused = false
+                            el.timerRocket.paused = false
+                        }
+                    })
+
+                }
+
                 if (/search_object/i.test(pair.bodyB.label) && pair.bodyA.label.match(/tank/i)) {
                     pair.bodyB.activeObj = true
                     pair.bodyB.targetObj = pair.bodyA.position
+                }
+                if (/search_object/i.test(pair.bodyA.label) && pair.bodyB.label.match(/tank/i)) {
+                    pair.bodyA.activeObj = true
+                    pair.bodyA.targetObj = pair.bodyB.position
                 }
 
                 if (/base-player-sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/tank_corpus/i)) {
@@ -522,6 +550,21 @@ export default class Scene_1 extends Phaser.Scene {
                     })
 
                 }
+                if (/sensor/i.test(pair.bodyA.label) && pair.bodyB.label.match(/tank/i)) {
+                    pair.bodyA.sensorActive = false
+                    this.bodyBot.filter((el) => el.constraint.sensor === pair.bodyA).forEach((el) => {
+                        el.timer.paused = true
+                        el.timerRocket.paused = true
+                        if (el.constraint.corpus.body.health > 1) {
+                            el.constraint.sensor.positionBot = pair.bodyB.position
+                            if (pair.bodyB.health !== 0) {
+                                //  el.rotateHead(pair.bodyB.headObject.body, pair.bodyA.position.x, pair.bodyA.position.y, false)
+                            }
+                        }
+                    })
+
+                }
+
                 if (/search_object/i.test(pair.bodyB.label) && pair.bodyA.label.match(/tank/i)) {
                     pair.bodyB.activeObj = false
 
@@ -649,7 +692,8 @@ export default class Scene_1 extends Phaser.Scene {
             this.pointT.setPosition(worldXY.x, worldXY.y)
             this.activeObject.body.highlight = true;
         }
-        this.pointM.setPosition(worldXY.x, worldXY.y)
+        this.pointM.setPosition(worldXY.x, worldXY.y);
+        this.occupy.view();
 
         this.countBot = this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus/i)).length
         this.countPlayer = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_corpus/i)).length
@@ -673,7 +717,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(14, this.quest)
         this.victory(15, this.quest)
         this.victory(16, this.isObjectRemove(/mpb_1/i))
-        this.victory(17, true)
+        this.victory(17, this.isObjectRemove(/bot_corpus/i))
         this.victory(18, this.isObjectRemove(/rocket/i))
         this.victory(19, this.isObjectRemove(/tower/i))
         this.victory(20, !this.isObjectRemove(/tank_base/i))
@@ -684,13 +728,14 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(25, this.isObjectRemove(/Hull_boss_1/i))
         this.victory(26, this.occupy.quest)
         this.victory(27, this.isObjectRemove(/Hull/i))
-
-        
+        this.victory(28, this.isObjectRemove(/bot_corpus/i))
+        this.victory(29, !this.occupy.quest)
+        this.victory(30, this.isObjectRemove(/bot_corpus/i))
 
         this.store.dispatch(count(this.countPlayer));
         this.store.dispatch(countBot(this.countBot));
         let test = false
-        if(test){
+        if (test) {
             console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/mine/i)).length)
         }
 
@@ -708,7 +753,9 @@ export default class Scene_1 extends Phaser.Scene {
         this.vehicleBot.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
             el.drawVehicle();
         })
-
+        this.sapper.filter((name) => name.constraint.corpus.body).forEach((el, i) => {
+            el.viewSapper();
+        })
         this.base.liveDraw()
 
         this.store.dispatch(live((this.base.health / this.base.liveDefault) * 100))
@@ -848,7 +895,7 @@ export default class Scene_1 extends Phaser.Scene {
         return this.matter.world.getAllBodies().filter((el) => el.label.match(name)).length === 0
     }
 
-    createBotTanks(){
+    createBotTanks() {
 
     }
 

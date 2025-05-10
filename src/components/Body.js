@@ -155,6 +155,8 @@ export default class Body {
             this.healthBar?.setPipeline('Light2D');
             this.highlightShield?.setPipeline('Light2D');
             this.hpPlayer?.setPipeline('Light2D');
+          //  this.constraint.main?.setPipeline('Light2D');
+           // this.headSensor?.setPipeline('Light2D');
 
             if (this.inTrack) {
                 this.constraint.track?.setPipeline('Light2D');
@@ -193,6 +195,10 @@ export default class Body {
             isStatic:this.static
         }).setScale(this.scale).setDepth(1).setName(this.name)
 
+    }
+
+    setPositionHP(){
+        this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
     }
 
     createHead(keySprite = "tanks",img) {
