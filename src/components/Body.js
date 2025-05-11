@@ -155,6 +155,8 @@ export default class Body {
             this.healthBar?.setPipeline('Light2D');
             this.highlightShield?.setPipeline('Light2D');
             this.hpPlayer?.setPipeline('Light2D');
+
+
           //  this.constraint.main?.setPipeline('Light2D');
            // this.headSensor?.setPipeline('Light2D');
 
@@ -303,8 +305,8 @@ export default class Body {
             delay: this.speedPule,
             callback: () => {
                 if (this.corpusImg.match(/rocket/i)) {
-                    this.rocket(this.countRocket)
-                    this.rocketMove()
+                    this.rocket(this.countRocket,10)
+                    this.rocketMove(32,15)
                 }
 
             },
@@ -526,7 +528,9 @@ export default class Body {
                 damping: 0.2,
                 angularStiffness: 0
             })
-
+            if(!this.day){
+                el.body.setPipeline('Light2D');
+            }
         })
 
     }
@@ -537,7 +541,7 @@ export default class Body {
             this.scene.matter.body.setAngle(el.body.body, angle);
             // Смещение от родителя на фиксированное расстояние
             // Смещение вдоль направления
-            const forward = 75 + (i * offset) - offset * this.countRocket;
+            const forward = x + (i * offset) - offset * this.countRocket;
 
             // Дополнительное локальное смещение
             const localOffsetX = 0;   // смещение вправо (относительно танка)
@@ -558,7 +562,7 @@ export default class Body {
     }
 
 
-    rocket(n = 4,x = 20,y = 0) {
+    rocket() {
         this.constraint.rocket = this.action.createArray(this.countRocket);
         this.constraint.rocket = this.constraint.rocket.map((el) => {
             return {
@@ -600,8 +604,8 @@ export default class Body {
 
 
 
-    rocketMove(x = 20,y = 0) {
-        this.drawRocketStatic(this.constraint.rocket,75,50)
+    rocketMove(x = 75,offset = 50) {
+        this.drawRocketStatic(this.constraint.rocket,x,offset)
         this.constraint.rocket.forEach((el,i) => {
 
             if (el.body.body) {
@@ -637,7 +641,14 @@ export default class Body {
             this.healthBar.fillStyle(0xff0000, 1);
         }
         if (healthWidth < 1) {
-            this.scene.matter.world.remove(this.constraint.corpus);
+            if(this.constraint.corpus){
+                this.scene.matter.world.remove(this.constraint.corpus);
+            }
+
+            if(this.constraint.sensor){
+                this.scene.matter.world.remove(this.constraint.sensor);
+            }
+
             this.constraint.burning.play("burning", true);
 
         }

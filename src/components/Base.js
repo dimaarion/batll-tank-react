@@ -74,7 +74,7 @@ export default class Base {
                     width:el.width,
                     height:el.height,
                     hpBot:this.hpBot
-                }).setScale(2).setDepth(500)
+                }).setScale(2).setDepth(50)
                 if (!this.day) {
                     this.bot[i].setPipeline('Light2D');
                     this.bot[i].body.hp.setPipeline('Light2D');
@@ -88,10 +88,10 @@ export default class Base {
 
     createBotBaseConnection() {
         if (this.scene.map.objects.filter((el) => el.name === "base")[0]) {
-            this.scene.map.objects.filter((el) => el.name === "base")[0].objects.filter((el) => el.name === "connection_baseBot").forEach((el, i) => {
-                this.connection_baseBot[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "connection_baseBot", {
+            this.scene.map.objects.filter((el) => el.name === "base")[0].objects.filter((el) => el.name === el.type).forEach((el, i) => {
+                this.connection_baseBot[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", el.type, {
                     isStatic: true,
-                    label: "connection_base-bot",
+                    label: "base-bot_" + el.type,
                     healthBase: this.health,
                     level: this.level,
                     hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
@@ -99,7 +99,7 @@ export default class Base {
                     width:el.width,
                     height:el.height,
                     hpBot:this.hpBot
-                }).setScale(2)
+                }).setScale(2).setDepth(50)
                 if (!this.day) {
                     this.connection_baseBot[i].setPipeline('Light2D');
                     this.connection_baseBot[i].body.hp.setPipeline('Light2D');
@@ -153,6 +153,7 @@ export default class Base {
             }
             if (healthWidth < 1) {
                 t.scene.matter.world.remove(o);
+                o.play("burning", true)
             }
             graphic.fillRect(x + 70, y, healthWidth, 10);
             live = healthWidth

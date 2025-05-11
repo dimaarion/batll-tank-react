@@ -9,6 +9,7 @@ export default class Occupy {
     playerLight
     fonar = [];
     fonarBlock = [];
+
     scene
     day
     quest = false
@@ -24,11 +25,12 @@ export default class Occupy {
                 this.body[i].play("occupy-run").once('animationcomplete', () => {
                     this.body[i].play("burning", true)
                 });
+
                 if (!this.day) {
                     this.body[i].setPipeline('Light2D');
                 }
-
             })
+
         }
         if (this.scene.map.objects.filter((el) => el.name === "occupy")[0]) {
             this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "control_point").forEach((el, i) => {
@@ -38,7 +40,9 @@ export default class Occupy {
                 }
 
             })
+
         }
+
         if (this.scene.map.objects.filter((el) => el.name === "occupy")[0]) {
             this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "sklad").forEach((el, i) => {
                 this.pointSklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "control_point_neutral", {isSensor: true})

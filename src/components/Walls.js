@@ -9,8 +9,29 @@ export default class Walls {
     }
 
 
-    setup(name){
+    setup(){
+        this.rect("walls")
+        this.circle("walls-circle")
+        this.createCzech()
+        this.createObjectsSprite("fuel_depot_2","fuel_depot_2")
+    }
 
+    createObjectsSprite(name, sprite,scale = 1){
+        if (this.scene.map.objects.filter((el) => el.name === "walls")[0]) {
+            this.scene.map.objects.filter((el) => el.name === "walls")[0].objects.filter((el) => el.name === name).forEach((el, i) => {
+                if (!this.scene.day) {
+                    this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2,"sprites",sprite, {
+                        isSensor: true,
+                        label: name
+                    }).setScale(scale).setPipeline('Light2D');
+                }else{
+                    this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2,"sprites",sprite, {
+                        isSensor: true,
+                        label: name
+                    }).setScale(scale)
+                }
+            })
+        }
     }
 
     rect(name) {

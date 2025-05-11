@@ -32,8 +32,8 @@ export default class Bot extends Body {
       delay: this.speedPule * 2,
       callback: () => {
         if (this.type.match(/Hull_boss_1/i)) {
-          this.rocket(this.countRocket)
-          this.rocketMove(50,0)
+          this.rocket()
+          this.rocketMove(75,50)
         }
 
       },

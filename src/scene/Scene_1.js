@@ -84,6 +84,7 @@ export default class Scene_1 extends Phaser.Scene {
     day = true
 
     quest = false
+    level = 1
 
 
     constructor() {
@@ -93,15 +94,15 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
-        const arrayLevel = [7, 21, 23, 29, 30];
+        const arrayLevel = [7, 21, 23, 29, 30,35,38];
         if (arrayLevel.some((el) => el === this.state.levelCount.value.id)) {
             this.day = false
         }
-
+        this.level = this.state.levelCount.value.id
         this.map = this.make.tilemap({key: this.state.levelCount.value.name, tileWidth: 32, tileHeight: 32});
         let tiles = this.map.addTilesetImage("level_1", this.state.levelCount.value.tiles, 32, 32, 0, 0);
         this.layer = this.map.createLayer("ground", tiles, 0, 0);
-        let block = this.map.createLayer("block", tiles, 0, 0)
+        let block = this.map.createLayer("block", tiles, 0, 0).setDepth(20)
         let tree = this.map.createLayer("tree", tiles, 0, 0).setDepth(100)
         this.layer.setCollisionByProperty({collides: true});
         this.map.setCollisionByExclusion(-1, true);
@@ -130,9 +131,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.mine.setup();
         this.occupy.day = this.day;
         this.occupy.create();
-        this.walls.rect("walls")
-        this.walls.circle("walls-circle")
-        this.walls.createCzech()
+        this.walls.setup()
         // this.lights.enable().setAmbientColor(0x111111);
 
 
@@ -186,6 +185,14 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle").forEach((el, i) => {
             this.vehicleBot[i] = new Vehicle(el.x + el.width / 2, el.y + el.height / 2, "bot_corpus_" + i, "", el.type, 5, 5, 0, 0, 0, 4);
+            this.vehicleBot[i].index = i;
+            this.vehicleBot[i].day = this.day;
+            this.vehicleBot[i].icon = "HP-bot"
+            this.vehicleBot[i].createVehicle(this);
+        })
+
+        this.map.objects.filter((el) => el.name === "vehicle")[0]?.objects.filter((el) => el.name === "vehicle_player").forEach((el, i) => {
+            this.vehicleBot[i] = new Vehicle(el.x + el.width / 2, el.y + el.height / 2, "tank_corpus_vehicle" + i, "", el.type, 5, 5, 0, 0, 0, 4);
             this.vehicleBot[i].index = i;
             this.vehicleBot[i].day = this.day;
             this.vehicleBot[i].createVehicle(this);
@@ -383,6 +390,10 @@ export default class Scene_1 extends Phaser.Scene {
                             el.takeDamage(pair.bodyA, pair.bodyB.attack)
                         }
 
+                    })
+
+                    this.vehicleBot.forEach((el) => {
+                        el.collegeStart(pair)
                     })
 
                     this.base.takeDamageBot(pair.bodyA, pair.bodyB.attack)
@@ -731,6 +742,15 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(28, this.isObjectRemove(/bot_corpus/i))
         this.victory(29, !this.occupy.quest)
         this.victory(30, this.isObjectRemove(/bot_corpus/i))
+        this.victory(31, this.isObjectRemove(/tank_corpus_sapper/i))
+        this.victory(32, this.isObjectRemove(/tank_corpus/i))
+        this.victory(33, this.occupy.quest)
+        this.victory(34, this.isObjectRemove(/mine/i))
+        this.victory(35, this.isObjectRemove(/Hull_boss_1/i))
+        this.victory(36, this.isObjectRemove(/tank_corpus_vehicle/i))
+        this.victory(37, this.isObjectRemove(/rocket/i))
+        this.victory(38, this.isObjectRemove(/tower/i))
+        this.victory(39, this.isObjectRemove(/tower/i))
 
         this.store.dispatch(count(this.countPlayer));
         this.store.dispatch(countBot(this.countBot));
