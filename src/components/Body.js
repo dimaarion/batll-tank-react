@@ -146,6 +146,10 @@ export default class Body {
             this.static = true
             this.label = this.corpusImg
         }
+        if (this.headImg.match(/saboteur/i)) {
+            this.inTrack = false
+            this.countRocket = 1;
+        }
     }
 
     createLight(){
@@ -195,7 +199,7 @@ export default class Body {
             frictionAir: 0,
             corpusImg: this.corpusImg,
             isStatic:this.static
-        }).setScale(this.scale).setDepth(1).setName(this.name)
+        }).setScale(this.scale).setDepth(20).setName(this.name)
 
     }
 
@@ -204,7 +208,7 @@ export default class Body {
     }
 
     createHead(keySprite = "tanks",img) {
-        this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, keySprite, img, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(2)
+        this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, keySprite, img, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(22)
     }
 
     createTrek() {
@@ -212,7 +216,7 @@ export default class Body {
             this.constraint.track = this.scene.matter.add.sprite(this.x, this.y, "track", 0, {
                 isSensor: true,
                 cP: {x: 40, y: 0}
-            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y)
+            }).stop().setFixedRotation().setScale(this.scaleTrack.x, this.scaleTrack.y).setDepth(19)
         }
     }
 
@@ -255,10 +259,10 @@ export default class Body {
         this.scene = scene;
 
         this.createHealthShield()
-        this.highlight = this.scene.add.graphics()
+        this.highlight = this.scene.add.graphics().setDepth(23)
         this.highlight.lineStyle(4, 0x3949AB, 1);
 
-        this.sensorHighlight = this.scene.add.graphics()
+        this.sensorHighlight = this.scene.add.graphics().setDepth(23)
         this.sensorHighlight.lineStyle(4, 0x808080, 0.5);
 
         this.createHPIcons(this.icon);
@@ -369,10 +373,9 @@ export default class Body {
 
     draw() {
         this.movePule();
-        if (this.inTrack) {
             this.trackAngle();
             this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
-        }
+
         if (!this.day) {
             this.playerLight.x = this.constraint.corpus.body.position.x;
             this.playerLight.y = this.constraint.corpus.body.position.y;
@@ -482,7 +485,7 @@ export default class Body {
                 bodyId: this.id
 
             }).setScale(this.scalePule)
-            .setSensor(true).setDepth(2)
+            .setSensor(true).setDepth(30)
             .play("pule-departure-run").once('animationcomplete', () => {
                 if (this.constraint.pule) {
                     this.constraint.pule.setTexture("pule");

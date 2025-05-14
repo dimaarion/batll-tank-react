@@ -7,7 +7,7 @@ export default class Vehicle extends Bot {
     body = [];
     move = [{x: 0, y: 0}]
     delay = 20000;
-
+    image = "mpb_1"
 
     countTime = 0;
     index = 0;
@@ -30,7 +30,7 @@ export default class Vehicle extends Bot {
         this.createHealthShield();
         this.createBurning();
         this.createHPIcons(this.icon);
-        this.createCorpus("tanks", "mpb_1");
+        this.createCorpus("tanks", this.image);
         this.constraintCorpusBurning()
 
         this.scene.time.addEvent({
