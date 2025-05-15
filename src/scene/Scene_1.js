@@ -763,7 +763,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(46, this.isObjectRemove(/mpb_doc/i))
         this.victory(47, this.isObjectRemove(/bot_corpus/i))
         this.victory(48, this.isObjectRemove(/Hull_art_1/i))
-
+        this.victory(49, this.isObjectRemove(/bot_corpus/i))
 
 
         this.store.dispatch(count(this.countPlayer));

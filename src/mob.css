@@ -27,7 +27,7 @@
     }
 
     #tank-battle {
-        background: url("./asset/img/gui/level-bg.png") no-repeat;
+        background: url("https://game.fk-i-s.ru/asset/img/gui/level-bg.png") no-repeat;
         position: relative;
         width: 400px;
         height: 621px;
@@ -295,7 +295,7 @@
     }
 
     .tank-setting-img{
-        background: url("./asset/img/gui/settings-box-mob.png") no-repeat;
+        background: url("https://game.fk-i-s.ru/asset/img/gui/settings-box-mob.png") no-repeat;
     }
 
     .tank-setting-bg{
@@ -328,7 +328,7 @@
     .tank-dialog-img{
         width: 300px;
         height: 300px;
-        background: url("./asset/img/gui/dialog-mob.png") no-repeat;
+        background: url("https://game.fk-i-s.ru/asset/img/gui/dialog-mob.png") no-repeat;
     }
     .tank-dialog-content-briefing{
         width: 280px;

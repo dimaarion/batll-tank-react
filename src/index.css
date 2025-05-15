@@ -1,15 +1,7 @@
-/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
 
 html {
     color: #c6bcbc;
@@ -20,9 +12,12 @@ html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    cursor: url('./asset/img/gui/cursor.png'),pointer;
+    cursor: url('https://game.fk-i-s.ru/asset/img/gui/cursor.png'),pointer;
 }
 
+body{
+    background: #3C4546;
+}
 
 
 .tank-dialog-left{
@@ -37,7 +32,7 @@ html {
 }
 
 .title-bg {
-    background: url("./asset/img/gui/hangar-title.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/hangar-title.png");
     position: absolute;
     width: 295px;
     height: 68px;
@@ -160,11 +155,11 @@ html {
 }
 
 .pointer {
-    cursor: url("./asset/img/gui/cursor.png"), pointer;
+    cursor: url("https://game.fk-i-s.ru/asset/img/gui/cursor.png"), pointer;
 }
 
 .image-bg {
-    background: rgb(60, 69, 70) url("./asset/img/gui/hangar-title-bg.png") no-repeat !important;
+    background: rgb(60, 69, 70) url("https://game.fk-i-s.ru/asset/img/gui/hangar-title-bg.png") no-repeat !important;
 }
 
 .tank-level-active {
@@ -208,7 +203,7 @@ html {
 }
 
 .tank-dialog-img{
-    background: url("./asset/img/gui/dialog.png") no-repeat;
+    background: url("https://game.fk-i-s.ru/asset/img/gui/dialog.png") no-repeat;
     width: 850px;
     height: 120px;
     background-size: contain;
@@ -255,7 +250,7 @@ html {
 }
 
 .level-bg {
-    background: url("./asset/img/gui/level-bg.png") no-repeat;
+    background: url("https://game.fk-i-s.ru/asset/img/gui/level-bg.png") no-repeat;
     position: relative;
     top: 80px;
     background-size: contain;
@@ -378,7 +373,7 @@ svg :hover .tank-btn {
 
 
 .tank-icon {
-    background: url("./asset/img/gui/tank-icon.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/tank-icon.png");
 }
 
 .tank-coin-hangar {
@@ -523,16 +518,16 @@ svg :hover .tank-btn {
     width: 608px;
     height: 318px;
     top: 71px;
-    background: url("./asset/img/gui/pause-box-bg.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/pause-box-bg.png");
 }
 
 .tank-pause-bg-img{
-    background: url("./asset/img/gui/pause-box-bg.png") no-repeat;
+    background: url("https://game.fk-i-s.ru/asset/img/gui/pause-box-bg.png") no-repeat;
 }
 
 
 .tank-active {
-    background: url("./asset/img/gui/tank-hangar-list-item-active.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item-active.png");
     width: 80px;
     height: 131px;
     float: left;
@@ -560,7 +555,7 @@ div {
     height: 50px;
     font-size: 25pt;
     text-align: center;
-    background: url("./asset/img/gui/block-bg.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/block-bg.png");
 }
 
 .battle-play {
@@ -627,7 +622,7 @@ div {
     bottom: 0;
     left: 0;
     right: 0;
-    background: url("./asset/img/gui/block-bg.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/block-bg.png");
 }
 
 .battle-view-tank {
@@ -655,7 +650,7 @@ div {
     position: absolute;
     width: 162px;
     height: 262px;
-    background: url("./asset/img/gui/tank-hangar-list-item.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png");
     background-size: cover;
     right: 15px;
 }
@@ -672,7 +667,7 @@ div {
 }
 
 #tank-battle {
-    background: url("./asset/img/gui/batle.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/batle.png");
     position: relative;
     width: 911px;
     height: 621px;
@@ -782,7 +777,7 @@ div {
 }
 
 .tank-setting-img{
-    background: url("./asset/img/gui/settings-box.png") no-repeat;
+    background: url("https://game.fk-i-s.ru/asset/img/gui/settings-box.png") no-repeat;
 }
 
 .tank-setting-close{
@@ -810,7 +805,7 @@ div {
 }
 
 .tank-panel-box {
-    background: url("./asset/img/gui/hangar-title-bg.png") no-repeat;
+    background: url("https://game.fk-i-s.ru/asset/img/gui/hangar-title-bg.png") no-repeat;
     top: 70px;
     left: 0;
     right: 0;
@@ -961,7 +956,7 @@ div {
     position: absolute;
     width: 162px;
     height: 262px;
-    background: url('./asset/img/gui/tank-hangar-list-item.png') no-repeat;
+    background: url('https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png') no-repeat;
     background-size: cover;
     right: 0;
 }
@@ -999,7 +994,7 @@ div {
 }
 
 .tank-hangar-view-bg {
-    background: url("./asset/img/gui/tank-hangar-list-item.png");
+    background: url("https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png");
     width: 80px;
     height: 130.63px;
     float: left;

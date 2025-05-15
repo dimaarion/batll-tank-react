@@ -4,7 +4,7 @@ export default function TitleHangar(){
     const selectMenu = useSelector((state) => state.selectMenu);
     const styles = {
         title: {
-            position: "absolute",
+            position: "relative",
             width: "296px",
             height: "69.11px",
             margin: "auto",

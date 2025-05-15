@@ -18,7 +18,7 @@ export default function Levels() {
                 </div>
                 <div className={"level-bg"}>
                     <div className={"absolute tank-level-box-item top-50 left-30"}>
-                        {selectLevel.value.map((el,i) => <div onClick={()=>{
+                        {selectLevel.value.filter((el)=>el.id < 51).map((el,i) => <div onClick={()=>{
                             dispatch(setMenu("К бою"));
                             dispatch(getLevel(el));
                         }
