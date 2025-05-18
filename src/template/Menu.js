@@ -6,20 +6,29 @@ import {useState} from "react";
 
 export default function Menu() {
     const selectMoney = useSelector((state) => state.money);
-    const [display, setDisplay] = useState("display");
+    const [display, setDisplay] = useState("hidden");
+    const selectLevelCount = useSelector((state) => state.levelCount);
     return <>
-        <div className={"tank-hangar-top-panel"}>
-            <div className={"tank-hangar-top-coin"}>
-                <CoinIcon/>
+        <div className="h-[60px] lg:h-[80px]" style={{background: "linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%)"}}>
+            <div className="absolute flex gap-2 top-[15px] left-[10px]">
+                <div className="flex gap-2">
+                    <div>
+                        <CoinIcon/>
+                    </div>
+                    <div>{selectMoney.value}</div>
+                </div>
+                <div className="flex gap-2">
+                    <div>Ур. {selectLevelCount.value.id}</div>
+                </div>
             </div>
-            <div className={"tank-hangar-top-coin-text"}>{selectMoney.value}</div>
-            <div  className={"tank-menu-btn pointer z-8"}>
+
+            <div className={"pointer z-8 flex justify-end lg:hidden pt-4 pr-4"}>
                 <svg onClick={() => {
-                    if(display === "display"){
-                        setDisplay("none");
+                    if (display === "hidden") {
+                        setDisplay("block");
                     }
-                    if(display === "none"){
-                        setDisplay("display");
+                    if (display === "block") {
+                        setDisplay("hidden");
                     }
 
                 }
@@ -31,13 +40,14 @@ export default function Menu() {
                     </g>
                 </svg>
             </div>
-            <div className={"tank-hangar-top-menu " + display}>
-                <div className={'tank-hangar-top-menu-title'}>
-                    <TitleMenu title={"Ангар"}/>
-                    <TitleMenu title={"Магазин"}/>
-                    <TitleMenu title={"К бою"}/>
+            <div className={`${display} lg:!block`}>
+                <div className="flex justify-center">
+                    <div className='lg:flex relative z-[10] w-[200px] lg:w-1/2 bg-[#1d2426]'>
+                        <TitleMenu title={"Ангар"}/>
+                        <TitleMenu title={"Магазин"}/>
+                        <TitleMenu title={"К бою"}/>
+                    </div>
                 </div>
-
             </div>
         </div>
     </>

@@ -6,6 +6,7 @@ import {setMenu} from "../redux/features/SelectMenu";
 import LevelBtn from "./LevelBtn";
 import SettingsBtn from "./SettingsBtn";
 import {increment} from "../redux/features/SettingsOpen";
+import PlayBtn from "./PlayBtn";
 
 
 export default function Battle() {
@@ -29,9 +30,9 @@ export default function Battle() {
                              style={{background: " linear-gradient(180deg, #1f2324 17.98%, #4b4d4a 100%)"}}/>
 
                         <div className="lg:flex ">
-                            <div className="lg:w-[400px]  lg:h-[490px] h-[280px] overflow-y-auto"
+                            <div className="lg:w-[400px] flex justify-center lg:h-[490px] h-[280px] overflow-y-auto"
                                  style={{background: "linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%)"}}>
-                                <div className="flex justify-center">
+                                <div className="flex-col justify-center">
                                     {getHangar.value.map((el) => <div onClick={() => {
                                         if (battle.value.length <= 20 && !battle.value.some(tank => tank.id === el.id)) {
                                             dispatch(addBattle(el))
@@ -45,15 +46,15 @@ export default function Battle() {
                                                          dangerouslySetInnerHTML={{__html: opt.icon}}/>
                                                 </div>
                                                 <div
-                                                    className="w-[73px] h-[30px] border-2 flex  justify-center border-[#808080]">
-                                                    <div className="self-center">
+                                                    className="w-[73px] h-[30px] border-2 flex  justify-start border-[#808080]">
+                                                    <div className="self-center ml-1">
                                                         {opt.num}
                                                     </div>
                                                 </div>
                                             </div>)}
                                         </div>
                                         <div
-                                            className="bg-[url(https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png)] justify-center bg-no-repeat bg-cover w-[150px] h-[240px] flex">
+                                            className={`${battle.value.some(tank => tank.id === el.id) ? "bg-[url(https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item-active.png)]": "bg-[url(https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png)]"}  justify-center bg-no-repeat bg-cover w-[150px] h-[240px] flex`}>
                                             <div className="w-[120px] h-[140px]  self-center position-center-bg"
                                                  style={{
                                                      background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + el.name + ".png) no-repeat",
@@ -67,6 +68,9 @@ export default function Battle() {
                             <div className="lg:w-[512px] w-full">
                                 <div className="flex mt-2 justify-end w-full">
                                     <div className="flex gap-2 ">
+                                        <div>
+                                            <PlayBtn step = {true} direction="left"/>
+                                        </div>
                                         <div onClick={() => dispatch(increment())}>
                                             <SettingsBtn/>
                                         </div>
@@ -77,6 +81,9 @@ export default function Battle() {
                                             dispatch(removeBattle())
                                         }}>
                                             <RestartBtn/>
+                                        </div>
+                                        <div>
+                                            <PlayBtn step = {true} direction="right"/>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +101,7 @@ export default function Battle() {
                                 <div className="lg:w-[508px] h-[155px] mt-[95px] flex justify-center overflow-x-auto"
                                      style={{background: "linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%)"}}>
                                     {battle.value.filter((el, i) => el).map((el, i) => <div key={i + "list"}
-                                                                                            className="w-[80px] self-center h-[130px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png)]">
+                                                                                            className="w-[80px] ml-4 self-center h-[130px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png)]">
                                         <div onClick={() => {
 
                                         }} className="w-[80px] h-[130px] bg-cover position-center-bg"

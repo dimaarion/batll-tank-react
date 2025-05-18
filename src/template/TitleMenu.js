@@ -21,8 +21,8 @@ export default function TitleMenu(props){
         }
     }
     return <>
-        <div onClick={()=>dispatch(setMenu(title))} className={'tank-hangar-top-menu-title-item ' + active} style={styles.def}>
-            <div>{title}</div>
+        <div onClick={()=>dispatch(setMenu(title))} className={`w-[200px] flex justify-center h-[80px] mx-4 position-center-bg text-center ${active}`} style={styles.def}>
+            <div className="text-2xl mt-5">{title}</div>
         </div>
     </>
 }
