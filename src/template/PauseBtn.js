@@ -1,11 +1,13 @@
 import {useDispatch} from "react-redux";
 import {increment} from "../redux/features/Pause";
+import {decrement} from "../redux/features/SettingsOpen";
 
 export default function PauseBtn(){
     const dispatch = useDispatch();
     return <>
         <svg onClick={()=> {
             dispatch(increment())
+            dispatch(decrement())
         }} width="53" height="50" viewBox="0 0 53 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(1.5 0)">
                 <g fill="#1F2324" fillRule="evenodd">

@@ -5,7 +5,7 @@ export default function Loading() {
     let max = 937 / 100*(load.value * 100)
     return <>
         <div className={"tank-bg"}>
-            <svg width="977" height="134.13" className={"absolute margin-auto right-0 left-0 top-0 bottom-0"} viewBox="0 0 977 134.13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="100%" height="134.13" className={"absolute margin-auto right-0 left-0 top-0 bottom-0"} viewBox="0 0 977 134.13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <clipPath id="clip_path_1">
                         <rect width="250" height="64" />

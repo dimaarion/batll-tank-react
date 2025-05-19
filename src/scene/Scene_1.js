@@ -676,7 +676,7 @@ export default class Scene_1 extends Phaser.Scene {
             if (pointer.y > this.game.config.height - this.edgeThreshold) {
                 this.cam.scrollY += this.cameraSpeed;
             }
-            if (pointer.y < (this.edgeThreshold + 100)) {
+            if (pointer.y < (this.edgeThreshold)) {
                 this.cam.scrollY -= this.cameraSpeed;
             }
         }

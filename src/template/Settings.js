@@ -20,7 +20,7 @@ export default function Settings() {
 
     if (s) {
         return <>
-            <div className="absolute z-8 bg-[#3C4546] margin-auto top-0 right-0 left-0 bottom-0">
+            <div className="absolute z-[100] bg-[#3C4546] margin-auto top-0 right-0 left-0 bottom-0">
                 <div className="h-[80px] flex justify-center mt-6">
                     <div
                         className="bg-[url(https://game.fk-i-s.ru/asset/img/gui/hangar-title.png)] bg-no-repeat h-[80px] w-[300px]">
@@ -30,8 +30,8 @@ export default function Settings() {
                 <div className="flex justify-center">
                     <div
                          className={`flex justify-center relative w-[402px] h-[769px] mt-6 lg:w-[630px] lg:h-[515px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box.png)] bg-cover`}>
-                        <div className="flex justify-end w-full absolute top-[-15px] right-[-5px]">
-                            <div onClick={() => dispatch(decrement())} className="pointer w-[30px] flex h-[30px]">
+                        <div className="flex justify-end w-full absolute top-[-15px] right-[-15px]">
+                            <div onClick={() => dispatch(decrement())} className="pointer w-[50px] flex h-[50px]">
                                 <CloseBtn/>
                             </div>
                         </div>
@@ -46,7 +46,7 @@ export default function Settings() {
                                             <g>
                                                 <path
                                                     d="M4.37596 10.0013C4.72113 10.0013 5.00096 9.72145 5.00096 9.37627C5.00096 9.37627 5.00096 2.13502 5.00096 2.13502C5.00096 2.13502 7.68346 4.81877 7.68346 4.81877C7.84157 4.97688 8.07202 5.03862 8.28799 4.98072C8.50397 4.92282 8.67264 4.75409 8.73046 4.5381C8.78828 4.3221 8.72647 4.09167 8.5683 3.93362C8.5683 3.93362 4.8183 0.183618 4.8183 0.183618C4.70105 0.0660653 4.54184 0 4.3758 0C4.20977 0 4.05056 0.0660653 3.9333 0.183618C3.9333 0.183618 0.183304 3.93362 0.183304 3.93362C0.0251956 4.09173 -0.03654 4.32218 0.0213561 4.53815C0.0792527 4.75413 0.247984 4.9228 0.463977 4.98062C0.67997 5.03844 0.910403 4.97663 1.06846 4.81847C1.06846 4.81847 3.75096 2.13502 3.75096 2.13502C3.75096 2.13502 3.75096 9.37627 3.75096 9.37627C3.75096 9.72145 4.03078 10.0013 4.37596 10.0013C4.37596 10.0013 4.37596 10.0013 4.37596 10.0013Z"
-                                                    fill="#BDBDBD" fill-rule="evenodd"
+                                                    fill="#BDBDBD" fillRule="evenodd"
                                                     transform="translate(5.624 4.999)"/>
                                             </g>
                                         </svg>

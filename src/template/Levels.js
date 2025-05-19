@@ -21,11 +21,6 @@ export default function Levels() {
                 <div className="mt-6">
                     <TitleHangar/>
                 </div>
-                <div className="flex justify-center mt-6" onClick={()=>{
-                    dispatch(setMenu("К бою"))
-                }}>
-                    <PlayBtn direction = "right"/>
-                </div>
                 <div>
                     <div className="mt-6 flex justify-center">
                         <div className="lg:w-[911px] w-full ">

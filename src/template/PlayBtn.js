@@ -13,7 +13,7 @@ export default function PlayBtn(props) {
     if (props?.direction === "right") {
         return <>
             <svg onMouseDown={() => {
-                if (props?.step && selectLevelCount.value.id < 51) {
+                if (props?.step && selectLevelCount.value.id < 50) {
                     levelPlay = selectLevel.value.filter((el) => el.id === selectLevelCount.value.id + 1)[0]
                 } else {
                     levelPlay = selectLevel.value.filter((el) => el.id === selectLevelCount.value.id)[0]

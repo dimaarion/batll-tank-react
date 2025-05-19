@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 
-export default function TitleHangar(){
+export default function TitleHangar(props){
     const selectMenu = useSelector((state) => state.selectMenu);
     const styles = {
         title: {
@@ -16,7 +16,7 @@ export default function TitleHangar(){
     return <>
         <div>
             <div style={styles.title} >
-                <div className={"tank-title-text position-center-bg"}>{selectMenu.value}</div>
+                <div className={"tank-title-text position-center-bg"}>{props?.title?props?.title:selectMenu.value}</div>
             </div>
         </div>
     </>

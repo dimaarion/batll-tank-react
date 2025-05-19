@@ -155,32 +155,41 @@ function App() {
     }, [selectLevelCount])
 
 
-    return (
-        <div className="App">
-            <div>
-            {selectSettingsOpen.value?<Settings/>:""}
-            {selectGameOver.value.active ? <GameOver/> : ""}
-            {selectPause.value ? <Pause/> : ""}
-            </div>
+   if(selectMenu.value === "Ангар"){
+        return <>
+            <Hangar/>
             <Dialog/>
-            {
-                selectMenu.value === "Ангар" ?
-                    <Hangar/> : selectMenu.value === "Магазин" ?
-                    <Shop/> : selectMenu.value === "К бою" ?
-                        <Battle/> : selectMenu.value === "Уровни" ?
-                            <Levels/> : !selectRestart.value ?
-                                <div>
-                                    {load.value < 1?<Loading/>:""}
-                                    <TopPanel/>
-                                    <GamePhaser/>
-                                </div>
+        </>
+    }else if(selectMenu.value === "Магазин"){
+        return <>
+            <Shop/>
+            <Dialog/>
+        </>
+    }else if(selectMenu.value === "К бою"){
+        return <>
+            {selectSettingsOpen.value?<Settings/>:""}
+            <Battle/>
+            <Dialog/>
+        </>
+    }else if(selectMenu.value === "Уровни"){
+        return <>
+            <Levels/>
+            <Dialog/>
+        </>
+    }else{
+        return <>
 
-                                 : ""
-            }
+            <TopPanel/>
+            {load.value < 1?<Loading/>:""}
+            {selectPause.value? <Pause/>:""}
+            {selectGameOver.value.active?<GameOver/>:""}
+            {selectSettingsOpen.value ?<Settings/>:""}
+            {!selectRestart.value?<GamePhaser/>:""}
+            <Dialog/>
 
-        </div>
+        </>
+    }
 
-    );
 }
 
 export default App;

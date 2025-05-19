@@ -19,7 +19,64 @@ export default function Pause() {
     const selectMusic = useSelector((state) => state.music)
     const selectEffect = useSelector((state) => state.effect)
     const dispatch = useDispatch();
-    return <>
+
+
+    let s = true
+
+    if (s){
+        return <>
+            <div className="flex-col relative z-30 justify-center">
+                <div className="mt-12">
+                    <TitleHangar title="Зауза" />
+                </div>
+                <div className="w-[402px] lg:w-[606px] relative  position-center-bg h-[769px] lg:h-[318px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/pause-box-bg.png)]">
+                   <div onClick={()=>dispatch(decrement())} className="absolute top-[-10px] right-[-10px]"> <CloseBtn/></div>
+                    <div className="flex justify-center h-[80px] pt-5 mt-6">
+                        <div className="self-center flex">
+                            <MusicIcon/>
+                        </div>
+                        <div className="self-center flex ml-2 pointer">
+                            <input onChange={(e)=>dispatch(setMusic(e.target.value))} value={selectMusic.value} step={"any"} min={0} max={1}  className="range pointer" type={"range"} />
+                        </div>
+                    </div>
+                    <div className="flex justify-center h-[80px]">
+                        <div className="self-center flex">
+                            <SoundIcon/>
+                        </div>
+                        <div className="self-center flex ml-2 pointer">
+                            <input onChange={(e)=>dispatch(setEffect(e.target.value))} value={selectEffect.value} step={"any"} min={0} max={1}  className="range pointer" type={"range"} />
+                        </div>
+                    </div>
+                    <div className="flex justify-between px-10 mt-8">
+                        <div onClick={()=> {
+                            dispatch(increment())
+                        }}>
+                            <SettingsBtn />
+                        </div>
+                        <div>
+                            <div onMouseDown={()=> {
+                                dispatch(setRestart(true))
+                            }} onMouseUp={()=> {
+                                dispatch(setRestart(false))
+                                dispatch(decrement())
+                                dispatch(gameOverClose());
+                            }} className="">
+                                <RestartBtn />
+                            </div>
+                        </div>
+                        <div>
+                            <HangarBtn />
+                        </div>
+                        <div>
+                            <LevelBtn />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </>
+    }else {
+        return <>
 
             <div id={"tank-pause"} className={"margin-auto bottom-0 left-0 right-0 "}>
                 <div className={"title-bg"}>
@@ -32,10 +89,10 @@ export default function Pause() {
                     <div className={"absolute top-0 bottom-0 margin-auto"}>
                         <MusicIcon/>
                     </div>
-                   <div>
+                    <div>
 
-                       <input onChange={(e)=>dispatch(setMusic(e.target.value))} value={selectMusic.value} step={"any"} min={0} max={1}  className={"tank-music-input absolute top-0 bottom-0 margin-auto range pointer"} type={"range"} />
-                   </div>
+                        <input onChange={(e)=>dispatch(setMusic(e.target.value))} value={selectMusic.value} step={"any"} min={0} max={1}  className={"tank-music-input absolute top-0 bottom-0 margin-auto range pointer"} type={"range"} />
+                    </div>
 
                 </div>
                 <div className={"tank-sound-icon"}>
@@ -71,7 +128,12 @@ export default function Pause() {
                 </div>
 
             </div>
-        <div className={"tank-pause-bg"} />
+            <div className={"tank-pause-bg"} />
 
-    </>
+        </>
+    }
+
+
+
+
 }

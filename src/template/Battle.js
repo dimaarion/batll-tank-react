@@ -31,7 +31,7 @@ export default function Battle() {
 
                         <div className="lg:flex ">
                             <div className="lg:w-[400px] flex justify-center lg:h-[490px] h-[280px] overflow-y-auto"
-                                 style={{background: "linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%)"}}>
+                                 style={{background: "rgb(43, 46, 47)"}}>
                                 <div className="flex-col justify-center">
                                     {getHangar.value.map((el) => <div onClick={() => {
                                         if (battle.value.length <= 20 && !battle.value.some(tank => tank.id === el.id)) {
