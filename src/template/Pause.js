@@ -27,7 +27,7 @@ export default function Pause() {
         return <>
             <div className="flex-col relative z-30 justify-center">
                 <div className="mt-12">
-                    <TitleHangar title="Зауза" />
+                    <TitleHangar title="Пауза" />
                 </div>
                 <div className="w-[402px] lg:w-[606px] relative  position-center-bg h-[769px] lg:h-[318px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/pause-box-bg.png)]">
                    <div onClick={()=>dispatch(decrement())} className="absolute top-[-10px] right-[-10px]"> <CloseBtn/></div>

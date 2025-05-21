@@ -42,10 +42,10 @@ export default function GameOver() {
                                        <div className="flex self-center px-2">{selectGameOver.value.hp}</div>
                                    </div>
                                </div>
-                               <div className="flex mt-2 mt-12">
+                               <div className="flex mt-12">
                                    <StarGameOver count={selectStar.value} size={100}/>
                                </div>
-                               <div className="flex mt-2 mt-12">
+                               <div className="flex mt-12">
                                    <div className="w-[30px] flex justify-center h-[30px] bg-black">
                                        <div
                                            className="flex position-center-bg w-[25px] h-[25px]  self-center bg-no-repeat bg-[url(https://game.fk-i-s.ru/asset/img/gui/list/Hull_01.png)]"/>

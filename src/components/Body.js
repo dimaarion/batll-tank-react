@@ -81,16 +81,14 @@ export default class Body {
     action = new Action(this);
     inTrack = true
     playerLight
-
     day = true
-
     static = false
-   keyImage = "tanks"
+    keyImage = "tanks"
     label = ""
     countRocket = 4
-
     rocketStatic = []
-
+    fire_burning
+    engine_tank
 
     constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
         this.x = x;
@@ -152,7 +150,7 @@ export default class Body {
         }
     }
 
-    createLight(){
+    createLight() {
         if (!this.day) {
             this.constraint.corpus?.setPipeline('Light2D');
             this.constraint.head?.setPipeline('Light2D');
@@ -161,8 +159,8 @@ export default class Body {
             this.hpPlayer?.setPipeline('Light2D');
 
 
-          //  this.constraint.main?.setPipeline('Light2D');
-           // this.headSensor?.setPipeline('Light2D');
+            //  this.constraint.main?.setPipeline('Light2D');
+            // this.headSensor?.setPipeline('Light2D');
 
             if (this.inTrack) {
                 this.constraint.track?.setPipeline('Light2D');
@@ -198,16 +196,16 @@ export default class Body {
             mass: 5,
             frictionAir: 0,
             corpusImg: this.corpusImg,
-            isStatic:this.static
+            isStatic: this.static
         }).setScale(this.scale).setDepth(20).setName(this.name)
 
     }
 
-    setPositionHP(){
+    setPositionHP() {
         this.hpPlayer.setPosition(this.constraint.corpus.body.position.x - 45, this.constraint.corpus.body.position.y - 80)
     }
 
-    createHead(keySprite = "tanks",img) {
+    createHead(keySprite = "tanks", img) {
         this.constraint.head = this.scene.matter.add.sprite(this.x, this.y, keySprite, img, {label: "head"}).setSensor(true).setScale(this.scale).setDepth(22)
     }
 
@@ -241,8 +239,8 @@ export default class Body {
         this.constraint.burning = this.scene.matter.add.sprite(this.x, this.y, "pule-blast", 0, {isSensor: true}).setDepth(100)
     }
 
-    createConstraint(bodyA,bodyB,positionA = {x:0,y:0},positionB= {x:0,y:0}){
-        return  this.scene.matter.add.constraint(bodyA, bodyB, 0, 0, {
+    createConstraint(bodyA, bodyB, positionA = {x: 0, y: 0}, positionB = {x: 0, y: 0}) {
+        return this.scene.matter.add.constraint(bodyA, bodyB, 0, 0, {
             pointA: positionA,
             pointB: positionB,
             damping: 0.2,
@@ -258,6 +256,17 @@ export default class Body {
         this.countTanks += 1;
         this.scene = scene;
 
+        this.fire_burning = this.scene.sound.add('fire_burning', {
+            loop: true,
+            volume: this.scene.state.effect.value,
+
+        });
+        this.engine_tank = this.scene.sound.add('engine_tank', {
+            loop: true,
+            volume: this.scene.state.effect.value,
+
+        });
+
         this.createHealthShield()
         this.highlight = this.scene.add.graphics().setDepth(23)
         this.highlight.lineStyle(4, 0x3949AB, 1);
@@ -268,14 +277,17 @@ export default class Body {
         this.createHPIcons(this.icon);
         this.createTrek();
         this.createCorpus(this.keyImage, this.label);
-        this.createHead(this.keyImage,this.headImg);
+        this.createHead(this.keyImage, this.headImg);
         this.createSensor()
         //
 
 
         this.createBurning()
-        this.constraint.main = this.createConstraint(this.constraint.corpus,this.constraint.head,{x:0,y:this.headerCorpus.a},{x:0,y:this.headerCorpus.b})
-        this.headSensor = this.createConstraint(this.constraint.head,this.constraint.sensor)
+        this.constraint.main = this.createConstraint(this.constraint.corpus, this.constraint.head, {
+            x: 0,
+            y: this.headerCorpus.a
+        }, {x: 0, y: this.headerCorpus.b})
+        this.headSensor = this.createConstraint(this.constraint.head, this.constraint.sensor)
         this.constraintCorpusBurning()
 
 
@@ -304,13 +316,12 @@ export default class Body {
         });
 
 
-
         this.timerRocket = this.scene.time.addEvent({
             delay: this.speedPule,
             callback: () => {
                 if (this.corpusImg.match(/rocket/i)) {
-                    this.rocket(this.countRocket,10)
-                    this.rocketMove(32,15)
+                    this.rocket(this.countRocket, 10)
+                    this.rocketMove(32, 15)
                 }
 
             },
@@ -320,8 +331,22 @@ export default class Body {
         });
 
 
-      this.createLight()
+        this.createLight()
+        if (this.constraint.burning) {
+            this.constraint.burning.on('animationstart', function (currentAnim, currentFrame, sprite) {
+                this.scene.tank_base_explosion.play()
+                this.fire_burning.play()
+            }, this);
+        }
 
+        if (this.inTrack) {
+            this.constraint.track.on('animationstart', function (currentAnim, currentFrame, sprite) {
+                this.engine_tank.play()
+            }, this);
+            this.constraint.track.on('animationstop', function (currentAnim, currentFrame, sprite) {
+                this.engine_tank.stop()
+            }, this);
+        }
 
     }
 
@@ -370,11 +395,22 @@ export default class Body {
         }
     }
 
+    musicEffect() {
+        this.engine_tank.setVolume(this.scene.effect)
+        this.fire_burning.setVolume(this.scene.effect)
+        if (!this.scene.cameras.main.worldView.contains(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y)) {
+            // Танк вне поле зрения камеры
+            this.fire_burning.setVolume(0)
+            this.engine_tank.setVolume(0)
+        }
+    }
 
     draw() {
         this.movePule();
-            this.trackAngle();
-            this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
+        this.trackAngle();
+        this.rotateTank(this.constraint.corpus.body.pX, this.constraint.corpus.body.pY);
+        this.musicEffect()
+
 
         if (!this.day) {
             this.playerLight.x = this.constraint.corpus.body.position.x;
@@ -400,16 +436,17 @@ export default class Body {
         if (this.constraint.sensor.sensorActive) {
             this.rotateHead(this.constraint.head.body, this.constraint.sensor.positionBot.x, this.constraint.sensor.positionBot.y)
             this.timerRocket.paused = false
-
+            this.scene.fair.resume()
+            this.scene.shell_explosion.resume()
         } else {
             this.timerRocket.paused = true
-
+            this.scene.fair.pause()
+            this.scene.shell_explosion.pause()
             if (this.target) {
                 this.rotateHead(this.constraint.head.body, this.target.x, this.target.y)
             }
 
         }
-
 
 
         this.liveDraw()
@@ -436,6 +473,7 @@ export default class Body {
                         if (pule.gameObject) {
                             pule.gameObject.destroy()
                         }
+                        this.scene.shell_explosion.play()
                         this.scene.matter.world.remove(pule);
 
                     });
@@ -451,6 +489,7 @@ export default class Body {
 
                             pule.gameObject.destroy()
                         }
+                        this.scene.shell_explosion.play()
                         this.scene.matter.world.remove(pule);
 
                     });
@@ -476,7 +515,7 @@ export default class Body {
     }
 
     pule() {
-
+        this.scene.fair.play();
         this.constraint.pule = this.scene.matter.add
             .sprite(this.constraint.sensor.headObject.body.position.x, this.constraint.sensor.headObject.body.position.y, 'pule', 0, {
                 label: this.namePule,
@@ -507,9 +546,9 @@ export default class Body {
     }
 
 
-    createRocketStatic(){
+    createRocketStatic() {
         this.rocketStatic = this.action.createArray(this.countRocket);
-        this.rocketStatic = this.rocketStatic.map((el)=>{
+        this.rocketStatic = this.rocketStatic.map((el) => {
             return {
                 body: this.scene.matter.add.sprite(this.constraint.head.body.position.x, this.constraint.head.body.position.y, "rocket-static", 0, {isSensor: true})
                     .setDepth(56)
@@ -518,28 +557,28 @@ export default class Body {
             }
         })
 
-        this.rocketStatic.map((el, i) => {
+        this.rocketStatic.forEach((el, i) => {
             this.scene.matter.add.constraint(this.constraint.head, el.body, 0, 0.1, {
                 pointA: {
                     x: 0,
                     y: 0,
                 },
                 pointB: {
-                    x:0,
-                    y:0,
+                    x: 0,
+                    y: 0,
                 },
                 damping: 0.2,
                 angularStiffness: 0
             })
-            if(!this.day){
+            if (!this.day) {
                 el.body.setPipeline('Light2D');
             }
         })
 
     }
 
-    drawRocketStatic(arr = [],x = 75, offset = 50){
-        arr.forEach((el,i)=>{
+    drawRocketStatic(arr = [], x = 75, offset = 50) {
+        arr.forEach((el, i) => {
             const angle = this.constraint.sensor.headObject.body.angle;
             this.scene.matter.body.setAngle(el.body.body, angle);
             // Смещение от родителя на фиксированное расстояние
@@ -566,6 +605,7 @@ export default class Body {
 
 
     rocket() {
+        this.scene.start_rocket.play()
         this.constraint.rocket = this.action.createArray(this.countRocket);
         this.constraint.rocket = this.constraint.rocket.map((el) => {
             return {
@@ -584,15 +624,15 @@ export default class Body {
             }
 
         })
-        this.constraint.rocket.map((el, i) => {
+        this.constraint.rocket.forEach((el, i) => {
             el.constraint = this.scene.matter.add.constraint(this.constraint.head, el.body, 0, 0.1, {
                 pointA: {
                     x: 0,
                     y: 0,
                 },
                 pointB: {
-                    x:0,
-                    y:0,
+                    x: 0,
+                    y: 0,
                 },
                 damping: 0.2,
                 angularStiffness: 0
@@ -604,16 +644,13 @@ export default class Body {
     }
 
 
-
-
-
-    rocketMove(x = 75,offset = 50) {
-        this.drawRocketStatic(this.constraint.rocket,x,offset)
-        this.constraint.rocket.forEach((el,i) => {
+    rocketMove(x = 75, offset = 50) {
+        this.drawRocketStatic(this.constraint.rocket, x, offset)
+        this.constraint.rocket.forEach((el, i) => {
 
             if (el.body.body) {
 
-               // el.body.setRotation(this.constraint.head.body.angle)
+                // el.body.setRotation(this.constraint.head.body.angle)
                 if (this.constraint.sensor.sensorActive) {
                     this.scene.matter.world.removeConstraint(el.constraint)
                     const dx = this.constraint.sensor.positionBot.x - this.constraint.sensor.headObject.body.position.x;
@@ -644,15 +681,16 @@ export default class Body {
             this.healthBar.fillStyle(0xff0000, 1);
         }
         if (healthWidth < 1) {
-            if(this.constraint.corpus){
+            if (this.constraint.corpus) {
                 this.scene.matter.world.remove(this.constraint.corpus);
             }
 
-            if(this.constraint.sensor){
+            if (this.constraint.sensor) {
                 this.scene.matter.world.remove(this.constraint.sensor);
             }
 
-            this.constraint.burning.play("burning", true);
+            this.constraint.burning.play("burning", true)
+
 
         }
         this.healthBar.fillRect(this.constraint.corpus.body.position.x - 22, this.constraint.corpus.body.position.y - 92, healthWidth, 8);

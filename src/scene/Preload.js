@@ -19,6 +19,13 @@ export default class Preload extends Phaser.Scene {
     preload() {
         this.load.setCORS('anonymous');
 
+        this.load.audio("backgroundMusic","./sound/IMG-Approaching.mp3")
+        this.load.audio("fair","./sound/tankovyiy-moschnyiy-vyistrel.mp3")
+        this.load.audio("shell_explosion","./sound/vzryiv-razorvavshegosya-snaryada.mp3")
+        this.load.audio("tank_base_explosion","./sound/razrushitelnyiy-prodoljitelnyiy-vzryiv.mp3")
+        this.load.audio("fire_burning","./sound/silnoe-plamya-ognya-versiya-2-27567.mp3")
+        this.load.audio("engine_tank","./sound/dvijenie-tanka-37956.mp3")
+        this.load.audio("start_rocket","./sound/moschnyiy-zvuk-zapuska-raketyi.mp3")
 
         this.load.image('tiles', 'https://game.fk-i-s.ru/script/tiles.php');
 

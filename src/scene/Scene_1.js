@@ -24,7 +24,6 @@ import Mine from "../components/Mine";
 import Vehicle from "../components/Vehicle";
 import Occupy from "../components/Occupy";
 import AllyTank from "../components/AllyTank";
-import quest from "phaser3-rex-plugins/plugins/quest";
 import Sapper from "../components/Sapper";
 
 export default class Scene_1 extends Phaser.Scene {
@@ -82,10 +81,15 @@ export default class Scene_1 extends Phaser.Scene {
     allyTank = []
     scout = false
     day = true
-
     quest = false
     level = 1
-
+    music
+    effect
+    fair
+    shell_explosion
+    tank_base_explosion
+    fire_burning
+    start_rocket
 
     constructor() {
         super("Scene_1");
@@ -94,7 +98,7 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
-        const arrayLevel = [7, 21, 23, 29, 30,35,38,44];
+        const arrayLevel = [7, 21, 23, 29, 30, 35, 38, 44];
         if (arrayLevel.some((el) => el === this.state.levelCount.value.id)) {
             this.day = false
         }
@@ -109,6 +113,32 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.createDebugGraphic();
         this.matter.world.drawDebug = false;
         this.cam = this.cameras.main;
+
+        this.music = this.sound.add('backgroundMusic', {
+            loop: true,
+            volume: this.state.music.value
+        });
+        this.fair = this.sound.add('fair', {
+            loop: false,
+            volume: this.state.effect.value
+        });
+        this.shell_explosion = this.sound.add('shell_explosion', {
+            loop: false,
+            volume: this.state.effect.value
+        });
+        this.tank_base_explosion = this.sound.add('tank_base_explosion', {
+            loop: false,
+            volume: this.state.effect.value,
+
+        });
+        this.start_rocket = this.sound.add('start_rocket', {
+            loop: false,
+            volume: this.state.effect.value,
+
+        });
+        this.music.play();
+
+        //console.log(this.state)
 
         if (!this.day) {
             this.lights.enable().setAmbientColor(0x111111);
@@ -161,18 +191,32 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.store.subscribe(() => {
             const newState = this.store.getState();
+
             if (newState.pause.value || newState.gameOver.value.active) {
                 if (this.scene.manager) {
                     if (this.scene.isActive('Scene_1')) {
                         this.scene.pause();
+                        this.sound.pauseAll();
+                        this.music.setVolume(newState.music.value)
+                        this.shell_explosion.setVolume(newState.effect.value)
+                        this.tank_base_explosion.setVolume(newState.effect.value)
+                        this.start_rocket.setVolume(newState.effect.value)
                     }
 
                 }
             } else {
                 if (this.scene.manager) {
                     this.scene.resume();
+                    this.sound.resumeAll();
+                    this.music.setVolume(newState.music.value)
+                    this.fair.setVolume(newState.effect.value)
+                    this.shell_explosion.setVolume(newState.effect.value)
+                    this.tank_base_explosion.setVolume(newState.effect.value)
+                    this.start_rocket.setVolume(newState.effect.value)
                 }
             }
+            this.effect = newState.effect.value
+
 
         });
 
@@ -263,13 +307,14 @@ export default class Scene_1 extends Phaser.Scene {
         // collisionstart
 
         this.matter.world.on("collisionstart", (event) => {
+            let shell_explosion = this.shell_explosion;
             function pule(scene, pair) {
                 pair.bodyB.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
                     if (pair.bodyB.gameObject) {
                         pair.bodyB.gameObject.destroy()
                     }
                     scene.matter.world.remove(pair.bodyB);
-
+                    shell_explosion.play()
                 });
             }
 
@@ -279,7 +324,7 @@ export default class Scene_1 extends Phaser.Scene {
                         pair.bodyA.gameObject.destroy()
                     }
                     scene.matter.world.remove(pair.bodyA);
-
+                    shell_explosion.play()
                 });
             }
 
@@ -289,7 +334,7 @@ export default class Scene_1 extends Phaser.Scene {
                         pair.bodyB.gameObject.destroy()
                     }
                     scene.matter.world.remove(pair.bodyB);
-
+                    shell_explosion.play()
                 });
             }
 
@@ -299,7 +344,7 @@ export default class Scene_1 extends Phaser.Scene {
                         pair.bodyA.gameObject.destroy()
                     }
                     scene.matter.world.remove(pair.bodyA);
-
+                    shell_explosion.play()
                 });
             }
 
@@ -607,21 +652,16 @@ export default class Scene_1 extends Phaser.Scene {
 
 
         this.input.on('pointerdown', (pointer) => {
-
             let worldXY = pointer.positionToCamera(this.cam);
-
             this.tankName = this.activeObject
             this.body.filter((f) => f.constraint.corpus.body.health > 1).forEach((el) => {
                 if (this.matter.containsPoint(el.constraint.corpus, worldXY.x, worldXY.y)) {
-                    //  console.log(el)
                     this.activeObject = el.constraint.corpus
                     this.activeObjectHead = el.constraint.head
                     el.constraint.corpus.body.highlight = true;
-                    // console.log(el)
                 } else {
                     el.constraint.corpus.body.highlight = false;
                 }
-
 
             })
         });
@@ -659,14 +699,11 @@ export default class Scene_1 extends Phaser.Scene {
 
 
     update(time, delta) {
-        if (this.state.restart.value) {
-
-        }
-
 
         let pointer = this.input.activePointer;
         let worldXY = pointer.positionToCamera(this.cam);
-        if (this.control.space.isDown) {
+
+        if (this.control.space.isDown || this.sys.game.device.os.android) {
             if (pointer.x < this.edgeThreshold) {
                 this.cam.scrollX -= this.cameraSpeed;
             }
@@ -682,7 +719,6 @@ export default class Scene_1 extends Phaser.Scene {
         }
 
         if (this.control.up.isDown) {
-
             this.cam.scrollY -= this.cameraSpeed;
         }
         if (this.control.down.isDown) {
@@ -695,16 +731,24 @@ export default class Scene_1 extends Phaser.Scene {
             this.cam.scrollX += this.cameraSpeed;
         }
 
-        if (pointer.isDown && !this.activePoint && this.activeObject) {
-            if (this.activeObject.body.health > 0) {
-                this.activeObject.body.pX = worldXY.x;
-                this.activeObject.body.pY = worldXY.y;
 
+
+
+            if (pointer.isDown && !this.activePoint && this.activeObject) {
+                if(pointer.y > 0 && pointer.y < window.innerHeight - 200){
+                console.log(pointer.y)
+                if (this.activeObject.body.health > 0) {
+                    this.activeObject.body.pX = worldXY.x;
+                    this.activeObject.body.pY = worldXY.y;
+
+                }
+                this.pointT.setPosition(worldXY.x, worldXY.y)
+                this.activeObject.body.highlight = true;
             }
-
-            this.pointT.setPosition(worldXY.x, worldXY.y)
-            this.activeObject.body.highlight = true;
         }
+
+
+
         this.pointM.setPosition(worldXY.x, worldXY.y);
         this.occupy.view();
 
@@ -713,7 +757,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.countPlayerBase = this.matter.world.getAllBodies().filter((el) => el.label.match(/tank_base/i)).length
         this.countBotBase = this.matter.world.getAllBodies().filter((el) => el.label.match(/base-bot/i)).length
 
-        console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/mpb_doc/i)).length)
+        // console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/mpb_doc/i)).length)
 
         this.victory(1, this.isObjectRemove(/bot_corpus/i))
         this.victory(2, this.isObjectRemove(/bot_corpus/i))
@@ -851,7 +895,7 @@ export default class Scene_1 extends Phaser.Scene {
     }
 
     defeat(level = 1, quest = false) {
-        if (level === this.state.levelCount.value.id && this.countPlayer === 0 || this.countPlayerBase === 0) {
+        if (level === this.state.levelCount.value.id && (this.countPlayer === 0 || this.countPlayerBase === 0)) {
             this.store.dispatch(updateQuest({tanks: false, base: false, completed: quest}))
             this.store.dispatch(none())
             this.store.dispatch(gameOverOpen({

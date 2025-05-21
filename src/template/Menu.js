@@ -11,7 +11,7 @@ export default function Menu() {
     return <>
         <div className="h-[60px] lg:h-[80px]"
              style={{background: "linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%)"}}>
-            <div className="absolute flex gap-2 top-[30px] left-[10px]">
+            <div className="absolute flex gap-2 top-[18px] lg:top-[30px] left-[10px]">
                 <div className="flex gap-2">
                     <div>
                         <CoinIcon/>

@@ -106,6 +106,9 @@ export default class Bot extends Body {
 
 
     move() {
+
+
+
         if (this.sensorObject.activeObj) {
             this.targetBot = this.sensorObject.targetObj
         }
@@ -146,6 +149,8 @@ export default class Bot extends Body {
         if (this.type.match(/Hull_boss_1/i)) {
             this.drawRocketStatic(this.rocketStatic, 75, 50)
         }
+
+        this.musicEffect()
 
     }
 
