@@ -107,6 +107,7 @@ export default function Hangar() {
                                 <div className="absolute top-[-5px]">
                                     {title}
                                 </div>
+                                <div className="absolute left-[115px] top-[25px]">{level} Ур.</div>
                                 <div className="absolute top-[-5px] left-60">
                                     {hp >= level * levelStep ?
                                         <span

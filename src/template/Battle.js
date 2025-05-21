@@ -37,7 +37,14 @@ export default function Battle() {
                                         if (battle.value.length <= 20 && !battle.value.some(tank => tank.id === el.id)) {
                                             dispatch(addBattle(el))
                                         }
-                                    }} className="w-[260px] h-[240px] flex mt-5" key={el.id}>
+                                    }} className="w-[260px] h-[240px] relative flex mt-5" key={el.id}>
+                                        <div className="absolute">
+                                            <div className="flex gap-3">
+                                                <div>{el.title}</div>
+                                                <div>{el.level} Ур.</div>
+                                            </div>
+
+                                        </div>
                                         <div className="w-[105px] mt-5">
                                             {el.options.map((opt, i) => <div key={i + "options"} className="flex">
                                                 <div

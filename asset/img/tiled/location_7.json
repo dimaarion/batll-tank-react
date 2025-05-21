@@ -636,6 +636,72 @@
                  "width":4824.909,
                  "x":43.5455000000002,
                  "y":-63.5150000000001
+                }, 
+                {
+                 "height":100,
+                 "id":90,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2219.69696969697,
+                 "y":210.606060606061
+                }, 
+                {
+                 "height":100,
+                 "id":91,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2228.78787878788,
+                 "y":771.212121212121
+                }, 
+                {
+                 "height":100,
+                 "id":92,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2225.75757575758,
+                 "y":1271.21212121212
+                }, 
+                {
+                 "height":100,
+                 "id":93,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2201.51515151515,
+                 "y":1750
+                }, 
+                {
+                 "height":100,
+                 "id":94,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2274.24242424242,
+                 "y":2550
+                }, 
+                {
+                 "height":100,
+                 "id":95,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2253.0303030303,
+                 "y":2907.57575757576
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -683,7 +749,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":90,
+ "nextobjectid":96,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

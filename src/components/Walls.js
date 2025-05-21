@@ -12,6 +12,7 @@ export default class Walls {
 
     setup(){
         this.rect("walls")
+        this.rect("block")
         this.circle("walls-circle")
         this.createCzech()
         this.createObjectsSprite("fuel_depot_2","fuel_depot_2")
@@ -48,10 +49,6 @@ export default class Walls {
                     isStatic: true,
                     label: el.name
                 })
-                if (!this.scene.day) {
-                    //this.bodyRect[i].setPipeline('Light2D');
-                    console.log(this.bodyRect[i])
-                }
             })
         }
     }
@@ -63,9 +60,6 @@ export default class Walls {
                     isStatic: true,
                     label: el.name
                 })
-                if (!this.scene.day) {
-                  //  this.bodyCircle[i].setPipeline('Light2D');
-                }
             })
         }
     }

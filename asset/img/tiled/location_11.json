@@ -916,8 +916,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":976.315789473684,
-                 "y":3618.01619433198
+                 "x":856.315789473684,
+                 "y":2658.01619433198
                 }, 
                 {
                  "height":100,
@@ -927,8 +927,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":441.902834008097,
-                 "y":3611.94331983806
+                 "x":233.902834008097,
+                 "y":2635.94331983806
                 }, 
                 {
                  "height":100,
@@ -938,8 +938,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":1231.37651821862,
-                 "y":3781.98380566802
+                 "x":1423.37651821862,
+                 "y":2661.98380566802
                 }, 
                 {
                  "height":100,
@@ -949,8 +949,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":1304.25101214575,
-                 "y":4085.62753036437
+                 "x":2436.25101214575,
+                 "y":2673.62753036437
                 }, 
                 {
                  "height":100,
@@ -960,8 +960,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":1292.10526315789,
-                 "y":4322.46963562753
+                 "x":3224.10526315789,
+                 "y":2678.46963562753
                 }, 
                 {
                  "height":100,
@@ -971,8 +971,107 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":1249.5951417004,
-                 "y":4559.31174089069
+                 "x":4025.5951417004,
+                 "y":2651.31174089069
+                }, 
+                {
+                 "height":81.0299999999993,
+                 "id":128,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":77.9090000000001,
+                 "x":3468.5455,
+                 "y":2900.485
+                }, 
+                {
+                 "height":124.03,
+                 "id":129,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":125.909,
+                 "x":1071.0455,
+                 "y":2814.485
+                }, 
+                {
+                 "height":114.363333333333,
+                 "id":130,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.575666666667,
+                 "x":2754.37883333333,
+                 "y":1347.485
+                }, 
+                {
+                 "height":114.363,
+                 "id":131,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.576,
+                 "x":2493.04533333333,
+                 "y":1349.48516666667
+                }, 
+                {
+                 "height":114.363,
+                 "id":133,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.576,
+                 "x":2241.04533333333,
+                 "y":1353.48516666667
+                }, 
+                {
+                 "height":114.363,
+                 "id":134,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.576,
+                 "x":1987.712,
+                 "y":1352.15183333333
+                }, 
+                {
+                 "height":114.363,
+                 "id":135,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.576,
+                 "x":2784.712,
+                 "y":902.8185
+                }, 
+                {
+                 "height":114.363,
+                 "id":136,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.576,
+                 "x":3043.712,
+                 "y":901.8185
+                }, 
+                {
+                 "height":114.363,
+                 "id":137,
+                 "name":"walls",
+                 "rotation":0,
+                 "type":"walls",
+                 "visible":true,
+                 "width":120.576,
+                 "x":3300.712,
+                 "y":899.8185
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1020,7 +1119,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":128,
+ "nextobjectid":138,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

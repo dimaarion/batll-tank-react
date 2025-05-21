@@ -27,6 +27,7 @@ export default class Base {
     hpBaseBot = []
     hpConnection_baseBot = []
     sensor = []
+    money = 50
 
     constructor(scene) {
         this.scene = scene

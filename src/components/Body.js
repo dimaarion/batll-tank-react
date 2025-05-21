@@ -35,6 +35,7 @@ export default class Body {
     hpPlayer = 100
     scalePule = 0.6
     hp = 100;
+    money = 20;
     level = 1;
     constraint = {
         main: null,
@@ -71,6 +72,7 @@ export default class Body {
     headSensor = null
     timer
     shield = 85
+    shieldSpeed = 0.005
     live = 85
     headerCorpus = {a: 20, b: 30}
     target
@@ -688,7 +690,9 @@ export default class Body {
             if (this.constraint.sensor) {
                 this.scene.matter.world.remove(this.constraint.sensor);
             }
-
+            this.highlight.clear()
+            this.highlightShield.clear()
+            this.sensorHighlight.clear()
             this.constraint.burning.play("burning", true)
 
 
@@ -700,8 +704,9 @@ export default class Body {
         this.highlightShield.clear();
         this.highlightShield.fillStyle(0x21B1BB, 1);
         this.highlightShield.fillRect(this.constraint.corpus.body.position.x - 22, this.constraint.corpus.body.position.y - 80, this.constraint.corpus.body.shield, 8);
-        if (this.constraint.corpus.body.shield < this.constraint.corpus.body.defaultHealth) {
-            this.constraint.corpus.body.shield += 0.005
+        if ((this.constraint.corpus.body.shield < this.constraint.corpus.body.defaultHealth) && this.constraint.corpus.body.health !== 0) {
+
+            this.constraint.corpus.body.shield += this.shieldSpeed
         }
     }
 

@@ -605,6 +605,83 @@
                  "width":118.000333333333,
                  "x":3460.99983333333,
                  "y":2854.33316666667
+                }, 
+                {
+                 "height":100,
+                 "id":83,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":158,
+                 "y":1654
+                }, 
+                {
+                 "height":100,
+                 "id":84,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":686,
+                 "y":1650
+                }, 
+                {
+                 "height":100,
+                 "id":85,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":1150,
+                 "y":1618
+                }, 
+                {
+                 "height":100,
+                 "id":86,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":1550,
+                 "y":1582
+                }, 
+                {
+                 "height":100,
+                 "id":87,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":1974,
+                 "y":1542
+                }, 
+                {
+                 "height":100,
+                 "id":88,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2382,
+                 "y":1522
+                }, 
+                {
+                 "height":100,
+                 "id":89,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2810,
+                 "y":1486
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -652,7 +729,7 @@
          "y":0
         }],
  "nextlayerid":10,
- "nextobjectid":76,
+ "nextobjectid":90,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

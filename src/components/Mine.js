@@ -26,6 +26,7 @@ export default class Mine{
                     if (el.body) {
                         el.body.gameObject.destroy()
                     }
+                    this.scene.tank_base_explosion.play()
                     this.scene.matter.world.remove(el);
                 });
                 pair.bodyB.shield -= this.getMineDamage(50,this.scene.state.levelCount.value.id);
@@ -42,6 +43,7 @@ export default class Mine{
                         el.body.gameObject.destroy()
                     }
                     this.scene.matter.world.remove(el);
+                    this.scene.tank_base_explosion.play()
                 });
             }
 

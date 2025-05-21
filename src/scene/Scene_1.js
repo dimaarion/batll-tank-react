@@ -259,7 +259,8 @@ export default class Scene_1 extends Phaser.Scene {
                 this.scaleStat(this.action.getOption(b, "speed"), level, "speed")
             );
             this.bodyBot[i].type = b.name
-            this.bodyBot[i].hp = b.hpRemove * this.state.levelCount.value.id;
+            this.bodyBot[i].hp = b.hpRemove;
+            this.bodyBot[i].money = b.sale / 5
             this.bodyBot[i].level = this.state.levelCount.value.id;
             this.bodyBot[i].playerBasePosition = {
                 x: this.base.player[0].body.position.x,
@@ -348,20 +349,25 @@ export default class Scene_1 extends Phaser.Scene {
                 });
             }
 
+
+
             event.pairs.forEach((pair) => {
+                let tank = /(tank)|(block)/i
+                let bot = /(bot)|(block)/i
                 this.mine.collegeStart(pair)
                 this.occupy.collegeStart(pair)
-                if (pair.bodyA.label.match(/bot/i) && pair.bodyB.label === "pule") {
+
+                if (pair.bodyA.label.match(bot) && pair.bodyB.label === "pule") {
                     pule(this, pair)
                 }
-                if (pair.bodyA.label.match(/tank/i) && pair.bodyB.label === "pule_bot") {
+                if (pair.bodyA.label.match(tank) && pair.bodyB.label === "pule_bot") {
                     pule(this, pair)
                 }
 
-                if (pair.bodyB.label.match(/bot/i) && pair.bodyA.label === "pule") {
+                if (pair.bodyB.label.match(bot)  && pair.bodyA.label === "pule") {
                     puleA(this, pair)
                 }
-                if ((pair.bodyB.label.match(/tank/i) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule_bot") {
+                if ((pair.bodyB.label.match(tank) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule_bot") {
                     puleA(this, pair)
                 }
 
@@ -486,11 +492,11 @@ export default class Scene_1 extends Phaser.Scene {
                         if (pair.bodyA.healthBase < 1) {
                             el.timer.paused = true
                             el.timerRocket.paused = true
-                            this.hp += pair.bodyA.hpBot
-                            this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false)))
+                            this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,15)
+                            this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,20)))
                             this.store.dispatch(setHp({
                                 id: el.id,
-                                hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false)
+                                hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,15)
                             }))
                         } else {
                             el.constraint.sensor.positionBot = pair.bodyA.position
@@ -914,9 +920,9 @@ export default class Scene_1 extends Phaser.Scene {
                 el.takeDamageBot(pair.bodyB, pair.bodyA.attack)
             }
             if (el.constraint.corpus.body.health === 0) {
-                this.hp += el.hp
-                this.store.dispatch(increment(el.level * 50))
-                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: el.hp}))
+                this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)
+                this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.money)))
+                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)}))
             }
 
         })
@@ -929,9 +935,9 @@ export default class Scene_1 extends Phaser.Scene {
                 el.takeDamageBot(pair.bodyA, pair.bodyB.attack)
             }
             if (el.constraint.corpus.body.health === 0) {
-                this.hp += el.hp
-                this.store.dispatch(increment(el.level * 50))
-                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: el.hp}))
+                this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)
+                this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.money)))
+                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)}))
             }
 
         })
@@ -962,8 +968,8 @@ export default class Scene_1 extends Phaser.Scene {
     }
 
 
-    getBaseDestructionXP(baseLevel, difficultyMultiplier = 1.0, isMainHQ = false) {
-        const baseXP = 250; // Базовое количество опыта за стандартную базу
+    getBaseDestructionXP(baseLevel, difficultyMultiplier = 1.0, isMainHQ = false,coinXP = 50) {
+        const baseXP = coinXP; // Базовое количество опыта за стандартную базу
         const hqBonus = isMainHQ ? 2 : 1; // В 2 раза больше за главный штаб
 
         return Math.floor(baseXP * (1 + baseLevel * 0.1) * difficultyMultiplier * hqBonus);

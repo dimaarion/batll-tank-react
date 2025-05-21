@@ -896,6 +896,105 @@
                  "width":32.91,
                  "x":2015.96924242424,
                  "y":2156.18216666667
+                }, 
+                {
+                 "height":100,
+                 "id":120,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":382.280701754386,
+                 "y":2582.98245614035
+                }, 
+                {
+                 "height":100,
+                 "id":121,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":938.070175438597,
+                 "y":2588.59649122807
+                }, 
+                {
+                 "height":100,
+                 "id":122,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":1505.08771929825,
+                 "y":2582.98245614035
+                }, 
+                {
+                 "height":100,
+                 "id":123,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2313.50877192982,
+                 "y":2571.75438596491
+                }, 
+                {
+                 "height":100,
+                 "id":124,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":2919.82456140351,
+                 "y":2571.75438596491
+                }, 
+                {
+                 "height":100,
+                 "id":125,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":3475.61403508772,
+                 "y":2571.75438596491
+                }, 
+                {
+                 "height":100,
+                 "id":126,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":4065.08771929825,
+                 "y":2571.75438596491
+                }, 
+                {
+                 "height":100,
+                 "id":127,
+                 "name":"czech",
+                 "rotation":0,
+                 "type":"czech",
+                 "visible":true,
+                 "width":100,
+                 "x":4536.66666666667,
+                 "y":2554.91228070175
+                }, 
+                {
+                 "height":244,
+                 "id":128,
+                 "name":"block",
+                 "rotation":0,
+                 "type":"block",
+                 "visible":true,
+                 "width":296,
+                 "x":1740.31578947368,
+                 "y":3829.89473684211
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -916,8 +1015,8 @@
                  "type":"player",
                  "visible":true,
                  "width":200,
-                 "x":386,
-                 "y":4056
+                 "x":397.228070175439,
+                 "y":3915.64912280702
                 }, 
                 {
                  "height":200,
@@ -943,7 +1042,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":120,
+ "nextobjectid":129,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
