@@ -25,6 +25,7 @@ import Vehicle from "../components/Vehicle";
 import Occupy from "../components/Occupy";
 import AllyTank from "../components/AllyTank";
 import Sapper from "../components/Sapper";
+import Gui from "../components/Gui";
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -90,6 +91,7 @@ export default class Scene_1 extends Phaser.Scene {
     tank_base_explosion
     fire_burning
     start_rocket
+    gui = new Gui(this)
 
     constructor() {
         super("Scene_1");
@@ -98,6 +100,9 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
+        this.scene.scene.rexScaleOuter.add(this.cameras.main);
+
+
         const arrayLevel = [7, 21, 23, 29, 30, 35, 38, 44];
         if (arrayLevel.some((el) => el === this.state.levelCount.value.id)) {
             this.day = false
@@ -146,14 +151,21 @@ export default class Scene_1 extends Phaser.Scene {
             block.setPipeline('Light2D');
             tree.setPipeline('Light2D');
         }
-
-
         this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.scale.on('orientationchange', ()=>{
+            this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+            this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        }, this);
+        this.scale.on('resize', ()=>{
+            this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+            this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        }, this);
+
         if (this.sys.game.device.os.android) {
-            this.cameras.main.setZoom(0.5);
+          //  this.cameras.main.setZoom(0.5);
         } else {
-            this.cameras.main.setZoom(0.8);
+          //  this.cameras.main.setZoom(0.8);
         }
 
         this.hallway.setup();
@@ -309,6 +321,7 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.matter.world.on("collisionstart", (event) => {
             let shell_explosion = this.shell_explosion;
+
             function pule(scene, pair) {
                 pair.bodyB.gameObject.play("pule-blast-run", true).once('animationcomplete', () => {
                     if (pair.bodyB.gameObject) {
@@ -350,7 +363,6 @@ export default class Scene_1 extends Phaser.Scene {
             }
 
 
-
             event.pairs.forEach((pair) => {
                 let tank = /(tank)|(block)/i
                 let bot = /(bot)|(block)/i
@@ -364,7 +376,7 @@ export default class Scene_1 extends Phaser.Scene {
                     pule(this, pair)
                 }
 
-                if (pair.bodyB.label.match(bot)  && pair.bodyA.label === "pule") {
+                if (pair.bodyB.label.match(bot) && pair.bodyA.label === "pule") {
                     puleA(this, pair)
                 }
                 if ((pair.bodyB.label.match(tank) || pair.bodyB.label.match(/walls/i)) && pair.bodyA.label === "pule_bot") {
@@ -492,11 +504,11 @@ export default class Scene_1 extends Phaser.Scene {
                         if (pair.bodyA.healthBase < 1) {
                             el.timer.paused = true
                             el.timerRocket.paused = true
-                            this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,15)
-                            this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,20)))
+                            this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, 15)
+                            this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, 20)))
                             this.store.dispatch(setHp({
                                 id: el.id,
-                                hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,15)
+                                hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, 15)
                             }))
                         } else {
                             el.constraint.sensor.positionBot = pair.bodyA.position
@@ -703,23 +715,29 @@ export default class Scene_1 extends Phaser.Scene {
 
     }
 
+    onResize(gameSize) {
+        if (this.cam) {
+            this.cam.setSize(gameSize.width, gameSize.height);
+        }
+    }
+
 
     update(time, delta) {
 
         let pointer = this.input.activePointer;
         let worldXY = pointer.positionToCamera(this.cam);
-
-        if (this.control.space.isDown || this.sys.game.device.os.android) {
+        // this.sys.game.device.os.android
+        if (this.control.space.isDown) {
             if (pointer.x < this.edgeThreshold) {
                 this.cam.scrollX -= this.cameraSpeed;
             }
             if (pointer.x > this.game.config.width - this.edgeThreshold) {
                 this.cam.scrollX += this.cameraSpeed;
             }
-            if (pointer.y > this.game.config.height - this.edgeThreshold) {
+            if (pointer.y > this.game.config.height - (this.edgeThreshold + 100)) {
                 this.cam.scrollY += this.cameraSpeed;
             }
-            if (pointer.y < (this.edgeThreshold)) {
+            if (pointer.y < this.edgeThreshold) {
                 this.cam.scrollY -= this.cameraSpeed;
             }
         }
@@ -738,21 +756,18 @@ export default class Scene_1 extends Phaser.Scene {
         }
 
 
+        if (this.input.activePointer.isDown && !this.activePoint && this.activeObject) {
+            if (this.input.activePointer.y > 0 && this.input.activePointer.y < window.innerHeight - 200) {
 
-
-            if (pointer.isDown && !this.activePoint && this.activeObject) {
-                if(pointer.y > 0 && pointer.y < window.innerHeight - 200){
-                console.log(pointer.y)
                 if (this.activeObject.body.health > 0) {
-                    this.activeObject.body.pX = worldXY.x;
-                    this.activeObject.body.pY = worldXY.y;
+                    this.activeObject.body.pX = this.input.activePointer.worldX;
+                    this.activeObject.body.pY = this.input.activePointer.worldY;
 
                 }
-                this.pointT.setPosition(worldXY.x, worldXY.y)
+                this.pointT.setPosition(this.input.activePointer.worldX, this.input.activePointer.worldY)
                 this.activeObject.body.highlight = true;
             }
         }
-
 
 
         this.pointM.setPosition(worldXY.x, worldXY.y);
@@ -920,9 +935,12 @@ export default class Scene_1 extends Phaser.Scene {
                 el.takeDamageBot(pair.bodyB, pair.bodyA.attack)
             }
             if (el.constraint.corpus.body.health === 0) {
-                this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)
-                this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.money)))
-                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)}))
+                this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, el.hp)
+                this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, el.money)))
+                this.store.dispatch(setHp({
+                    id: pair.bodyB.bodyId,
+                    hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, el.hp)
+                }))
             }
 
         })
@@ -935,9 +953,12 @@ export default class Scene_1 extends Phaser.Scene {
                 el.takeDamageBot(pair.bodyA, pair.bodyB.attack)
             }
             if (el.constraint.corpus.body.health === 0) {
-                this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)
-                this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.money)))
-                this.store.dispatch(setHp({id: pair.bodyB.bodyId, hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false,el.hp)}))
+                this.hp += this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, el.hp)
+                this.store.dispatch(increment(this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, el.money)))
+                this.store.dispatch(setHp({
+                    id: pair.bodyB.bodyId,
+                    hp: this.getBaseDestructionXP(this.state.levelCount.value.id, 1.0, false, el.hp)
+                }))
             }
 
         })
@@ -968,7 +989,7 @@ export default class Scene_1 extends Phaser.Scene {
     }
 
 
-    getBaseDestructionXP(baseLevel, difficultyMultiplier = 1.0, isMainHQ = false,coinXP = 50) {
+    getBaseDestructionXP(baseLevel, difficultyMultiplier = 1.0, isMainHQ = false, coinXP = 50) {
         const baseXP = coinXP; // Базовое количество опыта за стандартную базу
         const hqBonus = isMainHQ ? 2 : 1; // В 2 раза больше за главный штаб
 

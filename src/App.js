@@ -17,6 +17,7 @@ import {getLevel} from "./redux/features/LevelCount";
 import Settings from "./template/Settings";
 import Loading from "./template/Loading";
 import Dialog from "./template/Dialog";
+import GuiCamera from "./template/GuiCamera";
 
 
 function App() {
@@ -186,7 +187,7 @@ function App() {
             {selectSettingsOpen.value ?<Settings/>:""}
             {!selectRestart.value?<GamePhaser/>:""}
             <Dialog/>
-
+            <GuiCamera/>
         </>
     }
 

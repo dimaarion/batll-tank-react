@@ -1,16 +1,20 @@
-import {useSelector} from "react-redux";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {dialogClose, dialogOpenClose} from "../redux/features/DialogView";
 
 export default function Dialog() {
     const selectLevelCount = useSelector((state) => state.levelCount);
+    const selectorDialogView = useSelector((state) => state.dialog);
     const [close, setClose] = useState({c: "tank-dialog-no-left", r: ""});
-    const [hidden, setHidden] = useState(true)
+    const dispatch = useDispatch();
 
-
+useEffect(()=>{
+    console.log(selectorDialogView.value)
+},[selectorDialogView.value])
     return <>
             <div
-                className={`${!hidden?"w-0 h-[120px] left-0":"lg:w-[800px] lg:h-[150px] w-[300px] h-[300px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/dialog-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/dialog.png)] p-10"} fixed  z-30 bottom-0 bg-no-repeat`}>
-                {hidden ? <>
+                className={`${!selectorDialogView.value?"w-0 h-[120px] left-0":"lg:w-[800px] lg:h-[150px] w-[300px] h-[300px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/dialog-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/dialog.png)] p-10"} fixed  z-30 bottom-0 bg-no-repeat`}>
+                {selectorDialogView.value ? <>
                     <div className="lg:ml-[190px] ml-[60px] text-2xl">{selectLevelCount.value.quest.content.title}</div>
                     <div className="lg:ml-[190px] lg:mt-0 mt-[60px] text-xl text-[#CEB423]">{selectLevelCount.value.quest.content.text}</div>
                 </> : ""}
@@ -19,7 +23,7 @@ export default function Dialog() {
                         c: "tank-dialog-left",
                         r: "matrix(-1 0 0 1 4.002 0)"
                     } : {c: "tank-dialog-no-left", r: ""})
-                    setHidden(!hidden)
+                    dispatch(dialogOpenClose(!selectorDialogView.value))
                 }} className="absolute right-[-28px] top-0 bottom-0 margin-auto h-[120px]">
                     <svg width="30" height="120" viewBox="0 0 17 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g>

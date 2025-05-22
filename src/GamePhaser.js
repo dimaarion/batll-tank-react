@@ -22,8 +22,8 @@ export default function GamePhaser() {
     useEffect(() => {
         const config = {
             type: Phaser.WEBGL,
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: 1100,
+            height: 1100,
             backgroundColor: "#000",
             render: {
                 antialias: false
@@ -62,7 +62,11 @@ export default function GamePhaser() {
                         plugin: VirtualJoystickPlugin,
                         mapping: 'rexvirtualjoystickplugin',
                         start: true
-                    }
+                    }, {
+                        key: 'rexScaleOuter',
+                        plugin: ScaleOuterPlugin,
+                        mapping: 'rexScaleOuter'
+                    },
                 ]
             },
             physics: {

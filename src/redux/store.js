@@ -19,6 +19,8 @@ import {music} from "./features/Music";
 import {effect} from "./features/Effect";
 import {settingsOpen} from "./features/SettingsOpen";
 import {load} from "./features/Load";
+import {dialogView} from "./features/DialogView";
+import {movementCamera} from "./features/MovementCamera";
 
 
 
@@ -46,6 +48,8 @@ export default configureStore({
         music:music.reducer,
         effect:effect.reducer,
         settingsOpen:settingsOpen.reducer,
-        load:load.reducer
+        load:load.reducer,
+        dialog:dialogView.reducer,
+        movementCamera:movementCamera.reducer
     },
 })

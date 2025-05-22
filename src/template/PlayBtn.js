@@ -81,8 +81,8 @@ export default function PlayBtn(props) {
                         <path d="M0 0L50 0" fill="#3C4546" fillRule="evenodd" strokeWidth="3" stroke="#1F2324"
                               strokeLinecap="square"/>
                     </g>
-                    <path d="M23.9952 15L0 30L0 0L23.9952 15Z" fill="#CEB423" fill-rule="evenodd"
-                          transform="translate(14.997 10), rotate(180,10,15) "/>
+                    <path d="M23.9952 15L0 30L0 0L23.9952 15Z" fill="#CEB423" fillRule="evenodd"
+    transform="translate(14.997 10), rotate(180,10,15) "/>
                 </g>
             </svg>
 

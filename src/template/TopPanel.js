@@ -16,7 +16,7 @@ export default function TopPanel() {
 
     if (s) {
         return <>
-            <div className="flex justify-between h-[70px] relative">
+            <div className="flex justify-between h-[70px] relative ">
                 <div className="self-center flex ml-4">
                     <div>
                         {selectLevelCount.value.id} Уровень
