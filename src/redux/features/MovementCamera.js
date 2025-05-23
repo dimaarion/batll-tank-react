@@ -19,10 +19,16 @@ export const movementCamera = createSlice({
         cameraBottom: (state) => {
             state.value = "bottom"
         },
+        cameraStop: (state) => {
+            state.value = ""
+        },
+        cameraDialog: (state) => {
+            state.value = "dialog"
+        },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const {cameraRight,cameraLeft,cameraTop,cameraBottom} = movementCamera.actions
+export const {cameraRight,cameraLeft,cameraTop,cameraBottom,cameraStop,cameraDialog} = movementCamera.actions
 
 export default movementCamera.reducer

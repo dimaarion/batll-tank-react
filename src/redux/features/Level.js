@@ -13,10 +13,13 @@ export const level = createSlice({
                 return el;
             });
 
+        },
+        updateLevels:(state, action)=>{
+            state.value = action.payload;
         }
     },
 })
 
-export const {setStar} = level.actions
+export const {setStar,updateLevels} = level.actions
 
 export default level.reducer

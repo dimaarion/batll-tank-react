@@ -1,6 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {dialogClose, dialogOpenClose} from "../redux/features/DialogView";
+import {cameraDialog, cameraStop} from "../redux/features/MovementCamera";
 
 export default function Dialog() {
     const selectLevelCount = useSelector((state) => state.levelCount);
@@ -8,9 +9,6 @@ export default function Dialog() {
     const [close, setClose] = useState({c: "tank-dialog-no-left", r: ""});
     const dispatch = useDispatch();
 
-useEffect(()=>{
-    console.log(selectorDialogView.value)
-},[selectorDialogView.value])
     return <>
             <div
                 className={`${!selectorDialogView.value?"w-0 h-[120px] left-0":"lg:w-[800px] lg:h-[150px] w-[300px] h-[300px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/dialog-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/dialog.png)] p-10"} fixed  z-30 bottom-0 bg-no-repeat`}>
@@ -24,7 +22,7 @@ useEffect(()=>{
                         r: "matrix(-1 0 0 1 4.002 0)"
                     } : {c: "tank-dialog-no-left", r: ""})
                     dispatch(dialogOpenClose(!selectorDialogView.value))
-                }} className="absolute right-[-28px] top-0 bottom-0 margin-auto h-[120px]">
+                }} onPointerDown={()=>dispatch(cameraDialog())} onPointerUp={()=>dispatch(cameraStop())} className="absolute right-[-28px] top-0 bottom-0 margin-auto h-[120px]">
                     <svg width="30" height="120" viewBox="0 0 17 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g>
                             <path d="M0 0C9.39012 0 17 7.60988 17 17L17 59C17 68.3901 9.39012 76 0 76L0 76L0 0Z"

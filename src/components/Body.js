@@ -690,9 +690,16 @@ export default class Body {
             if (this.constraint.sensor) {
                 this.scene.matter.world.remove(this.constraint.sensor);
             }
-            this.highlight.clear()
-            this.highlightShield.clear()
-            this.sensorHighlight.clear()
+            if(this.highlight){
+                this.highlight.clear()
+            }
+            if(this.highlightShield){
+                this.highlightShield.clear()
+            }
+            if(this.sensorHighlight){
+                this.sensorHighlight.clear()
+            }
+
             this.constraint.burning.play("burning", true)
 
 

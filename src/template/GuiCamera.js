@@ -1,9 +1,9 @@
-import {getLevel} from "../redux/features/LevelCount";
-import {setRestart} from "../redux/features/Restart";
-import {decrement} from "../redux/features/Pause";
-import {gameOverClose} from "../redux/features/GameOver";
+import {cameraBottom, cameraLeft, cameraRight, cameraStop, cameraTop} from "../redux/features/MovementCamera";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function GuiCamera(){
+    const dispatch = useDispatch();
+    const camera = useSelector((state) => state.movementCamera.value)
     function btnRight(){
         return  <svg onMouseDown={() => {}} onMouseUp={() => {
 
@@ -100,13 +100,13 @@ export default function GuiCamera(){
     }
 
     return <>
-        <div className="absolute right-[100px] bottom-0 margin-auto z-30 flex gap-12">
-            <div>{btnLeft()}</div>
-            <div>{btnRight()}</div>
+        <div className="fixed right-[100px] bottom-0 margin-auto z-30 flex gap-12">
+            <div onPointerDown={()=>dispatch(cameraRight())} onPointerUp={()=>dispatch(cameraStop())}>{btnLeft()}</div>
+            <div onPointerDown={()=>dispatch(cameraLeft())} onPointerUp={()=>dispatch(cameraStop())}>{btnRight()}</div>
         </div>
-        <div className="absolute right-0 bottom-[100px] margin-auto z-30 flex-col">
-            <div >{btnTop()}</div>
-            <div className="mt-12">{btnBottom()}</div>
+        <div className="fixed right-0 bottom-[100px] margin-auto z-30 flex-col">
+            <div onPointerDown={()=>dispatch(cameraTop())} onPointerUp={()=>dispatch(cameraStop())}>{btnTop()}</div>
+            <div onPointerDown={()=>dispatch(cameraBottom())} onPointerUp={()=>dispatch(cameraStop())} className="mt-12">{btnBottom()}</div>
         </div>
     </>
 }

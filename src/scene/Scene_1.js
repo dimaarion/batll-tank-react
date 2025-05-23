@@ -91,7 +91,7 @@ export default class Scene_1 extends Phaser.Scene {
     tank_base_explosion
     fire_burning
     start_rocket
-    gui = new Gui(this)
+    movementCamera = "";
 
     constructor() {
         super("Scene_1");
@@ -100,7 +100,7 @@ export default class Scene_1 extends Phaser.Scene {
     create() {
         this.store = this.registry.get('store'); // Достаём Redux store
         this.state = this.store.getState();
-        this.scene.scene.rexScaleOuter.add(this.cameras.main);
+
 
 
         const arrayLevel = [7, 21, 23, 29, 30, 35, 38, 44];
@@ -143,7 +143,7 @@ export default class Scene_1 extends Phaser.Scene {
         });
         this.music.play();
 
-        //console.log(this.state)
+
 
         if (!this.day) {
             this.lights.enable().setAmbientColor(0x111111);
@@ -153,20 +153,7 @@ export default class Scene_1 extends Phaser.Scene {
         }
         this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        this.scale.on('orientationchange', ()=>{
-            this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-            this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        }, this);
-        this.scale.on('resize', ()=>{
-            this.matter.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-            this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        }, this);
 
-        if (this.sys.game.device.os.android) {
-          //  this.cameras.main.setZoom(0.5);
-        } else {
-          //  this.cameras.main.setZoom(0.8);
-        }
 
         this.hallway.setup();
         this.mine.day = this.day;
@@ -174,7 +161,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.occupy.day = this.day;
         this.occupy.create();
         this.walls.setup()
-        // this.lights.enable().setAmbientColor(0x111111);
+
 
 
         this.base.level = this.state.levelCount.value.id
@@ -228,7 +215,7 @@ export default class Scene_1 extends Phaser.Scene {
                 }
             }
             this.effect = newState.effect.value
-
+            this.movementCamera = newState.movementCamera.value
 
         });
 
@@ -715,13 +702,6 @@ export default class Scene_1 extends Phaser.Scene {
 
     }
 
-    onResize(gameSize) {
-        if (this.cam) {
-            this.cam.setSize(gameSize.width, gameSize.height);
-        }
-    }
-
-
     update(time, delta) {
 
         let pointer = this.input.activePointer;
@@ -742,23 +722,21 @@ export default class Scene_1 extends Phaser.Scene {
             }
         }
 
-        if (this.control.up.isDown) {
+        if (this.control.up.isDown || this.movementCamera === "top") {
             this.cam.scrollY -= this.cameraSpeed;
         }
-        if (this.control.down.isDown) {
+        if (this.control.down.isDown || this.movementCamera === "bottom") {
             this.cam.scrollY += this.cameraSpeed;
         }
-        if (this.control.left.isDown) {
+        if (this.control.left.isDown || this.movementCamera === "left") {
             this.cam.scrollX -= this.cameraSpeed;
         }
-        if (this.control.right.isDown) {
+        if (this.control.right.isDown || this.movementCamera === "right") {
             this.cam.scrollX += this.cameraSpeed;
         }
 
 
-        if (this.input.activePointer.isDown && !this.activePoint && this.activeObject) {
-            if (this.input.activePointer.y > 0 && this.input.activePointer.y < window.innerHeight - 200) {
-
+        if (this.input.activePointer.isDown && !this.activePoint && this.activeObject && this.movementCamera === "") {
                 if (this.activeObject.body.health > 0) {
                     this.activeObject.body.pX = this.input.activePointer.worldX;
                     this.activeObject.body.pY = this.input.activePointer.worldY;
@@ -766,7 +744,6 @@ export default class Scene_1 extends Phaser.Scene {
                 }
                 this.pointT.setPosition(this.input.activePointer.worldX, this.input.activePointer.worldY)
                 this.activeObject.body.highlight = true;
-            }
         }
 
 
@@ -1000,8 +977,6 @@ export default class Scene_1 extends Phaser.Scene {
         return this.matter.world.getAllBodies().filter((el) => el.label.match(name)).length === 0
     }
 
-    createBotTanks() {
 
-    }
 
 }

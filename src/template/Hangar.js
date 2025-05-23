@@ -178,8 +178,9 @@ export default function Hangar() {
                                     className="bg-[url(https://game.fk-i-s.ru/asset/img/gui/tank-hangar-list-item.png)] justify-center bg-no-repeat bg-cover w-[150px] h-[240px] flex">
                                     <div className="w-[120px] h-[140px]  self-center position-center-bg"
                                          style={{
-                                             background: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + viewTank + ".png) no-repeat",
-                                             backgroundSize: "cover"
+                                             backgroundImage: "url(https://game.fk-i-s.ru/asset/img/gui/list/" + viewTank + ".png)",
+                                             backgroundSize: "cover",
+                                             backgroundRepeat:"no-repeat"
                                          }}/>
                                 </div>
                             </div>

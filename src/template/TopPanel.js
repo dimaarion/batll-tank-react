@@ -1,6 +1,7 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PauseBtn from "./PauseBtn";
 import CoinIcon from "./CoinIcon";
+import {cameraDialog, cameraStop} from "../redux/features/MovementCamera";
 
 export default function TopPanel() {
     const seconds = useSelector((state) => state.sec)
@@ -11,23 +12,23 @@ export default function TopPanel() {
     const liveBaseBot = useSelector((state) => state.liveBaseBot)
     const selectMoney = useSelector((state) => state.money);
     const selectLevelCount = useSelector((state) => state.levelCount);
-
+    const dispatch = useDispatch()
     let s = true
 
     if (s) {
         return <>
-            <div className="flex justify-between h-[70px] relative ">
-                <div className="self-center flex ml-4">
+            <div className="flex justify-between h-[70px] fixed z-30 bg-[#3C4546] right-0 left-0 top-0 border-b-2 border-black">
+                <div className="self-center lg:flex ml-4">
                     <div>
                         {selectLevelCount.value.id} Уровень
                     </div>
-                    <div className="ml-4 flex">
+                    <div className="lg:ml-4 flex">
                         <div><CoinIcon/></div>
                         <div className="ml-2"> {selectMoney.value} </div>
                     </div>
                 </div>
 
-                <div className="mt-1 mr-[93px]">
+                <div className="mt-1 mr-[10px] lg:mr-[75px]">
                     <div className="self-center flex">
                         <div className="flex">
                             <div className="w-[40px] h-[35px]  bg-black flex justify-end">
@@ -45,7 +46,7 @@ export default function TopPanel() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between text-xl text-center">
+                    <div className="flex justify-between text-xl  text-center">
                         <div className="w-[50px] h-[35px] bg-black ">
                             <div>{countPlayer.value}</div>
                         </div>
@@ -56,18 +57,19 @@ export default function TopPanel() {
                         </div>
                     </div>
                 </div>
-                <div  className="self-center flex mr-4">
+                <div onPointerDown={()=>dispatch(cameraDialog())} onPointerUp={()=>dispatch(cameraStop())} className="self-center flex mr-4">
                     <PauseBtn/>
                 </div>
-            </div>
-            <div className="flex w-full justify-between">
-                <div className="w-1/2 flex">
-                    <div style={{marginLeft:100 - liveBasePlayer.value + "%", width:liveBasePlayer.value + "%"}} className="mt-[-5px] h-[10px]  bg-blue-700"/>
+                <div className="flex w-full justify-between z-30 absolute h-[10px] bottom-0">
+                    <div className="w-1/2 flex">
+                        <div style={{marginLeft:100 - liveBasePlayer.value + "%", width:liveBasePlayer.value + "%"}} className="mt-[10px] h-[10px]  bg-blue-700"/>
+                    </div>
+                    <div className="w-1/2 flex">
+                        <div style={{width:liveBaseBot.value + "%"}} className="mt-[10px] h-[10px]  bg-danger-700"/>
+                    </div>
                 </div>
-                <div className="w-1/2 flex">
-                    <div style={{width:liveBaseBot.value + "%"}} className="mt-[-5px] h-[10px]  bg-danger-700"/>
-                </div>
             </div>
+
 
         </>
     } else {

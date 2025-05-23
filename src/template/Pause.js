@@ -29,7 +29,7 @@ export default function Pause() {
                 <div className="mt-12">
                     <TitleHangar title="Пауза" />
                 </div>
-                <div className="w-[402px] lg:w-[606px] relative  position-center-bg h-[769px] lg:h-[318px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/pause-box-bg.png)]">
+                <div className="w-[339px] lg:w-[606px] relative  position-center-bg h-[428px] lg:h-[318px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/pause-box-bg-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/pause-box-bg.png)]">
                    <div onClick={()=>dispatch(decrement())} className="absolute top-[-10px] right-[-10px]"> <CloseBtn/></div>
                     <div className="flex justify-center h-[80px] pt-5 mt-6">
                         <div className="self-center flex">

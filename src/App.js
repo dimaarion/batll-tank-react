@@ -18,6 +18,7 @@ import Settings from "./template/Settings";
 import Loading from "./template/Loading";
 import Dialog from "./template/Dialog";
 import GuiCamera from "./template/GuiCamera";
+import {updateLevels} from "./redux/features/Level";
 
 
 function App() {
@@ -32,10 +33,26 @@ function App() {
     const selectEffect = useSelector((state) => state.effect)
     const selectLevelCount = useSelector((state) => state.levelCount);
     const selectSettingsOpen = useSelector((state) => state.settingsOpen);
+    const selectLevel = useSelector((state) => state.level);
     const load = useSelector((state) => state.load)
-
     const dispatch = useDispatch();
+    let InitializeGameData = {
+        money:selectMoney.value,
+        music:selectMusic.value,
+        effect:selectEffect.value,
+        level:selectLevel.value,
+        hangar:getHangar.value,
+        levelCount:selectLevelCount.value
+    }
     const [ysdk, setYsdk] = useState(null);
+    const [data, setData] = useState(InitializeGameData);
+
+
+    useEffect(() => {
+console.log(InitializeGameData)
+
+    }, []);
+
 
 
     function initPlayer() {
@@ -52,15 +69,18 @@ function App() {
                 //console.log("Игрок авторизован.")
             }
             res.getData().then((d) => {
+
                 if (!d) {
                     save()
                 } else {
                     console.log(d)
-                    dispatch(selectHangar(d.hangar));
-                    dispatch(setMoney(d.money));
-                    dispatch(setMusic(d.music));
-                    dispatch(setEffect(d.effect));
-                    dispatch(getLevel(d.level));
+                   dispatch(selectHangar(d.hangar));
+                   dispatch(setMoney(d.money));
+                   dispatch(setMusic(d.music));
+                   dispatch(setEffect(d.effect));
+                   dispatch(updateLevels(d.level));
+                   dispatch(getLevel(d.levelCount))
+
                 }
 
             });
@@ -69,14 +89,7 @@ function App() {
 
     function save() {
         initPlayer().then((result) => {
-            let dataDefault = {
-                coin: 1000,
-                hangar: defaultHangar.slice(0, 1),
-                music: 0.5,
-                effect: 0.5,
-                level: {id: 1, name: "map", tiles: "tiles"}
-            }
-            result.setData(dataDefault, true)
+            result.setData(InitializeGameData, true)
         })
     }
 
@@ -99,61 +112,23 @@ function App() {
         if (initPlayer()) {
             initPlayer().then((result) => {
                 result.getData().then((d) => {
-                    let data = {...d, hangar: getHangar.value}
-                    result.setData(data, true)
+                    result.setData({
+                        money:selectMoney.value,
+                        music:selectMusic.value,
+                        effect:selectEffect.value,
+                        level:selectLevel.value,
+                        hangar:getHangar.value,
+                        levelCount:selectLevelCount.value
+                    }, true)
                 })
             })
         }
 
-    }, [getHangar])
+    }, [selectMoney,selectMusic,selectEffect,selectLevel,getHangar,selectLevelCount])
 
-    useEffect(() => {
-        if (initPlayer()) {
-            initPlayer().then((result) => {
-                result.getData().then((d) => {
-                    let data = {...d, coin: selectMoney.value}
-                    result.setData(data, true)
-                })
-            })
-        }
 
-    }, [selectMoney])
 
-    useEffect(() => {
-        if (initPlayer()) {
-            initPlayer().then((result) => {
-                result.getData().then((d) => {
-                    let data = {...d, music: selectMusic.value}
-                    result.setData(data, true)
-                })
-            })
-        }
 
-    }, [selectMusic])
-
-    useEffect(() => {
-        if (initPlayer()) {
-            initPlayer().then((result) => {
-                result.getData().then((d) => {
-                    let data = {...d, effect: selectEffect.value}
-                    result.setData(data, true)
-                })
-            })
-        }
-
-    }, [selectEffect])
-
-    useEffect(() => {
-        if (initPlayer()) {
-            initPlayer().then((result) => {
-                result.getData().then((d) => {
-                    let data = {...d, level: selectLevelCount.value}
-                    result.setData(data, true)
-                })
-            })
-        }
-
-    }, [selectLevelCount])
 
 
    if(selectMenu.value === "Ангар"){
