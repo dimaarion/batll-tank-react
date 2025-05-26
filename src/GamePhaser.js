@@ -1,10 +1,7 @@
 import Phaser from "phaser"
 import {useEffect, useRef} from "react";
 import store from "./redux/store";
-import VirtualJoystickPlugin from 'phaser3-rex-plugins/plugins/virtualjoystick-plugin.js';
-import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import BoardPlugin from "phaser3-rex-plugins/plugins/board-plugin";
-import SliderPlugin from "phaser3-rex-plugins/plugins/slider-plugin";
 import Preload from "./scene/Preload";
 import StartScene from "./scene/StartScene";
 import Scene_1 from "./scene/Scene_1";
@@ -45,35 +42,11 @@ export default function GamePhaser() {
                 antialias: false
             },
             plugins: {
-                global: [{
-                    key: 'rexvirtualjoystickplugin',
-                    plugin: VirtualJoystickPlugin,
-                    start: true
-                }, {
-                    key: 'rexSlider',
-                    plugin: SliderPlugin,
-                    start: true
-                }
-                ],
                 scene: [
                     {
-                        key: 'rexUI',
-                        plugin: UIPlugin,
-                        mapping: 'rexUI'
-                    }, {
                         key: 'rexBoard',
                         plugin: BoardPlugin,
                         mapping: 'rexBoard'
-                    }, {
-                        key: 'rexSlider',
-                        plugin: SliderPlugin,
-                        mapping: 'rexSlider',
-                        start: true
-                    }, {
-                        key: 'rexvirtualjoystickplugin',
-                        plugin: VirtualJoystickPlugin,
-                        mapping: 'rexvirtualjoystickplugin',
-                        start: true
                     }
                 ]
             },

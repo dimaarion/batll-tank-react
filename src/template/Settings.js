@@ -3,19 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {setMusic} from "../redux/features/Music";
 import {setEffect} from "../redux/features/Effect";
 import {decrement} from "../redux/features/SettingsOpen";
-import {useEffect, useState} from "react";
+import {setZoom} from "../redux/features/Zoom";
+
 
 export default function Settings() {
     const selectMusic = useSelector((state) => state.music)
     const selectEffect = useSelector((state) => state.effect)
-    const [size, setSize] = useState(800)
+    const selectZoom = useSelector((state) => state.zoom.value)
     const dispatch = useDispatch();
-    let dw = size
-    let dh = Math.floor(dw - dw / 5.5)
-
-    useEffect(() => {
-
-    }, [])
 
     return <>
         <div className="absolute z-[101] margin-auto top-0 right-0 left-0 bottom-0">
@@ -27,13 +22,14 @@ export default function Settings() {
             </div>
             <div className="flex justify-center">
                 <div
-                    className={`flex justify-center relative w-[402px] h-[769px] mt-6 lg:w-[630px] lg:h-[515px] bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box-mob.png)] lg:bg-[url(https://game.fk-i-s.ru/asset/img/gui/settings-box.png)] bg-cover`}>
+                    className={`flex justify-center relative mt-6  settings-box bg-cover`}>
                     <div className="flex justify-end w-full absolute top-[-15px] right-[-15px]">
                         <div onClick={() => dispatch(decrement())} className="pointer w-[50px] flex h-[50px]">
                             <CloseBtn/>
                         </div>
                     </div>
-                    <div className="w-[402px] h-[769px] lg:w-[630px] lg:h-[515px] grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-3 p-[30px]">
+                    <div
+                        className="w-[402px] h-[769px] lg:w-[630px] lg:h-[515px] grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-3 p-[30px]">
                         <div className="">
                             <div className="text-center text-xl">Камера</div>
                             <div className="flex">
@@ -131,7 +127,14 @@ export default function Settings() {
                                             </g>
                                         </svg>
                                     </div>
-
+                                </div>
+                            </div>
+                            <div className="flex-col">
+                                <div><label htmlFor={"zoom"}>Размер: {Number.parseFloat(selectZoom).toFixed(2)}</label></div>
+                                <div>
+                                    <input id={"zoom"} onChange={(e) => dispatch(setZoom(e.target.value))} type="range"
+                                            value={selectZoom} step={"any"} min={0.1} max={1}
+                                            className={"w-175   pointer"}/>
                                 </div>
                             </div>
                         </div>
@@ -173,14 +176,13 @@ export default function Settings() {
                                 R - Рестарт
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
 
         </div>
         <div className="fixed z-[100] bg-[#3C4546] margin-auto top-0 right-0 left-0 bottom-0"/>
-
-
     </>
 
 }

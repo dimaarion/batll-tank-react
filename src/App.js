@@ -1,27 +1,30 @@
-import GamePhaser from "./GamePhaser";
-import TopPanel from "./template/TopPanel";
-import Hangar from "./template/Hangar";
-import Shop from "./template/Shop";
+import React, {useEffect, Suspense} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import Battle from "./template/Battle";
+import Shop from "./template/Shop";
 import Pause from "./template/Pause";
 import GameOver from "./template/GameOver";
 import Levels from "./template/Levels";
-import {useEffect, useState} from "react";
-import defaultHangar from "./json/hangar.json"
+import Hangar from "./template/Hangar";
 import {selectHangar} from "./redux/features/Hangar";
 import {setMoney} from "./redux/features/Money";
 import {setMusic} from "./redux/features/Music";
 import {setEffect} from "./redux/features/Effect";
 import {getLevel} from "./redux/features/LevelCount";
-import Settings from "./template/Settings";
-import Loading from "./template/Loading";
-import Dialog from "./template/Dialog";
-import GuiCamera from "./template/GuiCamera";
 import {updateLevels} from "./redux/features/Level";
-
+import {getSdk} from "./redux/features/Ysdk";
+import InitializeGameData from "./json/InitializeGameData.json"
+import {setZoom} from "./redux/features/Zoom";
+import levels from "./json/level.json"
+const Battle = React.lazy(() => import("./template/Battle"));
+const GamePhaser = React.lazy(() => import("./GamePhaser"));
+const Settings = React.lazy(() => import("./template/Settings"));
+const TopPanel = React.lazy(() => import("./template/TopPanel"));
+const GuiCamera = React.lazy(() => import("./template/GuiCamera"));
+const Dialog = React.lazy(() => import("./template/Dialog"));
+const Loading = React.lazy(() => import("./template/Loading"));
 
 function App() {
+
 
     const selectMenu = useSelector((state) => state.selectMenu)
     const selectPause = useSelector((state) => state.pause)
@@ -34,24 +37,15 @@ function App() {
     const selectLevelCount = useSelector((state) => state.levelCount);
     const selectSettingsOpen = useSelector((state) => state.settingsOpen);
     const selectLevel = useSelector((state) => state.level);
+    const selectZoom = useSelector((state) => state.zoom);
     const load = useSelector((state) => state.load)
     const dispatch = useDispatch();
-    let InitializeGameData = {
-        money:selectMoney.value,
-        music:selectMusic.value,
-        effect:selectEffect.value,
-        level:selectLevel.value,
-        hangar:getHangar.value,
-        levelCount:selectLevelCount.value
-    }
-    const [ysdk, setYsdk] = useState(null);
-    const [data, setData] = useState(InitializeGameData);
+    InitializeGameData.level = levels
+    document.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+    });
 
 
-    useEffect(() => {
-console.log(InitializeGameData)
-
-    }, []);
 
 
 
@@ -61,109 +55,106 @@ console.log(InitializeGameData)
         });
     }
 
-    function create() {
-        initPlayer().then((res) => {
-            if (res.getMode() === 'lite') {
-                //console.log("Игрок не авторизован.")
-            } else {
-                //console.log("Игрок авторизован.")
-            }
-            res.getData().then((d) => {
 
-                if (!d) {
-                    save()
-                } else {
-                    console.log(d)
-                   dispatch(selectHangar(d.hangar));
-                   dispatch(setMoney(d.money));
-                   dispatch(setMusic(d.music));
-                   dispatch(setEffect(d.effect));
-                   dispatch(updateLevels(d.level));
-                   dispatch(getLevel(d.levelCount))
 
-                }
 
-            });
-        })
-    }
-
-    function save() {
-        initPlayer().then((result) => {
-            result.setData(InitializeGameData, true)
-        })
-    }
 
     useEffect(() => {
         // Проверка на наличие YaGames в глобальном объекте window
         if (window.YaGames) {
             window.YaGames.init().then((ysdkInstance) => {
                 console.log('Yandex SDK initialized');
-                setYsdk(ysdkInstance);
                 window.ysdk = ysdkInstance;
-                initPlayer()
-                create()
+                dispatch(getSdk(ysdkInstance))
+                initPlayer().then((res) => {
+                    if (res.getMode() === 'lite') {
+                        //console.log("Игрок не авторизован.")
+                    } else {
+                        //console.log("Игрок авторизован.")
+                    }
+                    res.getData().then((d) => {
+
+                        if (!d.levelCount.id) {
+                            initPlayer().then((result) => {
+                                result.setData(InitializeGameData, true)
+                            })
+                        } else {
+                            dispatch(selectHangar(d.hangar));
+                            dispatch(setMoney(d.money));
+                            dispatch(setMusic(d.music));
+                            dispatch(setEffect(d.effect));
+                            dispatch(updateLevels(d.level));
+                            dispatch(getLevel(d.levelCount));
+                            dispatch(setZoom(d.zoom))
+
+                        }
+
+                    });
+                })
+
             }).catch((error) => {
                 console.error('Yandex SDK init error:', error);
             });
         }
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (initPlayer()) {
             initPlayer().then((result) => {
                 result.getData().then((d) => {
                     result.setData({
-                        money:selectMoney.value,
-                        music:selectMusic.value,
-                        effect:selectEffect.value,
-                        level:selectLevel.value,
-                        hangar:getHangar.value,
-                        levelCount:selectLevelCount.value
+                        money: selectMoney.value,
+                        music: selectMusic.value,
+                        effect: selectEffect.value,
+                        level: selectLevel.value,
+                        hangar: getHangar.value,
+                        levelCount: selectLevelCount.value,
+                        zoom:selectZoom.value
                     }, true)
                 })
             })
         }
 
-    }, [selectMoney,selectMusic,selectEffect,selectLevel,getHangar,selectLevelCount])
+    }, [selectMoney, selectMusic, selectEffect, selectLevel, getHangar, selectLevelCount,selectZoom])
 
 
-
-
-
-
-   if(selectMenu.value === "Ангар"){
-        return <>
+    if (selectMenu.value === "Ангар") {
+        return <Suspense>
             <Hangar/>
             <Dialog/>
-        </>
-    }else if(selectMenu.value === "Магазин"){
-        return <>
+        </Suspense>
+    } else if (selectMenu.value === "Магазин") {
+        return <Suspense>
             <Shop/>
             <Dialog/>
-        </>
-    }else if(selectMenu.value === "К бою"){
-        return <>
-            {selectSettingsOpen.value?<Settings/>:""}
+        </Suspense>
+    } else if (selectMenu.value === "К бою") {
+        return <Suspense>
+
+            {selectSettingsOpen.value ? <Settings/> : ""}
             <Battle/>
             <Dialog/>
-        </>
-    }else if(selectMenu.value === "Уровни"){
-        return <>
+
+        </Suspense>
+    } else if (selectMenu.value === "Уровни") {
+        return <Suspense>
             <Levels/>
             <Dialog/>
-        </>
-    }else{
-        return <>
+        </Suspense>
+    } else {
+        return <Suspense>
 
             <TopPanel/>
-            {load.value < 1?<Loading/>:""}
-            {selectPause.value? <Pause/>:""}
-            {selectGameOver.value.active?<GameOver/>:""}
-            {selectSettingsOpen.value ?<Settings/>:""}
-            {!selectRestart.value?<GamePhaser/>:""}
+            {load.value < 1 ? <Loading/> : ""}
+            {selectPause.value ? <Pause/> : ""}
+            {selectGameOver.value.active ? <GameOver/> : ""}
+            {selectSettingsOpen.value ? <Settings/> : ""}
+            {!selectRestart.value ? <div>
+                <GamePhaser/>
+                {load.value === 1 ? <GuiCamera/> : ""}
+            </div> : ""}
             <Dialog/>
-            <GuiCamera/>
-        </>
+        </Suspense>
     }
 
 }

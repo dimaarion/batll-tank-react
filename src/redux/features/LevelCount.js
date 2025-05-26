@@ -17,11 +17,11 @@ export const levelCount = createSlice({
     },
     reducers: {
         getLevel:(state, action)=>{
-            state.value = {... state.value, id:action.payload.id,star:action.payload.star, name:action.payload.name,tiles:action.payload.tiles,quest:action.payload.quest}
+            state.value = {...state.value, id:action.payload.id,star:action.payload.star, name:action.payload.name,tiles:action.payload.tiles,quest:action.payload.quest}
 
         },
         updateQuest:(state, action)=>{
-            state.value = {... state.value, quest:{... state.value.quest, tanks:action.payload.tanks,base:action.payload.base,completed:action.payload.completed}}
+            state.value = {...state.value, quest:{...state.value.quest, tanks:action.payload.tanks,base:action.payload.base,completed:action.payload.completed}}
         }
     },
 })

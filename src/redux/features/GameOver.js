@@ -8,10 +8,10 @@ export const gameOver = createSlice({
     reducers: {
 
         gameOverOpen: (state,action) => {
-            state.value = {... state.value, active:true,hp:action.payload.hp,bot:action.payload.bot,title:action.payload.title};
+            state.value = {...state.value, active:true,hp:action.payload.hp,bot:action.payload.bot,title:action.payload.title};
         },
         gameOverClose: (state) => {
-            state.value = {... state.value, active:false,hp:state.value.hp,bot:state.value.bot,title:state.value.title};
+            state.value = {...state.value, active:false,hp:state.value.hp,bot:state.value.bot,title:state.value.title};
         },
     },
 })

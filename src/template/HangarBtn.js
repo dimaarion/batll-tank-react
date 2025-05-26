@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {setMenu} from "../redux/features/SelectMenu";
-import {decrement, increment} from "../redux/features/Pause";
+import {decrement} from "../redux/features/Pause";
 import {gameOverClose} from "../redux/features/GameOver";
 
 export default function HangarBtn(){

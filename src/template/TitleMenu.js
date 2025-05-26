@@ -8,21 +8,17 @@ export default function TitleMenu(props){
     const [active, setActive] = useState("")
 
     useEffect(()=>{
-        if(selectMenu.value === props.title){
+        if(selectMenu.value === props?.title){
             setActive("tank-text-active")
         }
 
-    },[selectMenu])
+    },[selectMenu,props?.title])
 
     let title = props?.title
-    const styles = {
-        def:{
-            background:"url(https://game.fk-i-s.ru/asset/img/gui/title-menu.png) no-repeat"
-        }
-    }
+
     return <>
-        <div onClick={()=>dispatch(setMenu(title))} className={`w-[200px] flex justify-center h-[80px] mx-4 position-center-bg text-center ${active}`} style={styles.def}>
-            <div className="text-2xl mt-5">{title}</div>
+        <div onClick={()=>dispatch(setMenu(title))} className={`w-[200px] flex justify-center h-[80px] mx-4 position-center-bg title-menu text-center `}>
+            <div className={`text-2xl mt-5 ${active}`}>{title}</div>
         </div>
     </>
 }

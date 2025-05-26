@@ -25,7 +25,7 @@ import Vehicle from "../components/Vehicle";
 import Occupy from "../components/Occupy";
 import AllyTank from "../components/AllyTank";
 import Sapper from "../components/Sapper";
-import Gui from "../components/Gui";
+
 
 export default class Scene_1 extends Phaser.Scene {
     map
@@ -102,7 +102,6 @@ export default class Scene_1 extends Phaser.Scene {
         this.state = this.store.getState();
 
 
-
         const arrayLevel = [7, 21, 23, 29, 30, 35, 38, 44];
         if (arrayLevel.some((el) => el === this.state.levelCount.value.id)) {
             this.day = false
@@ -144,7 +143,6 @@ export default class Scene_1 extends Phaser.Scene {
         this.music.play();
 
 
-
         if (!this.day) {
             this.lights.enable().setAmbientColor(0x111111);
             this.layer.setPipeline('Light2D');
@@ -161,7 +159,6 @@ export default class Scene_1 extends Phaser.Scene {
         this.occupy.day = this.day;
         this.occupy.create();
         this.walls.setup()
-
 
 
         this.base.level = this.state.levelCount.value.id
@@ -181,13 +178,13 @@ export default class Scene_1 extends Phaser.Scene {
                 b.id = el.id
                 b.hp = el.hp
                 b.day = this.day
-
+                b.label = el.title
                 return b;
             }
         )
 
         this.cameras.main.setScroll(this.base.player[0].body.position.x - window.innerWidth / 2, this.base.player[0].body.position.y - window.innerHeight / 2);
-
+        this.cam.zoom = this.state.zoom.value
         this.store.subscribe(() => {
             const newState = this.store.getState();
 
@@ -216,8 +213,9 @@ export default class Scene_1 extends Phaser.Scene {
             }
             this.effect = newState.effect.value
             this.movementCamera = newState.movementCamera.value
-
+            this.cam.zoom = newState.zoom.value
         });
+
 
 
         this.body.forEach((el, i) => {
@@ -298,10 +296,10 @@ export default class Scene_1 extends Phaser.Scene {
         let pointer = this.input.activePointer;
         let worldXY = pointer.positionToCamera(this.cam);
 
-        this.pointT = this.matter.add.sprite(100, 100, 'runPoint', 0, {
+        this.pointT = this.matter.add.sprite(this.base.player[0].body.position.x - window.innerWidth / 2, this.base.player[0].body.position.y - window.innerHeight / 2, 'runPoint', 0, {
             isSensor: true,
             label: 'cursor-state'
-        }).play("runPoint").setDepth(50)
+        }).play("runPoint").setDepth(50).setScale(0.5)
         this.pointM = this.matter.add.sprite(worldXY.x, worldXY.y, "point-move", 0, {label: 'cursor-move'}).setCircle(50, {label: "cursor-move"}).setSensor(true).setName("cursor");
 
         // collisionstart
@@ -699,7 +697,7 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.defaultCountPlayer = this.state.battle.value.length
 
-
+console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus_[0-9]-Hull_[0-9]/i)))
     }
 
     update(time, delta) {
@@ -722,28 +720,28 @@ export default class Scene_1 extends Phaser.Scene {
             }
         }
 
-        if (this.control.up.isDown || this.movementCamera === "top") {
+        if (this.control.up.isDown || this.movementCamera === "top" || this.cursorKeys.up.isDown) {
             this.cam.scrollY -= this.cameraSpeed;
         }
-        if (this.control.down.isDown || this.movementCamera === "bottom") {
+        if (this.control.down.isDown || this.movementCamera === "bottom" || this.cursorKeys.down.isDown) {
             this.cam.scrollY += this.cameraSpeed;
         }
-        if (this.control.left.isDown || this.movementCamera === "left") {
+        if (this.control.left.isDown || this.movementCamera === "left" || this.cursorKeys.left.isDown) {
             this.cam.scrollX -= this.cameraSpeed;
         }
-        if (this.control.right.isDown || this.movementCamera === "right") {
+        if (this.control.right.isDown || this.movementCamera === "right" || this.cursorKeys.right.isDown) {
             this.cam.scrollX += this.cameraSpeed;
         }
 
 
         if (this.input.activePointer.isDown && !this.activePoint && this.activeObject && this.movementCamera === "") {
-                if (this.activeObject.body.health > 0) {
-                    this.activeObject.body.pX = this.input.activePointer.worldX;
-                    this.activeObject.body.pY = this.input.activePointer.worldY;
+            if (this.activeObject.body.health > 0) {
+                this.activeObject.body.pX = this.input.activePointer.worldX;
+                this.activeObject.body.pY = this.input.activePointer.worldY;
 
-                }
-                this.pointT.setPosition(this.input.activePointer.worldX, this.input.activePointer.worldY)
-                this.activeObject.body.highlight = true;
+            }
+            this.pointT.setPosition(this.input.activePointer.worldX, this.input.activePointer.worldY)
+            this.activeObject.body.highlight = true;
         }
 
 
@@ -763,7 +761,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(4, this.isObjectRemove(/Hull_art_1/i))
         this.victory(5, this.isObjectRemove(/mpb_1/i))
         this.victory(6, !this.scout)
-        this.victory(7, this.isObjectRemove(/bot_corpus/i))
+        this.victory(7, this.isObjectRemove(/bot_corpus_[0-9]-Hull_[0-9]/i))
         this.victory(8, this.occupy.quest)
         this.victory(9, this.isObjectRemove(/connection_baseBot/i))
         this.victory(10, this.occupy.quest)
@@ -806,7 +804,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(47, this.isObjectRemove(/bot_corpus/i))
         this.victory(48, this.isObjectRemove(/Hull_art_1/i))
         this.victory(49, this.isObjectRemove(/bot_corpus/i))
-
+        this.victory(50, this.isObjectRemove(/mpb_1/i))
 
         this.store.dispatch(count(this.countPlayer));
         this.store.dispatch(countBot(this.countBot));
@@ -976,7 +974,6 @@ export default class Scene_1 extends Phaser.Scene {
     isObjectRemove(name) {
         return this.matter.world.getAllBodies().filter((el) => el.label.match(name)).length === 0
     }
-
 
 
 }

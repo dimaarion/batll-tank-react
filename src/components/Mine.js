@@ -29,15 +29,21 @@ export default class Mine{
                     this.scene.tank_base_explosion.play()
                     this.scene.matter.world.remove(el);
                 });
-                pair.bodyB.shield -= this.getMineDamage(50,this.scene.state.levelCount.value.id);
+                console.log(pair.bodyB.label)
+                if(!pair.bodyB.label.match(/МР-55/i)){
+                    pair.bodyB.shield -= this.getMineDamage(50,this.scene.state.levelCount.value.id);
+                }
+
                 if (pair.bodyB.shield < 0) pair.bodyB.shield = 0;
                 if(pair.bodyB.shield === 0){
-                    pair.bodyB.health -= this.getMineDamage(50,this.scene.state.levelCount.value.id);
-                    if (pair.bodyB.health < 0) pair.bodyB.health = 0;
+                    if(!pair.bodyB.label.match(/МР-55/i)) {
+                        pair.bodyB.health -= this.getMineDamage(50, this.scene.state.levelCount.value.id);
+                        if (pair.bodyB.health < 0) pair.bodyB.health = 0;
+                    }
                 }
 
             }
-            if(pair.bodyB === el.body && pair.bodyA.label.match(/czech/i) || pair.bodyA === el.body && pair.bodyB.label.match(/czech/i)){
+            if((pair.bodyB === el.body && pair.bodyA.label.match(/czech/i)) || (pair.bodyA === el.body && pair.bodyB.label.match(/czech/i))){
                 el.play("mine-run",true).once('animationcomplete', () => {
                     if (el.body) {
                         el.body.gameObject.destroy()

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import InitializeGameData from "../../json/InitializeGameData.json"
 export const money = createSlice({
     name: 'money',
     initialState: {
-        value: 1000,
+        value: InitializeGameData.money,
     },
     reducers: {
 

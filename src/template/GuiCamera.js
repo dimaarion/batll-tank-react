@@ -1,9 +1,9 @@
 import {cameraBottom, cameraLeft, cameraRight, cameraStop, cameraTop} from "../redux/features/MovementCamera";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 export default function GuiCamera(){
     const dispatch = useDispatch();
-    const camera = useSelector((state) => state.movementCamera.value)
+
     function btnRight(){
         return  <svg onMouseDown={() => {}} onMouseUp={() => {
 

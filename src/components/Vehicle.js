@@ -1,4 +1,3 @@
-import Body from "./Body";
 import Bot from "./Bot";
 import Phaser from "phaser";
 

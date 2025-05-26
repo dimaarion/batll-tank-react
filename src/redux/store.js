@@ -21,6 +21,8 @@ import {settingsOpen} from "./features/SettingsOpen";
 import {load} from "./features/Load";
 import {dialogView} from "./features/DialogView";
 import {movementCamera} from "./features/MovementCamera";
+import {ysdk} from "./features/Ysdk";
+import {zoom} from "./features/Zoom";
 
 
 
@@ -50,6 +52,8 @@ export default configureStore({
         settingsOpen:settingsOpen.reducer,
         load:load.reducer,
         dialog:dialogView.reducer,
-        movementCamera:movementCamera.reducer
+        movementCamera:movementCamera.reducer,
+        ysdk:ysdk.reducer,
+        zoom:zoom.reducer
     },
 })

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import getHangar from "../../json/hangar.json"
+import InitializeGameData from "../../json/InitializeGameData.json"
 export const hangar = createSlice({
     name: 'hangar',
     initialState: {
-        value: getHangar.slice(0,1),
+        value: InitializeGameData.hangar,
     },
     reducers: {
         selectHangar: (state, action) => {
@@ -37,13 +37,13 @@ export const hangar = createSlice({
         },
         selectLevel:(state, action) =>{
             state.value = state.value.map(el => {
-                if (el.id === action.payload.id) {return {...el, level: el.level += 1};}
+                if (el.id === action.payload.id) {return {...el, level: el.level + 1};}
                 return el;
             });
         }
     },
 })
 
-export const {selectHangar,selectOptions,setHp,selectLevel} = hangar.actions
+export const {selectHangar,selectOptions,setHp,selectLevel,stepLevel} = hangar.actions
 
 export default hangar.reducer
