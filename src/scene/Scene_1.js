@@ -179,6 +179,7 @@ export default class Scene_1 extends Phaser.Scene {
                 b.hp = el.hp
                 b.day = this.day
                 b.label = el.title
+                b.repair = this.action.getOption(el,"repair")
                 return b;
             }
         )
@@ -454,6 +455,11 @@ export default class Scene_1 extends Phaser.Scene {
         this.matter.world.on("collisionactive", (event) => {
 
             event.pairs.forEach((pair) => {
+
+                this.body.forEach((el)=>{
+                    el.collisionActive(pair)
+                })
+
                 this.bodyBot.forEach((el) => {
                     el.connect(pair)
                     this.scout = el.scout
@@ -697,7 +703,7 @@ export default class Scene_1 extends Phaser.Scene {
 
         this.defaultCountPlayer = this.state.battle.value.length
 
-console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus_[0-9]-Hull_[0-9]/i)))
+//console.log(this.matter.world.getAllBodies().filter((el) => el.label.match(/bot_corpus_[0-9]-Hull_[0-9]/i)))
     }
 
     update(time, delta) {

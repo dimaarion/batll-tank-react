@@ -8,6 +8,8 @@ export default class Base {
     scene
     scale = 2
     liveDefault = 190
+    defaultShield = 190
+    shield = 190
     health = 190
     healthBot = 190
     hpBot = 0;
@@ -43,8 +45,10 @@ export default class Base {
                     isStatic: true,
                     label: "tank_base",
                     healthBase: this.health,
+                    shield:this.shield,
                     level: this.level,
-                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
+                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault,0x00ff00),
+                    sh:this.createHP(el.x + 50, el.y - (el.height - 5), this.defaultShield,0x21B1BB),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-player").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
                     height:el.height,
@@ -69,8 +73,10 @@ export default class Base {
                     isStatic: true,
                     label: "base-bot_" + el.type,
                     healthBase: this.health,
+                    shield:this.shield,
                     level: this.level,
-                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
+                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault,0x00ff00),
+                    sh:this.createHP(el.x + 50, el.y - (el.height - 5), this.defaultShield,0x21B1BB),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-bot").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
                     height:el.height,
@@ -94,8 +100,10 @@ export default class Base {
                     isStatic: true,
                     label: "base-bot_" + el.type,
                     healthBase: this.health,
+                    shield:this.shield,
                     level: this.level,
-                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault),
+                    hp:this.createHP(el.x, el.y - el.height, this.liveDefault,0x00ff00),
+                    sh:this.createHP(el.x + 50, el.y - (el.height - 5), this.defaultShield,0x21B1BB),
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-bot").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}),
                     width:el.width,
                     height:el.height,
@@ -123,9 +131,9 @@ export default class Base {
        // this.createBotBaseConnection()
     }
 
-    createHP(x, y, w) {
+    createHP(x, y, w,color = 0x00ff00) {
       let obj = this.scene.add.graphics();
-        obj.fillStyle(0x00ff00, 1);
+        obj.fillStyle(color, 1);
         obj.fillRect(x, y, w, 10);
         obj.setDepth(100);
         return obj;
@@ -133,16 +141,27 @@ export default class Base {
 
 
     takeDamageBot(body, amount) {
-        body.healthBase -= amount;
-        if (body.healthBase < 0) body.healthBase = 0;
+        body.shield -= amount;
+        if (body.shield < 0) body.shield = 0;
+        if(body.shield === 0){
+            body.healthBase -= amount;
+            if (body.healthBase < 0) body.healthBase = 0;
+        }
+
     }
 
-    viewHP(obj, graphic, x, y) {
+    viewHP(obj, graphic,graphic2, x, y) {
         let live = this.liveDefault;
+        let shield = this.defaultShield;
         function dagMage(t,e,o){
             let healthWidth = e.body.healthBase;
+            let shieldWidth = e.body.shield
+
+
             graphic.clear();
-            graphic.fillStyle(0x00ff00, 1);  // Зеленый
+            graphic2.clear();
+            graphic.fillStyle(0x00ff00, 1);// Зеленый
+            graphic2.fillStyle(0x21B1BB, 1);
             if (healthWidth < 50) {
                 graphic.fillStyle(0xffff00, 1);
             }
@@ -157,7 +176,9 @@ export default class Base {
                 o.play("burning", true)
             }
             graphic.fillRect(x + 70, y, healthWidth, 10);
+            graphic2.fillRect(x + 70, y + 20, shieldWidth, 10);
             live = healthWidth
+            shield = shieldWidth
         }
         if (obj.length > 0) {
             obj.forEach((el) => {
@@ -172,13 +193,13 @@ export default class Base {
 
     liveDraw() {
         this.player.forEach((el)=>{
-            this.viewHP(el, el.body.hp, el.body.position.x - 120, el.body.position.y - (el.body.height + 120))
+            this.viewHP(el, el.body.hp, el.body.sh, el.body.position.x - 120, el.body.position.y - (el.body.height + 120))
         })
         this.bot.forEach((el)=>{
-            this.viewHP(el, el.body.hp, el.body.position.x - 120, el.body.position.y - (el.body.height + 120))
+            this.viewHP(el, el.body.hp, el.body.sh, el.body.position.x - 120, el.body.position.y - (el.body.height + 120))
         })
         this.connection_baseBot.forEach((el)=>{
-            this.viewHP(el, el.body.hp, el.body.position.x - 120, el.body.position.y - (el.body.height + 120))
+            this.viewHP(el, el.body.hp, el.body.sh, el.body.position.x - 120, el.body.position.y - (el.body.height + 120))
         })
         this.health = this.player[0].body.healthBase
         this.healthBot = this.bot[0].body.healthBase

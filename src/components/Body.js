@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import Action from "./Action";
+import {setHp} from "../redux/features/Hangar";
 
 export default class Body {
     x = 200
@@ -87,12 +88,13 @@ export default class Body {
     static = false
     keyImage = "tanks"
     label = ""
+    repair = 1
     countRocket = 4
     rocketStatic = []
     fire_burning
     engine_tank
 
-    constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 5, speedAttack = 10, radiusSensor = 20, speed = 10) {
+    constructor(x, y, name, head = 'Gun_01', corpus = 'Hull_01', live = 10, shield = 10, attack = 0, speedAttack = 0, radiusSensor = 20, speed = 10) {
         this.x = x;
         this.y = y;
         this.name = name;
@@ -125,6 +127,7 @@ export default class Body {
             this.scalePule = 0.8
             this.scaleTrack = {x: 0.7, y: 1}
         }
+
         if (this.corpusImg === "Hull_08") {
             this.scaleTrack = {x: 0.7, y: 1}
         }
@@ -149,6 +152,34 @@ export default class Body {
         if (this.headImg.match(/saboteur/i)) {
             this.inTrack = false
             this.countRocket = 1;
+        }
+    }
+
+
+    healing(body){
+        if (body.health < body.defaultHealth) {
+            body.health += (this.repair / 10)
+        }
+
+        if (body.shield < body.defaultShield) {
+            body.shield += (this.repair / 10)
+        }
+        if(body.health < body.defaultHealth){
+            body.hp += 0.1
+            this.scene.store.dispatch(setHp({
+                id:this.id,
+                hp: 0.1
+            }))
+            console.log(Math.floor(body.hp))
+        }
+    }
+
+    collisionActive(pair) {
+        if (this.label === "АРМ-5М" && pair.bodyA === this.constraint.sensor && pair.bodyB.label.match(/tank_corpus/i)) {
+         this.healing(pair.bodyB)
+
+        }else if(this.label === "АРМ-5М" && pair.bodyB === this.constraint.sensor && pair.bodyA.label.match(/tank_corpus/i)){
+            this.healing(pair.bodyA)
         }
     }
 
@@ -190,10 +221,12 @@ export default class Body {
             label: this.name + "-" + label,
             pX: this.x,
             pY: this.y,
+            bodyId:this.id,
             highlight: false,
             health: this.live,
             shield: this.shield,
             defaultHealth: this.live,
+            defaultShield: this.shield,
             hp: this.hp,
             mass: 5,
             frictionAir: 0,
@@ -257,6 +290,9 @@ export default class Body {
     setup(scene) {
         this.countTanks += 1;
         this.scene = scene;
+        if(this.label === "АРМ-5М"){
+            this.headerCorpus = {a: 0, b: -20}
+        }
 
         this.fire_burning = this.scene.sound.add('fire_burning', {
             loop: true,
@@ -297,12 +333,6 @@ export default class Body {
 
         this.cam = this.scene.cameras.main;
         this.cursorKeys = scene.input.keyboard.createCursorKeys();
-
-        this.control.left = scene.input.keyboard.addKey('A');  // Get key object
-        this.control.right = scene.input.keyboard.addKey('D');
-        this.control.up = scene.input.keyboard.addKey('W');
-        this.control.down = scene.input.keyboard.addKey('S');
-        this.control.space = scene.input.keyboard.addKey('SPACE');
 
         this.timer = this.scene.time.addEvent({
             delay: this.speedPule,
@@ -690,13 +720,13 @@ export default class Body {
             if (this.constraint.sensor) {
                 this.scene.matter.world.remove(this.constraint.sensor);
             }
-            if(this.highlight){
+            if (this.highlight) {
                 this.highlight.clear()
             }
-            if(this.highlightShield){
+            if (this.highlightShield) {
                 this.highlightShield.clear()
             }
-            if(this.sensorHighlight){
+            if (this.sensorHighlight) {
                 this.sensorHighlight.clear()
             }
 
@@ -711,7 +741,7 @@ export default class Body {
         this.highlightShield.clear();
         this.highlightShield.fillStyle(0x21B1BB, 1);
         this.highlightShield.fillRect(this.constraint.corpus.body.position.x - 22, this.constraint.corpus.body.position.y - 80, this.constraint.corpus.body.shield, 8);
-        if ((this.constraint.corpus.body.shield < this.constraint.corpus.body.defaultHealth) && this.constraint.corpus.body.health !== 0) {
+        if ((this.constraint.corpus.body.shield < this.constraint.corpus.body.defaultShield) && this.constraint.corpus.body.health !== 0) {
 
             this.constraint.corpus.body.shield += this.shieldSpeed
         }

@@ -19,7 +19,7 @@ export default function Hangar() {
     const [count, setCount] = useState(0)
     const dispatch = useDispatch();
 
-    const levelStep = 50
+    const levelStep = 500
 
 
     useEffect(() => {
@@ -81,7 +81,7 @@ export default function Hangar() {
                                     <HpStarIcon/>
                                 </div>
                                 <div className="w-[130px] h-[30px] px-2 ml-4 bg-[#1F2324] border-2 border-[#808080]">
-                                    {getHangar.value.filter((el) => el.id === id)[0].hp} / {getHangar.value.filter((el) => el.id === id)[0].level * levelStep}
+                                    {Math.floor(getHangar.value.filter((el) => el.id === id)[0].hp)} / {getHangar.value.filter((el) => el.id === id)[0].level * levelStep}
                                 </div>
                                 <div onClick={() => {
                                     if (getHangar.value.length > 1) {
@@ -145,6 +145,12 @@ export default function Hangar() {
                                                     id: id,
                                                     name: opt.name,
                                                     label: "attack"
+                                                }))
+                                                dispatch(selectOptions({
+                                                    hangar: getHangar,
+                                                    id: id,
+                                                    name: opt.name,
+                                                    label: "repair"
                                                 }))
                                                 dispatch(selectOptions({
                                                     hangar: getHangar,
