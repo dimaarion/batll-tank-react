@@ -61,6 +61,7 @@ export default class Body {
     corpusImg
     healthBar
     cursorKeys
+    isHead = true
     id = 0;
     scale = 0.5
     control = {
@@ -158,11 +159,11 @@ export default class Body {
 
     healing(body){
         if (body.health < body.defaultHealth) {
-            body.health += (this.repair / 10)
+            body.health += (this.repair / 50)
         }
 
         if (body.shield < body.defaultShield) {
-            body.shield += (this.repair / 10)
+            body.shield += (this.repair / 50)
         }
         if(body.health < body.defaultHealth){
             body.hp += 0.1
@@ -170,7 +171,7 @@ export default class Body {
                 id:this.id,
                 hp: 0.1
             }))
-            console.log(Math.floor(body.hp))
+
         }
     }
 
@@ -291,7 +292,7 @@ export default class Body {
         this.countTanks += 1;
         this.scene = scene;
         if(this.label === "АРМ-5М"){
-            this.headerCorpus = {a: 0, b: -20}
+          //  this.headerCorpus = {a: 0, b: -20}
         }
 
         this.fire_burning = this.scene.sound.add('fire_burning', {
@@ -401,17 +402,18 @@ export default class Body {
         angleDiff = Phaser.Math.Angle.Wrap(angleDiff);
         // Устанавливаем угловую скорость
         const angularSpeed = 0.05; // Подбери подходящее значение для скорости
-        this.scene.matter.body.setAngularVelocity(this.constraint.corpus.body, angleDiff * angularSpeed);
-
         this.moveTo(this.constraint.corpus.body, x, y)
         if (this.target) {
             const distance = Phaser.Math.Distance.Between(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y, this.target.x, this.target.y);
-
-            if (distance < (200 + this.speedTank * 5)) { // Если близко к цели, останавливаем
+            if (distance < 200) { // Если близко к цели, останавливаем
                 this.scene.matter.setVelocity(this.constraint.corpus.body, 0, 0);
+                this.scene.matter.body.setAngularVelocity(this.constraint.corpus.body,0,0)
                 this.target = null; // Убираем цель
+            }else {
+                this.scene.matter.body.setAngularVelocity(this.constraint.corpus.body, angleDiff * angularSpeed);
             }
         }
+
         if (this.inTrack) {
             this.trackAnimate()
         }

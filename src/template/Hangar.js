@@ -8,18 +8,38 @@ import {selectOptions, selectLevel,selectHangar} from "../redux/features/Hangar"
 import Minus from "./Minus";
 import {increment} from "../redux/features/Money";
 import CoinIcon from "./CoinIcon";
+import InfoBtn from "./InfoBtn";
+import CloseBtn from "./CloseBtn";
+import Info from "./Info";
 
 
 export default function Hangar() {
     const getHangar = useSelector((state) => state.hangar)
-    const [viewTank, setViewTank] = useState("Hull_01")
     const [id, setId] = useState(getHangar.value[0].id)
     const [active, setActive] = useState(false)
     const [countSkills, setCountSkills] = useState(0)
     const [count, setCount] = useState(0)
+    const [info, setInfo] = useState(false)
+    const [nextLevelPoints, setNextLevelPoints] = useState(500)
     const dispatch = useDispatch();
 
-    const levelStep = 500
+
+    const base = 500; // начальное количество очков
+    const growthFactor = 1.8; // коэффициент увеличения
+
+
+    useEffect(()=>{
+        const level = getHangar.value.find((el) => el.id === id)?.level || 1;
+        if(getHangar.value.find((el) => el.id === id)?.name === "Hull_rocket"){
+            setNextLevelPoints(Math.floor(base * Math.pow(growthFactor, level - 1)) * 4)
+        }else {
+            setNextLevelPoints(Math.floor(base * Math.pow(growthFactor, level - 1)))
+        }
+
+    },[getHangar,id])
+
+
+
 
 
     useEffect(() => {
@@ -49,7 +69,7 @@ export default function Hangar() {
         }
     }, [id])
 
-
+    let options = ["Живучесть","Броня","Урон","Скорострельность","Радиус атаки","Скорость"]
 
         return <>
             <Menu/>
@@ -72,7 +92,7 @@ export default function Hangar() {
                                     <CoinIcon/>
                                 </div>
                                 <div className="w-[130px] h-[30px] px-2 ml-4 bg-[#1F2324] border-2 border-[#808080]">
-                                    {getHangar.value.filter((el) => el.id === id)[0].coin}
+                                    {getHangar.value.filter((el) => el.id === id)[0]?.sale}
                                 </div>
                             </div>
                             <div className="flex mt-3 lg:mt-0">
@@ -81,12 +101,23 @@ export default function Hangar() {
                                     <HpStarIcon/>
                                 </div>
                                 <div className="w-[130px] h-[30px] px-2 ml-4 bg-[#1F2324] border-2 border-[#808080]">
-                                    {Math.floor(getHangar.value.filter((el) => el.id === id)[0].hp)} / {getHangar.value.filter((el) => el.id === id)[0].level * levelStep}
+                                    {Math.floor(getHangar.value.filter((el) => el.id === id)[0]?.hp)} / {nextLevelPoints}
                                 </div>
                                 <div onClick={() => {
-                                    if (getHangar.value.length > 1) {
+                                    if (getHangar.value.length > 1 && getHangar.value.filter((el) => el.id)[0]?.sale) {
                                         dispatch(selectHangar(getHangar.value.filter((el) => el.id !== id)))
-                                        dispatch(increment(getHangar.value.filter((el) => el.id === id)[0].sale))
+                                        dispatch(increment(getHangar.value.filter((el) => el.id === id)[0]?.sale))
+                                        getHangar.value.forEach((el,i)=>{
+                                            if(el.id === id){
+                                                if(i > 0){
+                                                    setId(getHangar.value.filter((el) => el.id)[i - 1]?.id)
+                                                }else {
+                                                    setId(getHangar.value.filter((el) => el.id)[i + 1]?.id)
+                                                }
+                                            }
+
+                                        })
+
                                     }
 
                                 }} className="ml-4">
@@ -100,14 +131,16 @@ export default function Hangar() {
                         <div className="flex justify-center">
                             <div className="w-[260px] h-[240px] flex mt-5 relative">
                                 <div className="absolute top-[-5px]">
-                                    {getHangar.value.filter((el) => el.id === id)[0].title}
+                                    {getHangar.value.filter((el) => el.id === id)[0]?.title}
                                 </div>
-                                <div className="absolute left-[115px] top-[25px]">{getHangar.value.filter((el) => el.id === id)[0].level} Ур.</div>
+                                <div className="absolute left-[115px] top-[25px]">{getHangar.value.filter((el) => el.id === id)[0]?.level} Ур.</div>
                                 <div className="absolute top-[-5px] left-[60px]">
-                                    {getHangar.value.filter((el) => el.id === id)[0].hp >= getHangar.value.filter((el) => el.id === id)[0].level * levelStep ?
-                                        <span
-                                            className={""}> {6 - countSkills} очк.</span> : ""}
+                                    {getHangar.value.filter((el) => el.id === id)[0]?.hp > nextLevelPoints?
+                                        <span> {6 - countSkills} очк.</span> : ""}
                                 </div>
+                                <div className="absolute top-[25px] left-[220px]" onClick={() => {
+                                    setInfo(true)
+                                }}><InfoBtn/></div>
                                 <div className="w-[105px] mt-5">
                                     {getHangar.value.filter((el) => el.id === id).map((el, i) => el.options.map((opt, j) =>
                                         <div className="flex" key={j + "options"}>
@@ -122,12 +155,12 @@ export default function Hangar() {
                                                 {opt.num}
                                             </div>
 
-                                            {getHangar.value.filter((el) => el.id === id)[0].hp >= getHangar.value.filter((el) => el.id === id)[0].level * levelStep && countSkills < 6 ? <div onClick={() => {
+                                            {getHangar.value.filter((el) => el.id === id)[0].hp >= nextLevelPoints && countSkills < 6 ? <div onClick={() => {
                                                 setCountSkills(countSkills + 1)
                                                 if(countSkills === 5){
 
                                                 }
-                                                console.log(countSkills)
+
                                                 dispatch(selectOptions({
                                                     hangar: getHangar,
                                                     id: id,
@@ -174,14 +207,14 @@ export default function Hangar() {
                                                 }
 
                                             }} className="">
-                                                <Plus/>
+                                                {opt.num < 50?<Plus/>:""}
                                             </div> : ""}
                                             </div>
                                         </div>))}
                                 </div>
                                 <div
                                     className="tank-hangar-list-item justify-center bg-no-repeat bg-cover w-[150px] h-[240px] flex">
-                                    <div className={`w-[120px] h-[140px]  self-center position-center-bg ${viewTank}`}/>
+                                    <div className={`w-[120px] h-[140px]  self-center position-center-bg ${getHangar.value.filter((el) => el.id === id)[0]?.name}`}/>
                                 </div>
                             </div>
 
@@ -191,10 +224,7 @@ export default function Hangar() {
                          style={{background: "linear-gradient(270deg, #ffffff 0%, #3f4243 0%, #1f2324 17.74%, #1f2324 84.05%, #3f4243 100%)"}}>
                         {getHangar.value.filter((el, i) => el).map((el, i) => <div key={i + "list"}
                                                                                    className={`w-[80px] self-center h-[130px] ml-4 ${el.id === id ? " tank-hangar-list-item-active " : " tank-hangar-list-item "}`}>
-                            <div onClick={() => {
-                                setViewTank(el.name);
-                                setId(el.id)
-                            }} className={`w-[80px] h-[130px] bg-cover position-center-bg ${el.name}`}
+                            <div onClick={() => {setId(el.id)}} className={`w-[80px] h-[130px] bg-cover position-center-bg ${el.name}`}
                                  />
 
                         </div>)}
@@ -206,6 +236,7 @@ export default function Hangar() {
 
                 </div>
             </div>
+            {info? <Info setInfo = {setInfo} description = {getHangar.value.filter((el) => el.id === id)[0]?.description} options={getHangar.value.filter((el) => el.id === id)[0]?.options}/> :""}
         </>
 
 

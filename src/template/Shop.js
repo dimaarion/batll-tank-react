@@ -7,6 +7,8 @@ import CoinIcon from "./CoinIcon";
 import {selectHangar} from "../redux/features/Hangar";
 import Plus from "./Plus";
 import {decrement} from "../redux/features/Money";
+import InfoBtn from "./InfoBtn";
+import Info from "./Info";
 
 
 export default function Shop() {
@@ -16,7 +18,8 @@ export default function Shop() {
     const [options, setOptions] = useState(hangarDef[0].options)
     const [coin, setCoin] = useState(hangarDef[0].coin)
     const [object, setObject] = useState(hangarDef[0])
-    const [active, setActive] = useState(false)
+    const [active, setActive] = useState(false);
+    const [info, setInfo] = useState(false)
     const dispatch = useDispatch();
 
 
@@ -71,6 +74,9 @@ export default function Shop() {
                                     <div className="absolute top-[-5px]">
                                         {object.title}
                                     </div>
+                                    <div className="absolute top-[25px] left-[220px]" onClick={() => {
+                                        setInfo(true)
+                                    }}><InfoBtn/></div>
                                     <div className="w-[105px] mt-5">
                                         {options.map((el, i) => <div className="flex" key={i + "options"}>
                                             <div className="w-[30px] h-[30px] border-2 flex  justify-center border-[#808080]">
@@ -115,6 +121,7 @@ export default function Shop() {
                 {active ? <div className="text-4xl bg-black fixed p-10">
                     Танк добавлен в ангар
                 </div> : ""}
+                {info? <Info setInfo = {setInfo} description = {object.description} options={object.options}/> :""}
             </div>
         </>
 

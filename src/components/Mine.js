@@ -15,7 +15,7 @@ export default class Mine {
                 this.body[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "mine", "").setCircle(el.width / 2, {
                     isSensor: true,
                     label: el.type
-                })
+                }).setDepth(20)
                 if (!this.day) {
                     this.body[i].setPipeline('Light2D');
                 }

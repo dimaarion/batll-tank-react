@@ -1,6 +1,6 @@
 export default function Plus(){
     return <>
-        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="25" height="25" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g>
                 <g fill="#1F2324" fillRule="evenodd">
                     <rect width="30" height="30" />

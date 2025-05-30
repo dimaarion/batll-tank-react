@@ -39,9 +39,10 @@ export default function Battle() {
                                         <div className="absolute">
                                             <div className="flex gap-3">
                                                 <div>{el.title}</div>
-                                                <div>{el.level} Ур.</div>
                                             </div>
-
+                                        </div>
+                                        <div className="absolute left-[115px] top-[30px]">
+                                            <div>{el.level} Ур.</div>
                                         </div>
                                         <div className="w-[105px] mt-5">
                                             {el.options.map((opt, i) => <div key={i + "options"} className="flex">
