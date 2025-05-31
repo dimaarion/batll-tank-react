@@ -38,7 +38,7 @@ export default class Bot extends Body {
             y: Phaser.Math.Between(0, this.scene.map.heightInPixels)
         };
         if (this.corpusImg === "Hull_04" && this.level === 6) {
-            this.linck = this.scene.matter.add.sprite(this.x, this.y, "linck", "linck-run", {isSensor: true}).setDepth(50);
+          //  this.linck = this.scene.matter.add.sprite(this.x, this.y, "linck", "linck-run", {isSensor: true}).setDepth(50);
         }
 
 
@@ -68,7 +68,7 @@ export default class Bot extends Body {
 
 
         this.scene.time.addEvent({
-            delay: Phaser.Math.Between(5000, 20000),
+            delay: Phaser.Math.Between(5000, 60000),
             loop: true,
             callback: () => {
                 if (this.inTrack) {
@@ -82,7 +82,7 @@ export default class Bot extends Body {
         });
 
         this.scene.time.addEvent({
-            delay: 10000,
+            delay: 20000,
             loop: true,
             callback: () => {
                     this.targetBot = this.playerBasePosition;
@@ -157,16 +157,16 @@ export default class Bot extends Body {
 
     connect(pair) {
         if (pair.bodyB === this.constraint.sensor && pair.bodyA.label.match(/tank_corpus/)) {
-            if (this.linck && this.constraint.corpus.body.health !== 0) {
-                this.linck.play("linck-run", true)
-                this.scout = true
-            }
+          //  if (this.linck && this.constraint.corpus.body.health !== 0) {
+           //     this.linck.play("linck-run", true)
+           //     this.scout = true
+           // }
         }
     }
 
     reportPlayerDetection() {
         if (this.linck) {
-            this.linck.setPosition(this.constraint.sensor.position.x, this.constraint.sensor.position.y)
+          //  this.linck.setPosition(this.constraint.sensor.position.x, this.constraint.sensor.position.y)
         }
     }
 

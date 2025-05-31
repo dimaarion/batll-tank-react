@@ -5,11 +5,13 @@ import BoardPlugin from "phaser3-rex-plugins/plugins/board-plugin";
 import Preload from "./scene/Preload";
 import StartScene from "./scene/StartScene";
 import Scene_1 from "./scene/Scene_1";
-
+import {useSelector} from "react-redux";
 
 
 
 export default function GamePhaser() {
+  //  const zoom = useSelector((state) => state.zoom);
+
     const phaserRef = useRef(null);
 
     useEffect(() => {

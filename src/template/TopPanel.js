@@ -17,8 +17,8 @@ export default function TopPanel() {
 
     if (s) {
         return <>
-            <div className="flex justify-between h-[70px] fixed z-30 bg-[#3C4546] right-0 left-0 top-0 border-b-2 border-black">
-                <div className="self-center lg:flex ml-4">
+            <div className="flex justify-between h-[70px] fixed z-30 bg-[#3C4546] w-full right-0 left-0 top-0 border-b-2 border-black">
+                <div className="self-center lg:flex ml-4 absolute">
                     <div>
                         {selectLevelCount.value.id} Уровень
                     </div>
@@ -28,7 +28,7 @@ export default function TopPanel() {
                     </div>
                 </div>
 
-                <div className="mt-1 mr-[10px] lg:mr-[75px]">
+                <div className="absolute right-0 left-0 mx-auto w-[100px]">
                     <div className="self-center flex">
                         <div className="flex">
                             <div className="w-[40px] h-[35px]  bg-black flex justify-end">
@@ -57,7 +57,7 @@ export default function TopPanel() {
                         </div>
                     </div>
                 </div>
-                <div onPointerDown={()=>dispatch(cameraDialog())} onPointerUp={()=>dispatch(cameraStop())} className="self-center flex mr-4">
+                <div onPointerDown={()=>dispatch(cameraDialog())} onPointerUp={()=>dispatch(cameraStop())} className="self-center absolute right-0 flex mr-4">
                     <PauseBtn/>
                 </div>
                 <div className="flex w-full justify-between z-30 absolute h-[10px] bottom-0">

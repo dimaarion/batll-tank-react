@@ -1,1 +1,1 @@
-npx @yandex-games/sdk-dev-proxy -p E:\React\batll-tank-react\build --app-id=439732
+npx @yandex-games/sdk-dev-proxy -p D:\a\react\batll-tank-react\build --app-id=439732

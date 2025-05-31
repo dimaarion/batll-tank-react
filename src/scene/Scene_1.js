@@ -92,6 +92,7 @@ export default class Scene_1 extends Phaser.Scene {
     fire_burning
     start_rocket
     movementCamera = "";
+    zoom = 1;
 
     constructor() {
         super("Scene_1");
@@ -185,7 +186,7 @@ export default class Scene_1 extends Phaser.Scene {
         )
 
         this.cameras.main.setScroll(this.base.player[0].body.position.x - window.innerWidth / 2, this.base.player[0].body.position.y - window.innerHeight / 2);
-        this.cam.zoom = this.state.zoom.value
+
         this.store.subscribe(() => {
             const newState = this.store.getState();
 
@@ -213,11 +214,12 @@ export default class Scene_1 extends Phaser.Scene {
                 }
             }
             this.effect = newState.effect.value
-            this.movementCamera = newState.movementCamera.value
-            this.cam.zoom = newState.zoom.value
+            this.movementCamera = newState.movementCamera.value;
+            this.zoom = newState.zoom.value
+
         });
 
-
+        this.cameras.main.setZoom(0.8)
 
         this.body.forEach((el, i) => {
             el.x = (this.base.player[0].body.position.x + i * 120)
@@ -766,8 +768,8 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(3, this.countPlayer === this.defaultCountPlayer)
         this.victory(4, this.isObjectRemove(/Hull_art_1/i))
         this.victory(5, this.isObjectRemove(/mpb_1/i))
-        this.victory(6, !this.scout)
-        this.victory(7, this.isObjectRemove(/bot_corpus_[0-9]-Hull_[0-9]/i))
+        this.victory(6, this.isObjectRemove(/bot_corpus_4/i))
+        this.victory(7, this.isObjectRemove(/Hull_04/i))
         this.victory(8, this.occupy.quest)
         this.victory(9, this.isObjectRemove(/connection_baseBot/i))
         this.victory(10, this.occupy.quest)
@@ -777,7 +779,7 @@ export default class Scene_1 extends Phaser.Scene {
         this.victory(14, this.quest)
         this.victory(15, this.quest)
         this.victory(16, this.isObjectRemove(/mpb_1/i))
-        this.victory(17, this.isObjectRemove(/bot_corpus/i))
+        this.victory(17, this.isObjectRemove(/Hull_07/i))
         this.victory(18, this.isObjectRemove(/rocket/i))
         this.victory(19, this.isObjectRemove(/tower/i))
         this.victory(20, !this.isObjectRemove(/tank_base/i))
