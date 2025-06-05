@@ -15,7 +15,7 @@ export default class AllyTank extends Bot{
         this.createHealthShield();
         this.createBurning();
         this.createHPIcons(this.icon);
-        this.createCorpus("tanks");
+        this.createCorpus("tanks","ally");
         this.createHead("tanks",this.headImg);
         this.createTrek();
         this.constraintCorpusBurning();

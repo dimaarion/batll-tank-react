@@ -5,12 +5,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {getLevel} from "../redux/features/LevelCount";
 import Menu from "./Menu";
 import TitleHangar from "./TitleHangar";
+import {useEffect} from "react";
 
 
 export default function Levels() {
     const dispatch = useDispatch();
     const selectLevel = useSelector((state) => state.level);
+    const sdk = useSelector((state) => state.ysdk.value)
+    useEffect(()=>{
+        if(sdk.features?.GameplayAPI){
+            sdk.features.GameplayAPI.stop()
+        }
 
+    },[sdk])
         return <>
             <Menu/>
             <div>

@@ -7,6 +7,7 @@ import LevelBtn from "./LevelBtn";
 import SettingsBtn from "./SettingsBtn";
 import {increment} from "../redux/features/SettingsOpen";
 import PlayBtn from "./PlayBtn";
+import {useEffect} from "react";
 
 
 export default function Battle() {
@@ -15,6 +16,30 @@ export default function Battle() {
     const battle = useSelector((state) => state.battle)
     const sdk = useSelector((state) => state.ysdk.value)
 
+    useEffect(()=>{
+        if(sdk?.adv){
+
+            sdk?.adv.showFullscreenAdv({
+                callbacks: {
+                    onClose: function(wasShown) {
+                        // Действие после закрытия рекламы.
+                    },
+                    onError: function(error) {
+                        // Действие в случае ошибки.
+                    }
+                }
+            })
+
+            if(sdk.features?.GameplayAPI){
+                sdk.features.GameplayAPI.stop()
+            }
+
+        }
+
+
+
+
+    },[sdk?.adv])
 
         return <>
             <div>

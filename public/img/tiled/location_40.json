@@ -771,6 +771,28 @@
                  "width":100,
                  "x":5094,
                  "y":2910
+                }, 
+                {
+                 "height":100,
+                 "id":715,
+                 "name":"bot",
+                 "rotation":0,
+                 "type":"Hull_boss_1",
+                 "visible":true,
+                 "width":100,
+                 "x":4878,
+                 "y":2918
+                }, 
+                {
+                 "height":100,
+                 "id":716,
+                 "name":"bot",
+                 "rotation":0,
+                 "type":"Hull_boss_1",
+                 "visible":true,
+                 "width":100,
+                 "x":4832,
+                 "y":1742
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2177,8 +2199,8 @@
                  "type":"walls",
                  "visible":true,
                  "width":508.109,
-                 "x":5201.44125757576,
-                 "y":1306.06872727273
+                 "x":5199.44125757576,
+                 "y":1302.06872727273
                 }, 
                 {
                  "height":315.108,
@@ -3293,7 +3315,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":715,
+ "nextobjectid":717,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

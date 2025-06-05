@@ -975,7 +975,18 @@
          "draworder":"topdown",
          "id":11,
          "name":"occupy",
-         "objects":[],
+         "objects":[
+                {
+                 "height":200,
+                 "id":417,
+                 "name":"control_point",
+                 "rotation":0,
+                 "type":"control_point",
+                 "visible":true,
+                 "width":200,
+                 "x":1886.06060606061,
+                 "y":1935.75757575758
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -1468,8 +1479,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":4836.06060606061,
-                 "y":5263.45454545455
+                 "x":5245.15151515152,
+                 "y":4745.27272727273
                 }, 
                 {
                  "height":100,
@@ -1479,8 +1490,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":4848.90909090909,
-                 "y":5478.12121212121
+                 "x":5464.06060606061,
+                 "y":4738.72727272727
                 }, 
                 {
                  "height":100,
@@ -1666,8 +1677,8 @@
                  "type":"czech",
                  "visible":true,
                  "width":100,
-                 "x":4852,
-                 "y":5674
+                 "x":5673.21212121212,
+                 "y":4749.75757575758
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1688,8 +1699,8 @@
                  "type":"player",
                  "visible":true,
                  "width":200,
-                 "x":4440.07442849549,
-                 "y":5008.17012227539
+                 "x":4834.86230728337,
+                 "y":4833.38224348751
                 }, 
                 {
                  "height":200,
@@ -1715,7 +1726,7 @@
          "y":0
         }],
  "nextlayerid":13,
- "nextobjectid":415,
+ "nextobjectid":418,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

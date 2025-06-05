@@ -16,7 +16,7 @@
         "h": 256
       }
     },
-    "connection_baseBot": {
+    "connection": {
       "frame": {
         "x": 512,
         "y": 0,

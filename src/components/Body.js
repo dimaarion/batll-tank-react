@@ -297,12 +297,12 @@ export default class Body {
 
         this.fire_burning = this.scene.sound.add('fire_burning', {
             loop: true,
-            volume: this.scene.state.effect.value,
+            volume: this.scene.state.effect.value / 2,
 
         });
         this.engine_tank = this.scene.sound.add('engine_tank', {
             loop: true,
-            volume: this.scene.state.effect.value,
+            volume: this.scene.state.effect.value / 2,
 
         });
 
@@ -430,8 +430,8 @@ export default class Body {
     }
 
     musicEffect() {
-        this.engine_tank.setVolume(this.scene.effect)
-        this.fire_burning.setVolume(this.scene.effect)
+        this.engine_tank.setVolume(this.scene.effect / 2)
+        this.fire_burning.setVolume(this.scene.effect / 2)
         if (!this.scene.cameras.main.worldView.contains(this.constraint.corpus.body.position.x, this.constraint.corpus.body.position.y)) {
             // Танк вне поле зрения камеры
             this.fire_burning.setVolume(0)

@@ -9,7 +9,6 @@ import Minus from "./Minus";
 import {increment} from "../redux/features/Money";
 import CoinIcon from "./CoinIcon";
 import InfoBtn from "./InfoBtn";
-import CloseBtn from "./CloseBtn";
 import Info from "./Info";
 
 
@@ -21,11 +20,14 @@ export default function Hangar() {
     const [count, setCount] = useState(0)
     const [info, setInfo] = useState(false)
     const [nextLevelPoints, setNextLevelPoints] = useState(500)
+    const sdk = useSelector((state) => state.ysdk.value)
     const dispatch = useDispatch();
+
 
 
     const base = 500; // начальное количество очков
     const growthFactor = 1.8; // коэффициент увеличения
+
 
 
     useEffect(()=>{
@@ -69,7 +71,13 @@ export default function Hangar() {
         }
     }, [id])
 
-    let options = ["Живучесть","Броня","Урон","Скорострельность","Радиус атаки","Скорость"]
+    useEffect(()=>{
+        if(sdk.features?.GameplayAPI){
+            sdk.features.GameplayAPI.stop()
+        }
+
+    },[sdk])
+
 
         return <>
             <Menu/>

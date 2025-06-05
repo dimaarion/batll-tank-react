@@ -21,7 +21,7 @@ export default class Occupy {
     create() {
         if (this.scene.map.objects.filter((el) => el.name === "occupy")[0]) {
             this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "occupy").forEach((el, i) => {
-                this.body[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "occupy", "").setRectangle(el.width, el.height, {isSensor: true}).setScale(2)
+                this.body[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "occupy", "").setRectangle(el.width, el.height, {isSensor: true,label:el.name}).setScale(2).setDepth(15)
                 this.body[i].play("occupy-run").once('animationcomplete', () => {
                     this.body[i].play("burning", true)
                 });
@@ -34,7 +34,7 @@ export default class Occupy {
         }
         if (this.scene.map.objects.filter((el) => el.name === "occupy")[0]) {
             this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "control_point").forEach((el, i) => {
-                this.point[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "control_point_neutral", {isSensor: true})
+                this.point[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "control_point_neutral", {isSensor: true,label:el.name}).setDepth(15)
                 if (!this.day) {
                     this.point[i].setPipeline('Light2D');
                 }
@@ -45,8 +45,8 @@ export default class Occupy {
 
         if (this.scene.map.objects.filter((el) => el.name === "occupy")[0]) {
             this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "sklad").forEach((el, i) => {
-                this.pointSklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "control_point_neutral", {isSensor: true})
-                this.sklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "no_image", {isSensor: true}).setScale(2)
+                this.pointSklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "control_point_neutral", {isSensor: true,label:el.name}).setDepth(15)
+                this.sklad[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "no_image", {isSensor: true}).setScale(2).setDepth(15)
 
                 if (!this.day) {
                     this.sklad[i].setPipeline('Light2D');
@@ -57,7 +57,7 @@ export default class Occupy {
 
         if (this.scene.map.objects.filter((el) => el.name === "occupy")[0]) {
             this.scene.map.objects.filter((el) => el.name === "occupy")[0].objects.filter((el) => el.name === "fonar").forEach((el, i) => {
-                this.fonarBlock[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2,"sprites","tower",{isStatic: true}).setDepth(150)
+                this.fonarBlock[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2,"sprites","tower",{isStatic: true,label:el.name}).setDepth(150)
                 this.fonar[i] = this.scene.matter.add.sprite(el.x + el.width / 2, el.y + el.height / 2, "sprites", "fonar", {isSensor: true}).setDepth(150)
                 if (!this.day) {
                     this.fonarBlock[i].setPipeline('Light2D');

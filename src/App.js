@@ -39,6 +39,8 @@ function App() {
     const selectLevel = useSelector((state) => state.level);
     const selectZoom = useSelector((state) => state.zoom);
     const load = useSelector((state) => state.load)
+
+
     const dispatch = useDispatch();
     InitializeGameData.level = levels
     document.addEventListener("contextmenu", function (event) {
@@ -118,6 +120,8 @@ function App() {
     }, [selectMoney, selectMusic, selectEffect, selectLevel, getHangar, selectLevelCount,selectZoom])
 
 
+
+
     if (selectMenu.value === "Ангар") {
         return <Suspense>
             <Hangar/>
@@ -130,7 +134,6 @@ function App() {
         </Suspense>
     } else if (selectMenu.value === "К бою") {
         return <Suspense>
-
             {selectSettingsOpen.value ? <Settings/> : ""}
             <Battle/>
             <Dialog/>

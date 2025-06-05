@@ -52,7 +52,7 @@ export default class Base {
                     icon:this.scene.matter.add.image(el.x, el.y - el.height, "HP-player").setScale(this.scale).setRectangle(el.width, el.height, {isSensor: true}).setDepth(100),
                     width:el.width,
                     height:el.height,
-                }).setScale(2).setDepth(50);
+                }).setScale(2).setDepth(15);
 
                 this.sensor[i] = this.scene.matter.add.circle(el.x + el.width / 2,el.y + el.height / 2,el.width * 2,{isSensor:true,label:"base_sensor"})
 
@@ -82,7 +82,7 @@ export default class Base {
                     width:el.width,
                     height:el.height,
                     hpBot:this.hpBot
-                }).setScale(2).setDepth(50)
+                }).setScale(2).setDepth(15)
                 if (!this.day) {
                     this.bot[i].setPipeline('Light2D');
                     this.bot[i].body.hp.setPipeline('Light2D');

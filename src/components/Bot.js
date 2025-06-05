@@ -21,20 +21,23 @@ export default class Bot extends Body {
     }
 
     setup(scene) {
-
+        if(this.type.match(/Hull_boss_1/i)){
+            this.label = this.type
+        }
         super.setup(scene);
+
         this.sensorObject = this.scene.matter.add.circle(this.x, this.y, 500, {
             isSensor: true,
             label: "search_object",
             activeObj: false,
             targetObj: {
-                x: Phaser.Math.Between(100, this.scene.map.heightInPixels),
+                x: Phaser.Math.Between(100, this.scene.map.widthInPixels),
                 y: Phaser.Math.Between(100, this.scene.map.heightInPixels)
             }
         })
         this.scene.matter.add.constraint(this.constraint.sensor, this.sensorObject, 0, 1)
         this.targetBot = {
-            x: Phaser.Math.Between(0, this.scene.map.heightInPixels),
+            x: Phaser.Math.Between(0, this.scene.map.widthInPixels),
             y: Phaser.Math.Between(0, this.scene.map.heightInPixels)
         };
         if (this.corpusImg === "Hull_04" && this.level === 6) {
@@ -73,7 +76,7 @@ export default class Bot extends Body {
             callback: () => {
                 if (this.inTrack) {
                     this.targetBot = {
-                        x: Phaser.Math.Between(0, this.scene.map.heightInPixels),
+                        x: Phaser.Math.Between(0, this.scene.map.widthInPixels),
                         y: Phaser.Math.Between(0, this.scene.map.heightInPixels)
                     };
                 }
@@ -89,8 +92,7 @@ export default class Bot extends Body {
             }
         });
 
-            this.targetBot = this.constraint.sensor.positionBot
-
+           // this.targetBot = this.constraint.sensor.positionBot
 
     }
 
@@ -106,9 +108,6 @@ export default class Bot extends Body {
 
 
     move() {
-
-
-
         if (this.sensorObject.activeObj) {
             this.targetBot = this.sensorObject.targetObj
         }

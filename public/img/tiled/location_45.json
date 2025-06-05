@@ -815,6 +815,50 @@
                  "width":100,
                  "x":5034,
                  "y":284
+                }, 
+                {
+                 "height":100,
+                 "id":819,
+                 "name":"bot",
+                 "rotation":0,
+                 "type":"Hull_boss_1",
+                 "visible":true,
+                 "width":100,
+                 "x":4622.72727272727,
+                 "y":5931.81818181818
+                }, 
+                {
+                 "height":100,
+                 "id":820,
+                 "name":"bot",
+                 "rotation":0,
+                 "type":"Hull_boss_1",
+                 "visible":true,
+                 "width":100,
+                 "x":4559.09090909091,
+                 "y":4759.09090909091
+                }, 
+                {
+                 "height":100,
+                 "id":821,
+                 "name":"bot",
+                 "rotation":0,
+                 "type":"Hull_boss_1",
+                 "visible":true,
+                 "width":100,
+                 "x":1607.57575757576,
+                 "y":1086.36363636364
+                }, 
+                {
+                 "height":100,
+                 "id":822,
+                 "name":"bot",
+                 "rotation":0,
+                 "type":"Hull_boss_1",
+                 "visible":true,
+                 "width":100,
+                 "x":1568.18181818182,
+                 "y":1798.48484848485
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -4301,8 +4345,8 @@
                  "type":"player",
                  "visible":true,
                  "width":200,
-                 "x":309.518680046869,
-                 "y":5612.24137979704
+                 "x":713.729206362658,
+                 "y":5320.31155523564
                 }, 
                 {
                  "height":200,
@@ -4396,7 +4440,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":819,
+ "nextobjectid":823,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

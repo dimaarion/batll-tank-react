@@ -20,6 +20,7 @@ export default function Shop() {
     const [object, setObject] = useState(hangarDef[0])
     const [active, setActive] = useState(false);
     const [info, setInfo] = useState(false)
+    const sdk = useSelector((state) => state.ysdk.value)
     const dispatch = useDispatch();
 
 
@@ -32,7 +33,12 @@ export default function Shop() {
     }, [active])
 
 
+    useEffect(()=>{
+        if(sdk.features?.GameplayAPI){
+            sdk.features.GameplayAPI.stop()
+        }
 
+    },[sdk])
         return <>
             <Menu/>
             <div className="mt-6">

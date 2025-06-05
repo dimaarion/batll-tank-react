@@ -23,6 +23,7 @@ import {dialogView} from "./features/DialogView";
 import {movementCamera} from "./features/MovementCamera";
 import {ysdk} from "./features/Ysdk";
 import {zoom} from "./features/Zoom";
+import {quest} from "./features/Quest";
 
 
 
@@ -54,6 +55,7 @@ export default configureStore({
         dialog:dialogView.reducer,
         movementCamera:movementCamera.reducer,
         ysdk:ysdk.reducer,
-        zoom:zoom.reducer
+        zoom:zoom.reducer,
+        quest:quest.reducer
     },
 })
